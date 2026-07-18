@@ -27,6 +27,16 @@ nginx server block: `ops/nginx-okemily.conf` in this repo — copy to
 systemctl reload nginx`. Both the copy-into-`sites-available` step and the reload need `sudo`
 (interactive password) — not something Claude Code can complete unattended in this environment.
 
+**CRITICAL, learned the hard way (2026-07-18 outage):** certbot's `--nginx` plugin rewrites the
+live file in place to add the SSL/443 server block, the HTTP→HTTPS redirect, and the HSTS header —
+none of which exist in a plain edit of this repo's copy. Blindly `sudo cp`-ing this repo's file
+over the live one (e.g. to add a new `location` block) **deletes all of that and takes HTTPS down
+entirely** — this happened for real, causing a full outage, when a `/news/` proxy addition was
+deployed this way without first re-syncing from live. **Before editing this file for a live
+deploy: always `cat /etc/nginx/sites-available/okemily` first and diff against this repo's copy —
+if they've diverged (they will, after any certbot run), copy the live file into the repo first,
+then make your edit on top of that, never the other way around.**
+
 ## Mailing-list signup (2026-07-18)
 
 The signup form posts via JS `fetch()` to IDUNA's `/api/v1/mailing-list/subscribe`

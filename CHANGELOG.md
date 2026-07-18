@@ -1,5 +1,16 @@
 # OKEMILY Changelog
 
+## 2026-07-18
+- feat: real signup flow — form now posts via JS fetch to IDUNA's `/api/v1/mailing-list/subscribe`
+  (never-at-rest-unencrypted, vault-gated, see `IDUNA/internal/mailinglist`) instead of a direct
+  Mailchimp embed. Added a required, unchecked-by-default consent checkbox (GDPR opt-in, not
+  implied consent) and `privacy.html` (real policy text: what's collected, Mailchimp as processor,
+  double opt-in, deletion-request contact). Consent version pinned to `okemily-v1-2026-07-17`,
+  matching `CurrentConsentVersion` in the IDUNA handler.
+- **Blocking follow-up, not yet done**: `iduna.farthq.com` has no nginx `/api/` proxy to IDUNA's
+  `:8080` yet — the signup form will fail until that's added (falls through to WordPress's
+  `location /` today). See IDUNA CHANGELOG same date.
+
 ## 2026-07-17
 - feat: initial landing page (`index.html`) — static HTML/CSS, no build step. Mission/pillars/values
   copy (capital markets intelligence, game worlds, recursive self-improvement), founders

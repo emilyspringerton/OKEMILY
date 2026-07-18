@@ -172,7 +172,10 @@
 (function () {
   var form = document.getElementById('signup-form');
   var status = document.getElementById('signup-status');
-  var IDUNA_URL = 'https://iduna.farthq.com/api/v1/mailing-list/subscribe';
+  // Same-origin path, proxied to IDUNA by nginx (see ops/nginx-okemily.conf)
+  // — avoids depending on iduna.farthq.com's HTTPS cert, which doesn't
+  // exist yet (EMILY docs/hq-specs/HQ-SPEC-INFRA-105 S151-04).
+  var IDUNA_URL = '/api/v1/mailing-list/subscribe';
 
   form.addEventListener('submit', function (e) {
     e.preventDefault();

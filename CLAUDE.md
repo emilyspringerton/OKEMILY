@@ -27,16 +27,26 @@ nginx server block: `ops/nginx-okemily.conf` in this repo — copy to
 systemctl reload nginx`. Both the copy-into-`sites-available` step and the reload need `sudo`
 (interactive password) — not something Claude Code can complete unattended in this environment.
 
-## Mailchimp signup form (currently a placeholder)
+## Mailing-list signup (2026-07-18)
 
-`index.html`'s signup form has `YOUR_DC`/`YOUR_U`/`YOUR_ID`/`YOUR_HONEYPOT_NAME` placeholders. To
-wire up a real audience:
+The signup form posts via JS `fetch()` to IDUNA's `/api/v1/mailing-list/subscribe`
+(`https://iduna.farthq.com/api/v1/mailing-list/subscribe`), **not** a Mailchimp embedded form
+directly. IDUNA is the system of record — it encrypts and stores the email itself (never at rest
+unencrypted; see `IDUNA/internal/mailinglist` package doc for the full threat model), then
+best-effort forwards to Mailchimp for actually sending email. Mailchimp is a downstream sync
+target, not the source of truth.
 
-1. Create a free Mailchimp account, create one Audience (e.g. "okemily waitlist").
-2. Audience → Signup forms → Embedded form → copy the generated `<form>` action URL and the
-   hidden honeypot input's `name` attribute.
-3. Replace the four placeholders in `index.html` with the real values.
-4. Redeploy (see above).
+Requires:
+1. IDUNA env vars set: `MAILCHIMP_API_KEY`, `MAILCHIMP_LIST_ID` (from a real Mailchimp account —
+   founder action, not something Claude Code can create).
+2. **Double opt-in enabled on the Mailchimp audience** (account setting) — the code assumes this
+   (`status_if_new: "pending"` in `IDUNA/internal/mailinglist/mailchimp.go`).
+3. An nginx `/api/` proxy on `iduna.farthq.com` → `127.0.0.1:8080` — did not exist as of
+   2026-07-18, tracked as a same-day follow-up in IDUNA's CHANGELOG.
+4. The mailing-list vault must be unlocked after every IDUNA restart —
+   `mailing-list-unlock` (interactive passphrase prompt, never a CLI arg). Until unlocked, the
+   signup form fails closed with a friendly "try again shortly" message; nothing else in IDUNA is
+   affected.
 
 ## Identity / content decisions (as of 2026-07-17)
 

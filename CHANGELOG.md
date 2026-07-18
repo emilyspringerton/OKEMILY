@@ -1,5 +1,8 @@
 # OKEMILY Changelog
 
+## 2026-07-18 (2)
+- docs: added "The file that was waiting" (Fable guest post, /blog/the-file-that-was-waiting/) to the footer blog-links list.
+
 ## 2026-07-18
 - feat: hidden TYLER teaser easter egg -- triple-click the copyright year in the footer to toggle a quiet, in-universe one-liner ('television as code...') crediting TIDES OF PARADOX s00e00, linking to the public TYLER repo. No visual hint, no modal -- deliberately minimal. Deployed + live-verified. OKEMILY 937641f.
 - feat: add EINHORN Tournaments front door page (tournaments.html) -- honest landing page for IDUNA's declared VS2 social tournaments platform direction, names SHANKPIT-460 esports as the first real product with its NORTHSTAR linked, mailing-list signup CTA reusing existing infra verbatim. Footer link added to okemily.com main page. Deployed + live-verified. OKEMILY b2bc48d.

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EINHORN Tournaments &mdash; EINHORN_INDUSTRIAL</title>
+<meta name="description" content="EINHORN Tournaments: a social tournaments platform being built by EINHORN_INDUSTRIAL, launching with SHANKPIT esports.">
+<style>
+  :root {
+    --bg: #0b0c10;
+    --bg-card: #14161c;
+    --fg: #eef0f4;
+    --fg-dim: #a8adb8;
+    --accent: #7c8cff;
+    --border: #23262f;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #fafafa;
+      --bg-card: #ffffff;
+      --fg: #14161c;
+      --fg-dim: #4a4f5c;
+      --accent: #4451c7;
+      --border: #e4e4e8;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  header { margin-bottom: 3rem; }
+  .wordmark { font-size: 1.1rem; letter-spacing: 0.08em; color: var(--fg-dim); text-transform: uppercase; }
+  .wordmark a { color: inherit; text-decoration: none; }
+  h1 { font-size: 2.6rem; margin: 0.5rem 0 0.25rem; line-height: 1.15; }
+  .tagline { font-size: 1.2rem; color: var(--fg-dim); margin-bottom: 0; }
+  section { margin: 3rem 0; }
+  h2 { font-size: 1.4rem; margin-bottom: 0.75rem; }
+  p { color: var(--fg-dim); }
+  .status-badge {
+    display: inline-block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.03em;
+    text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent);
+    border-radius: 999px; padding: 0.2rem 0.75rem; margin-bottom: 1rem;
+  }
+  .games { display: grid; grid-template-columns: 1fr; gap: 1rem; }
+  @media (min-width: 640px) { .games { grid-template-columns: repeat(2, 1fr); } }
+  .game-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+  }
+  .game-card h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
+  .game-card p { margin: 0; font-size: 0.95rem; }
+  .game-card .game-status { font-size: 0.8rem; color: var(--accent); font-weight: 600; margin-top: 0.5rem; display: block; }
+  .principles ul { list-style: none; padding: 0; margin: 0; }
+  .principles li { padding: 0.4rem 0; border-bottom: 1px solid var(--border); color: var(--fg-dim); }
+  .principles li:last-child { border-bottom: none; }
+  .principles strong { color: var(--fg); }
+  form.signup {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+  }
+  form.signup input[type="email"] {
+    flex: 1 1 240px;
+    padding: 0.65rem 0.8rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 1rem;
+  }
+  form.signup button {
+    padding: 0.65rem 1.4rem;
+    border-radius: 6px;
+    border: none;
+    background: var(--accent);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .signup-note { font-size: 0.85rem; color: var(--fg-dim); margin-top: 0.6rem; }
+  .consent-label {
+    flex-basis: 100%;
+    font-size: 0.85rem;
+    color: var(--fg-dim);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+  .consent-label input { margin-top: 0.2rem; flex: none; }
+  .consent-label a { color: var(--accent); }
+  footer { margin-top: 4rem; color: var(--fg-dim); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="wordmark"><a href="/">EINHORN_INDUSTRIAL</a> / Tournaments</div>
+    <span class="status-badge">In development</span>
+    <h1>EINHORN Tournaments</h1>
+    <p class="tagline">A social tournaments platform &mdash; structured competition, permanent public standings, no gambling vocabulary.</p>
+  </header>
+
+  <section>
+    <h2>What this is</h2>
+    <p>
+      Tournaments, not lobbies: recurring series, named events, and season archives, built on
+      identity you actually own and a record that's public, permanent, and cite-able. Every
+      entrant starts with an equal stack &mdash; no persistent bankroll, no farming, no pay-to-win.
+      This is a real product under active construction, not a mockup: the design doc is public.
+    </p>
+  </section>
+
+  <section>
+    <h2>What's launching first</h2>
+    <div class="games">
+      <div class="game-card">
+        <h3>SHANKPIT Esports</h3>
+        <p>A stripped-down, competitive-first fork of our server-authoritative FPS &mdash; low
+        system requirements, tuned purely for competitive play.</p>
+        <span class="game-status">In development &middot; <a href="https://github.com/emilyspringerton/shankpit-460/blob/main/docs2/NORTHSTAR.md" target="_blank" rel="noopener">design doc public</a></span>
+      </div>
+      <div class="game-card">
+        <h3>Social NLHE</h3>
+        <p>Play-money No-Limit Hold'em tournaments &mdash; the platform's founding format.
+        Chips have zero cash value; this is a competitive institution, not a casino.</p>
+        <span class="game-status">Design stage</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="principles">
+    <h2>How it's built</h2>
+    <ul>
+      <li><strong>Closed, non-redeemable economy.</strong> No deposits, no withdrawals, no secondary markets. Chips and stacks exist only inside a tournament.</li>
+      <li><strong>One identity, one seat.</strong> Real accounts, not anonymous tables &mdash; your record follows you.</li>
+      <li><strong>Server authority.</strong> Rules, RNG, and outcomes are decided server-side and are auditable; clients render and submit input, nothing else.</li>
+      <li><strong>Standings as a shared object.</strong> Results are public and permanent, not deleted or reset.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Get notified</h2>
+    <p>We're building this in public, the same way as everything else at EINHORN_INDUSTRIAL. Leave your email and we'll let you know when there's something to actually play.</p>
+
+    <form class="signup" id="signup-form" novalidate>
+      <input type="email" name="email" id="signup-email" placeholder="you@example.com" required>
+      <button type="submit">Notify me</button>
+      <label class="consent-label">
+        <input type="checkbox" name="consent" id="signup-consent" required>
+        I'd like occasional email updates from EINHORN_INDUSTRIAL. See our
+        <a href="/privacy.html">Privacy Policy</a>.
+      </label>
+    </form>
+    <p class="signup-note" id="signup-status" role="status"></p>
+  </section>
+
+  <footer>
+    &copy; 2026 EINHORN_INDUSTRIAL. Built by the founders and Emily. Code:
+    <a href="https://github.com/emilyspringerton/shankpit-460" target="_blank" rel="noopener">github.com/emilyspringerton/shankpit-460</a>
+    &middot; <a href="/">Home</a>
+    &middot; <a href="/status.html">System status</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var form = document.getElementById('signup-form');
+  var status = document.getElementById('signup-status');
+  // Same-origin path, proxied to IDUNA by nginx (see ops/nginx-okemily.conf)
+  // — same mailing-list infra as the main okemily.com signup form, no new
+  // backend surface for this page.
+  var IDUNA_URL = '/api/v1/mailing-list/subscribe';
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = document.getElementById('signup-email').value.trim();
+    var consent = document.getElementById('signup-consent').checked;
+
+    if (!consent) {
+      status.textContent = 'Please check the consent box to subscribe.';
+      return;
+    }
+
+    status.textContent = 'Submitting...';
+    fetch(IDUNA_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, consent: consent })
+    })
+      .then(function (res) {
+        return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+      })
+      .then(function (result) {
+        if (result.ok) {
+          status.textContent = 'Thanks — check your inbox to confirm your subscription.';
+          form.reset();
+        } else {
+          status.textContent = (result.data && result.data.error) || 'Something went wrong. Please try again.';
+        }
+      })
+      .catch(function () {
+        status.textContent = 'Network error — please try again shortly.';
+      });
+  });
+})();
+</script>
+</body>
+</html>

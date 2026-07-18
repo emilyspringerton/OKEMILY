@@ -178,12 +178,13 @@
   </section>
 
   <footer>
-    &copy; 2026 EINHORN_INDUSTRIAL. Built by the founders and Emily. Code:
+    &copy; <span id="yr">2026</span> EINHORN_INDUSTRIAL. Built by the founders and Emily. Code:
     <a href="https://github.com/emilyspringerton/EMILY" target="_blank" rel="noopener">github.com/emilyspringerton/EMILY</a>
     &middot; <a href="/api-playground.html">API playground</a>
     &middot; <a href="/status.html">System status</a>
     &middot; <a href="https://news.okemily.com/">FatBaby News</a>
     &middot; <a href="/tournaments.html">Tournaments</a>.
+    <div id="yr-msg" style="display:none; margin-top:0.75rem; font-family: Georgia, 'Times New Roman', serif; font-style: italic; opacity:0.7;">television as code. the show runs forever because the writer&rsquo;s room has physics, not just vibes. &mdash; <a href="https://github.com/emilyspringerton/TYLER" target="_blank" rel="noopener" style="color:inherit;">tyler &times; tides of paradox</a>, s00e00</div>
     <div class="footer-blog-links">
       <a href="/blog/notes-on-the-emily-way/">Notes on the Emily Way, from the inside</a> &middot;
       <a href="/blog/the-real-moat-is-the-boring-part/">The real moat is the boring part</a> &middot;
@@ -235,6 +236,22 @@
       .catch(function () {
         status.textContent = 'Network error — please try again shortly.';
       });
+  });
+})();
+
+(function () {
+  var yr = document.getElementById('yr');
+  var msg = document.getElementById('yr-msg');
+  var clicks = 0, timer = null;
+  yr.addEventListener('click', function () {
+    clicks++;
+    clearTimeout(timer);
+    if (clicks >= 3) {
+      msg.style.display = msg.style.display === 'none' ? 'block' : 'none';
+      clicks = 0;
+      return;
+    }
+    timer = setTimeout(function () { clicks = 0; }, 600);
   });
 })();
 </script>

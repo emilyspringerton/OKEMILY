@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>System Status &mdash; EINHORN_INDUSTRIAL</title>
+<style>
+  :root { --bg: #0b0c10; --bg-card: #14161c; --fg: #eef0f4; --fg-dim: #a8adb8; --accent: #7c8cff; --border: #23262f; --up: #3ecf8e; --down: #ef5b5b; }
+  @media (prefers-color-scheme: light) {
+    :root { --bg: #fafafa; --bg-card: #ffffff; --fg: #14161c; --fg-dim: #4a4f5c; --accent: #4451c7; --border: #e4e4e8; --up: #1a9b64; --down: #d13c3c; }
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif; background: var(--bg); color: var(--fg); line-height: 1.6; }
+  .wrap { max-width: 700px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  .wordmark { font-size: 1rem; letter-spacing: 0.08em; color: var(--fg-dim); text-transform: uppercase; }
+  h1 { font-size: 1.8rem; margin: 0.5rem 0 0.25rem; }
+  .subnote { color: var(--fg-dim); font-size: 0.9rem; margin-bottom: 2rem; }
+  .service {
+    display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1rem 1.25rem; margin-bottom: 0.75rem;
+  }
+  .service-name { font-weight: 600; }
+  .service-meta { color: var(--fg-dim); font-size: 0.85rem; margin-top: 0.2rem; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 0.5rem; }
+  .dot.up { background: var(--up); }
+  .dot.down { background: var(--down); }
+  .status-label { font-weight: 600; font-size: 0.9rem; }
+  .status-label.up { color: var(--up); }
+  .status-label.down { color: var(--down); }
+  .loading { color: var(--fg-dim); }
+  footer { margin-top: 3rem; color: var(--fg-dim); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+  a { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="wordmark"><a href="/">EINHORN_INDUSTRIAL</a> / Status</div>
+  <h1>System Status</h1>
+  <p class="subnote" id="checked-at">Loading real-time status&hellip;</p>
+
+  <div id="services"><p class="loading">Checking services&hellip;</p></div>
+
+  <footer>
+    This is a self-report from the same host running these services, not independent
+    third-party monitoring — it can't report an outage of the box it runs on itself.
+    History shown is a real, live-computed uptime percentage over the last 24 hours of
+    actual checks, not a placeholder. A fuller incident timeline is planned.
+  </footer>
+</div>
+
+<script>
+  fetch('/api/v1/status')
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      document.getElementById('checked-at').textContent =
+        'Last checked: ' + new Date(data.checked_at).toLocaleString();
+
+      var container = document.getElementById('services');
+      container.innerHTML = '';
+      data.services.forEach(function (svc) {
+        var up = svc.checked && svc.up;
+        var div = document.createElement('div');
+        div.className = 'service';
+        var uptimeText = svc.uptime_24h_samples > 0
+          ? svc.uptime_24h_percent.toFixed(1) + '% uptime (24h, ' + svc.uptime_24h_samples + ' checks)'
+          : 'No history yet';
+        div.innerHTML =
+          '<div>' +
+            '<div class="service-name"><span class="dot ' + (up ? 'up' : 'down') + '"></span>' + svc.label + '</div>' +
+            '<div class="service-meta">' + uptimeText + '</div>' +
+          '</div>' +
+          '<div class="status-label ' + (up ? 'up' : 'down') + '">' + (svc.checked ? (up ? 'Operational' : 'Down') : 'Pending first check') + '</div>';
+        container.appendChild(div);
+      });
+    })
+    .catch(function () {
+      document.getElementById('services').innerHTML = '<p class="loading">Could not load status right now.</p>';
+    });
+</script>
+</body>
+</html>

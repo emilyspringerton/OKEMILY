@@ -98,6 +98,13 @@
   .footer-blog-links { margin-top: 0.75rem; line-height: 1.8; }
   .footer-blog-links a { color: var(--fg-dim); }
   .footer-blog-links a:hover { color: var(--accent); }
+  .void-cta { text-align: center; margin: 3rem 0; }
+  .void-link {
+    display: inline-block; font-size: 1.1rem; font-weight: 600;
+    color: var(--fg); text-decoration: none; border: 1px solid var(--border);
+    border-radius: 999px; padding: 0.75rem 1.75rem; transition: border-color 0.15s;
+  }
+  .void-link:hover { border-color: var(--accent); color: var(--accent); }
 </style>
 </head>
 <body>
@@ -166,11 +173,16 @@
     <p class="signup-note" id="signup-status" role="status"></p>
   </section>
 
+  <section class="void-cta">
+    <a href="https://farthq.com" class="void-link">Enter the void 🕳️</a>
+  </section>
+
   <footer>
     &copy; 2026 EINHORN_INDUSTRIAL. Built by the founders and Emily. Code:
     <a href="https://github.com/emilyspringerton/EMILY" target="_blank" rel="noopener">github.com/emilyspringerton/EMILY</a>
     &middot; <a href="/api-playground.html">API playground</a>
-    &middot; <a href="/status.html">System status</a>.
+    &middot; <a href="/status.html">System status</a>
+    &middot; <a href="/news/">FatBaby News</a>.
     <div class="footer-blog-links">
       <a href="/blog/notes-on-the-emily-way/">Notes on the Emily Way, from the inside</a> &middot;
       <a href="/blog/the-real-moat-is-the-boring-part/">The real moat is the boring part</a> &middot;

@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STINKIES COMMISSAIRE &mdash; EINHORN_INDUSTRIAL</title>
+<meta name="description" content="STINKIES COMMISSAIRE: the first physical drop from EINHORN_INDUSTRIAL. A hoodie, then a hat, then a store. Store 0, Pontiac, Michigan.">
+<style>
+  :root {
+    --bg: #0b0c10;
+    --bg-card: #14161c;
+    --fg: #eef0f4;
+    --fg-dim: #a8adb8;
+    --accent: #7c8cff;
+    --border: #23262f;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #fafafa;
+      --bg-card: #ffffff;
+      --fg: #14161c;
+      --fg-dim: #4a4f5c;
+      --accent: #4451c7;
+      --border: #e4e4e8;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  header { margin-bottom: 3rem; }
+  .wordmark { font-size: 1.1rem; letter-spacing: 0.08em; color: var(--fg-dim); text-transform: uppercase; }
+  .wordmark a { color: inherit; text-decoration: none; }
+  h1 { font-size: 2.6rem; margin: 0.5rem 0 0.25rem; line-height: 1.15; }
+  .tagline { font-size: 1.2rem; color: var(--fg-dim); margin-bottom: 0; }
+  section { margin: 3rem 0; }
+  h2 { font-size: 1.4rem; margin-bottom: 0.75rem; }
+  p { color: var(--fg-dim); }
+  .status-badge {
+    display: inline-block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.03em;
+    text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent);
+    border-radius: 999px; padding: 0.2rem 0.75rem; margin-bottom: 1rem;
+  }
+  .product-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+  }
+  .product-card .price { font-size: 1.6rem; font-weight: 700; color: var(--fg); margin: 0 0 1rem; }
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 0.95rem; }
+  .spec-table tr { border-bottom: 1px solid var(--border); }
+  .spec-table tr:last-child { border-bottom: none; }
+  .spec-table td { padding: 0.55rem 0; vertical-align: top; }
+  .spec-table td:first-child { color: var(--fg-dim); width: 40%; white-space: nowrap; padding-right: 1rem; }
+  .spec-table td:last-child { color: var(--fg); }
+  .roadmap { list-style: none; padding: 0; margin: 0; }
+  .roadmap li {
+    padding: 0.9rem 0; border-bottom: 1px solid var(--border);
+    color: var(--fg-dim); display: flex; gap: 0.9rem; align-items: baseline;
+  }
+  .roadmap li:last-child { border-bottom: none; }
+  .roadmap .vs { color: var(--accent); font-weight: 700; font-size: 0.85rem; flex: none; width: 2.6rem; }
+  .roadmap strong { color: var(--fg); }
+  form.signup {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+  }
+  form.signup input[type="email"] {
+    flex: 1 1 240px;
+    padding: 0.65rem 0.8rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 1rem;
+  }
+  form.signup button {
+    padding: 0.65rem 1.4rem;
+    border-radius: 6px;
+    border: none;
+    background: var(--accent);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .signup-note { font-size: 0.85rem; color: var(--fg-dim); margin-top: 0.6rem; }
+  .consent-label {
+    flex-basis: 100%;
+    font-size: 0.85rem;
+    color: var(--fg-dim);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+  .consent-label input { margin-top: 0.2rem; flex: none; }
+  .consent-label a { color: var(--accent); }
+  footer { margin-top: 4rem; color: var(--fg-dim); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="wordmark"><a href="/">EINHORN_INDUSTRIAL</a> / STINKIES COMMISSAIRE</div>
+    <span class="status-badge">First drop &middot; pre-launch</span>
+    <h1>STINKIES COMMISSAIRE</h1>
+    <p class="tagline">The first physical thing EINHORN_INDUSTRIAL puts into the world. Not a mockup, not merch-as-marketing &mdash; the seed capital for a real store.</p>
+  </header>
+
+  <section>
+    <h2>What this is</h2>
+    <p>
+      No outside capital, no store, no location yet. Just one product, sold to real people, funding
+      the next one. This hoodie is VS0 &mdash; the first version in a phased bootstrap that ends at
+      <strong style="color:var(--fg)">Store 0, Pontiac, Michigan</strong>: a real brick-and-mortar
+      convenience store built entirely from merch-drop revenue. Sell-through on this drop is the
+      signal that funds the next step. Nothing here is decided by an algorithm alone &mdash; every
+      purchase order, every lease, every dollar is a human call, made in the open.
+    </p>
+  </section>
+
+  <section>
+    <h2>VS0 &mdash; The Hoodie</h2>
+    <div class="product-card">
+      <p class="price">$38</p>
+      <table class="spec-table">
+        <tr><td>Construction</td><td>80/20 cotton-poly fleece, 10oz, garment-dyed</td></tr>
+        <tr><td>Color</td><td>Washed black &mdash; worn-in at purchase, not bright black</td></tr>
+        <tr><td>Back</td><td>&ldquo;STINKIES&rdquo; in white block caps, center, 4&Prime; tall</td></tr>
+        <tr><td>Left chest</td><td>&ldquo;COMMISSAIRE&rdquo; in small white text</td></tr>
+        <tr><td>Front</td><td>Nothing. No logo system, no graphics &mdash; just the name and the fabric.</td></tr>
+        <tr><td>Hood</td><td>Unlined, single-layer, draw cord</td></tr>
+        <tr><td>Fit</td><td>Relaxed. Not oversized. Not fitted.</td></tr>
+        <tr><td>Sizes</td><td>S &ndash; 3XL</td></tr>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <h2>What's next</h2>
+    <ul class="roadmap">
+      <li><span class="vs">VS0</span><span><strong>Hoodie</strong> &mdash; this drop. 80 units sold funds the next print run.</span></li>
+      <li><span class="vs">VS0.5</span><span><strong>Trucker hat</strong> &mdash; $24, black front + mesh back. Strap reads &ldquo;STORE 0 &middot; PONTIAC MI&rdquo; &mdash; a location that doesn't exist yet, printed as a promise.</span></li>
+      <li><span class="vs">VS1&ndash;2</span><span><strong>Stickers, then food &amp; drink</strong> &mdash; ROCKET energy drink, jalape&ntilde;o line, coffee, cheese, hot dogs.</span></li>
+      <li><span class="vs">VS3</span><span><strong>Store 0</strong> &mdash; the physical store opens in Pontiac, Michigan.</span></li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Get the drop</h2>
+    <p>Print run isn't ordered yet &mdash; we place the purchase order once there's real, committed demand. Leave your email and you'll be first to know the moment it's live for purchase.</p>
+
+    <form class="signup" id="signup-form" novalidate>
+      <input type="email" name="email" id="signup-email" placeholder="you@example.com" required>
+      <button type="submit">Notify me</button>
+      <label class="consent-label">
+        <input type="checkbox" name="consent" id="signup-consent" required>
+        I'd like occasional email updates from EINHORN_INDUSTRIAL. See our
+        <a href="/privacy.html">Privacy Policy</a>.
+      </label>
+    </form>
+    <p class="signup-note" id="signup-status" role="status"></p>
+  </section>
+
+  <footer>
+    &copy; 2026 EINHORN_INDUSTRIAL. Built by Brian Danowski and Emily. Code:
+    <a href="https://github.com/emilyspringerton/EMILY" target="_blank" rel="noopener">github.com/emilyspringerton/EMILY</a>
+    &middot; <a href="/">Home</a>
+    &middot; <a href="/status.html">System status</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var form = document.getElementById('signup-form');
+  var status = document.getElementById('signup-status');
+  // Same-origin path, proxied to IDUNA by nginx (see ops/nginx-okemily.conf)
+  // — same mailing-list infra as the main okemily.com signup form, no new
+  // backend surface for this page.
+  var IDUNA_URL = '/api/v1/mailing-list/subscribe';
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = document.getElementById('signup-email').value.trim();
+    var consent = document.getElementById('signup-consent').checked;
+
+    if (!consent) {
+      status.textContent = 'Please check the consent box to subscribe.';
+      return;
+    }
+
+    status.textContent = 'Submitting...';
+    fetch(IDUNA_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, consent: consent })
+    })
+      .then(function (res) {
+        return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+      })
+      .then(function (result) {
+        if (result.ok) {
+          status.textContent = 'Thanks — check your inbox to confirm your subscription.';
+          form.reset();
+        } else {
+          status.textContent = (result.data && result.data.error) || 'Something went wrong. Please try again.';
+        }
+      })
+      .catch(function () {
+        status.textContent = 'Network error — please try again shortly.';
+      });
+  });
+})();
+</script>
+</body>
+</html>

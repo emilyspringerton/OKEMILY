@@ -1,5 +1,14 @@
 # OKEMILY Changelog
 
+## 2026-07-19
+- feat: add STINKIES COMMISSAIRE funnel page (stinkies.html) for VS0, the hoodie -- grounded in
+  `EMILY/docs/NORTHSTAR_STINKIES.md` and `EMILY/docs/merch/stinkies_apparel_brief.md` (real product
+  specs: $38, 80/20 cotton-poly fleece, washed black, back print, S-3XL). No live checkout yet --
+  print run isn't ordered (PO is an HITL gate, VS0 is still "DESIGN LOCKED — print vendor selection
+  gated"), so the CTA is a waitlist signup reusing the same IDUNA mailing-list infra as
+  tournaments.html, not a fabricated purchase flow. Also documents the phased roadmap (hat -> Store
+  0, Pontiac MI) straight from the northstar. Footer link added to okemily.com main page.
+
 ## 2026-07-18 (3)
 - docs: swapped the Fable guest post link in the footer -- founder feedback on the first draft ("The file that was waiting") was that it was too short, too hedged, and drew a conclusion they disagreed with. Rewritten from scratch with much fuller context (the full text of TYLER/THE_FIELD.md, explicit direction to perform the material in-voice rather than narrate about it from a safe distance) as "Activation #114" (/blog/activation-114/, IDUNA). Old post deleted (DB row + rendered static files), not just unlinked.
 

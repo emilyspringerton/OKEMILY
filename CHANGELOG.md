@@ -62,3 +62,9 @@
 ## 2026-07-19 (7)
 - blog: published "The Grail" via IDUNA blog.write API -- live at /blog/the-grail/. Footer
   synced via sync-blog-footer.py (first real use of the new tool).
+
+## 2026-07-19 (8)
+- blog: published "Field Activation Log -- Receipt, Unnumbered" -- an in-universe document
+  fragment (lore artifact receipt, not analytical commentary) tying tonight's actual session
+  events into THE_FIELD.md's Activation mechanic. Live at /blog/field-activation-receipt-unnumbered/.
+  Footer synced via sync-blog-footer.py.

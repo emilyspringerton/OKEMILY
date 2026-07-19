@@ -49,3 +49,7 @@
 - blog: published "Recursion for LLMs" and "Then Custody" via IDUNA blog.write API — live at
   /blog/recursion-for-llms/ and /blog/then-custody/, auto-listed in /blog/. Footer links added
   (needs deploy).
+
+## 2026-07-19 (5)
+- blog: published "Knights of the Void" via IDUNA blog.write API -- live at
+  /blog/knights-of-the-void/. Footer link added (needs deploy).

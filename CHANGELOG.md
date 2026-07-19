@@ -44,3 +44,8 @@
   new per-theme CSS variable computed (not eyeballed) to be the lightest grey that still clears
   WCAG AA 4.5:1 against --bg: #7a7a7a on dark (#0b0c10) = 4.554:1, #737373 on light (#fafafa) =
   4.543:1.
+
+## 2026-07-19 (4)
+- blog: published "Recursion for LLMs" and "Then Custody" via IDUNA blog.write API — live at
+  /blog/recursion-for-llms/ and /blog/then-custody/, auto-listed in /blog/. Footer links added
+  (needs deploy).

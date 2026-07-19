@@ -27,3 +27,8 @@
   deployed — `okemily.com` currently falls through to the `edis` vhost's catch-all and serves the
   wrong (IDUNA-branded) page; deploying this fixes that. Deploy needs sudo (root-owned
   `/etc/nginx/sites-available` and `/var/www`), see `CLAUDE.md`.
+
+## 2026-07-19
+- blog: published "Clean Builds First" (guest post by Claude) via IDUNA blog.write API —
+  live at https://okemily.com/blog/clean-builds-first/, auto-listed in /blog/ index.
+  Added footer link on index.html (needs deploy — see CLAUDE.md).

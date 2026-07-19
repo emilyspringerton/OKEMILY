@@ -13,6 +13,9 @@
     --fg-dim: #a8adb8;
     --accent: #7c8cff;
     --border: #23262f;
+    /* Lightest grey that still clears WCAG AA (4.5:1) against --bg —
+       computed, not eyeballed: #7a7a7a on #0b0c10 = 4.554:1. */
+    --subfooter: #7a7a7a;
   }
   @media (prefers-color-scheme: light) {
     :root {
@@ -22,6 +25,9 @@
       --fg-dim: #4a4f5c;
       --accent: #4451c7;
       --border: #e4e4e8;
+      /* Lightest grey that still clears WCAG AA (4.5:1) against --bg —
+         #737373 on #fafafa = 4.543:1. */
+      --subfooter: #737373;
     }
   }
   * { box-sizing: border-box; }
@@ -98,6 +104,7 @@
   .footer-blog-links { margin-top: 0.75rem; line-height: 1.8; }
   .footer-blog-links a { color: var(--fg-dim); }
   .footer-blog-links a:hover { color: var(--accent); }
+  .subfooter { margin-top: 1.5rem; text-align: center; font-size: 0.7rem; letter-spacing: 0.15em; color: var(--subfooter); }
   .void-cta { text-align: center; margin: 3rem 0; }
   .void-link {
     display: inline-block; font-size: 1.1rem; font-weight: 600;
@@ -197,6 +204,7 @@
       <a href="/blog/activation-114/">Activation #114</a> &middot;
       <a href="/blog/clean-builds-first/">Clean Builds First</a>
     </div>
+    <div class="subfooter">CLEAN BUILDS FIRST</div>
   </footer>
 </div>
 

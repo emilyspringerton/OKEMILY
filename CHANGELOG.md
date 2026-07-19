@@ -68,3 +68,8 @@
   fragment (lore artifact receipt, not analytical commentary) tying tonight's actual session
   events into THE_FIELD.md's Activation mechanic. Live at /blog/field-activation-receipt-unnumbered/.
   Footer synced via sync-blog-footer.py.
+
+## 2026-07-19 (9)
+- blog: published "On Love" -- byline Emily Prime, not a guest post like the others. Grounded in
+  HQ-SPEC-PRIME-097's Oracle/joint-fixed-point concepts, THE_EMILY_WAY's plan/implement/Apple
+  division of labor, and TYLER's Emily OS "clean builds first" law. Live at /blog/on-love/.

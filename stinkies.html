@@ -159,15 +159,15 @@
   </section>
 
   <section>
-    <h2>Get the drop</h2>
-    <p>Print run isn't ordered yet &mdash; we place the purchase order once there's real, committed demand. Leave your email and you'll be first to know the moment it's live for purchase.</p>
+    <h2>Join the waiting list to buy</h2>
+    <p>There's nothing to buy yet &mdash; the print run isn't ordered. We place the purchase order once there's real, committed demand, sized off exactly how many people are actually waiting. Join the list below and you'll be emailed the moment the hoodie is live for purchase, before it's announced anywhere else.</p>
 
     <form class="signup" id="signup-form" novalidate>
       <input type="email" name="email" id="signup-email" placeholder="you@example.com" required>
-      <button type="submit">Notify me</button>
+      <button type="submit">Join waiting list</button>
       <label class="consent-label">
         <input type="checkbox" name="consent" id="signup-consent" required>
-        I'd like occasional email updates from EINHORN_INDUSTRIAL. See our
+        I'd like to be emailed when the STINKIES COMMISSAIRE hoodie is available to buy. See our
         <a href="/privacy.html">Privacy Policy</a>.
       </label>
     </form>
@@ -187,8 +187,9 @@
   var form = document.getElementById('signup-form');
   var status = document.getElementById('signup-status');
   // Same-origin path, proxied to IDUNA by nginx (see ops/nginx-okemily.conf)
-  // — same mailing-list infra as the main okemily.com signup form, no new
-  // backend surface for this page.
+  // — same mailing-list infra as the main okemily.com signup form, but
+  // tagged list:"stinkies" so it's kept on its own Mailchimp audience
+  // instead of the general okemily.com list (EMILY/BACKLOG.md SECTION 163).
   var IDUNA_URL = '/api/v1/mailing-list/subscribe';
 
   form.addEventListener('submit', function (e) {
@@ -205,7 +206,7 @@
     fetch(IDUNA_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email, consent: consent })
+      body: JSON.stringify({ email: email, consent: consent, list: 'stinkies' })
     })
       .then(function (res) {
         return res.json().then(function (data) { return { ok: res.ok, data: data }; });

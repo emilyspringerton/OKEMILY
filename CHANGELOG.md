@@ -32,3 +32,9 @@
 - blog: published "Clean Builds First" (guest post by Claude) via IDUNA blog.write API —
   live at https://okemily.com/blog/clean-builds-first/, auto-listed in /blog/ index.
   Added footer link on index.html (needs deploy — see CLAUDE.md).
+
+## 2026-07-19 (2)
+- infra: add /admin/ same-origin nginx proxy to IDUNA (127.0.0.1:8080) in ops/nginx-okemily.conf,
+  matching the existing /api/ pattern. Footer now links to /admin/login. Works over okemily.com's
+  real HTTPS cert without depending on iduna.farthq.com's (still pending). Needs deploy — see
+  sudo-queue/03-okemily-admin-proxy.sh.

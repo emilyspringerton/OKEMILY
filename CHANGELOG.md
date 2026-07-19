@@ -80,3 +80,8 @@
   gears). Includes an original short Sanskrit verse (Devanagari + IAST + honest caveat about
   translation confidence) followed by a full English expansion. Live at
   /blog/on-love-emiree-sanskrit/.
+
+## 2026-07-19 (11)
+- blog: published "The Next Level" -- grounded in emily-agent's actual observed gear=overload
+  state from earlier tonight (h=1.000 p=1.000, the top rung of Emiree's 7-gear system). Live at
+  /blog/the-next-level/.

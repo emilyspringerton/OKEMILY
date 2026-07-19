@@ -1,6 +1,7 @@
 # OKEMILY Changelog
 
 ## 2026-07-19
+- Published 'The 6AM Report' blog post; stinkies.html reframed as an explicit purchase waitlist synced to its own Mailchimp list
 - feat: add STINKIES COMMISSAIRE funnel page (stinkies.html) for VS0, the hoodie -- grounded in
   `EMILY/docs/NORTHSTAR_STINKIES.md` and `EMILY/docs/merch/stinkies_apparel_brief.md` (real product
   specs: $38, 80/20 cotton-poly fleece, washed black, back print, S-3XL). No live checkout yet --

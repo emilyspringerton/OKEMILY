@@ -13,14 +13,23 @@ that: a real, on-brand page, not a full app.
 
 ## Deploy
 
-Serving root is `/var/www/okemily/` (nginx, `www-data`), not this repo directory directly — `/home/
-fatbaby` is `750` and nginx's `www-data` user can't traverse it. After editing `index.html` here:
+Serving root is `/var/www/okemily/` (nginx reads it there, not this repo directory directly —
+`/home/fatbaby` is `750` and nginx's `www-data` user can't traverse it). **Update, 2026-07-19:**
+`/var/www/okemily/` is now `fatbaby:www-data` mode `2775` (group-writable, sgid) — deploying no
+longer needs `sudo` at all; the `sudo mkdir`/`sudo chown` steps this doc used to list are stale
+and would actually be a regression (chown-ing back to `www-data:www-data` removes the write
+access that makes this work). After editing files here, run `~/okemily-deploy.sh` (no `sudo`) or:
 
 ```bash
-sudo mkdir -p /var/www/okemily
-sudo rsync -a --delete /home/fatbaby/OKEMILY/ /var/www/okemily/ --exclude='.git'
-sudo chown -R www-data:www-data /var/www/okemily
+mkdir -p /var/www/okemily
+rsync -a --delete /home/fatbaby/OKEMILY/ /var/www/okemily/ --exclude='.git' --exclude='blog'
 ```
+
+**`--exclude='blog'` is not optional.** `blog/` is rendered live by IDUNA's blog handler
+(`IDUNA/internal/blog/render.go`) straight into `/var/www/okemily/blog` and is not part of this
+git repo at all. A bare `--delete` sync without this exclusion wipes every published post —
+happened for real 2026-07-19, recovered only because the SQLite source of truth
+(`IDUNA/var/blog.db`) was untouched and could be re-rendered (`IDUNA/cmd/blog-rerender`).
 
 nginx server block: `ops/nginx-okemily.conf` in this repo — copy to
 `/etc/nginx/sites-available/okemily`, symlink into `sites-enabled/`, `sudo nginx -t && sudo

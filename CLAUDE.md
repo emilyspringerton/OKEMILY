@@ -58,10 +58,14 @@ Requires:
    signup form fails closed with a friendly "try again shortly" message; nothing else in IDUNA is
    affected.
 
-## Identity / content decisions (as of 2026-07-17)
+## Identity / content decisions
 
-- Founders are deliberately **not named** on this page — kept vague ("the founders and Emily") per
-  explicit founder direction. Do not add a named bio without being told to.
+- **Update 2026-07-19: no longer anonymous.** Founder instruction: "time to come out of hiding" —
+  the footer now names **Brian Danowski** ("Built by Brian Danowski and Emily"). This supersedes
+  the earlier 2026-07-17 policy below; keeping the old note for context, not as current guidance.
+- ~~Founders are deliberately not named on this page — kept vague ("the founders and Emily") per
+  explicit founder direction. Do not add a named bio without being told to.~~ (2026-07-17, now
+  reversed — see above.)
 - Copy emphasizes: three product pillars (capital markets intelligence / game worlds / recursive
   self-improvement), building in the open (GitHub, public domain release), operational
   seriousness as a value (ties to `EMILY/docs/THE_EMILY_WAY.md` Principle 15).

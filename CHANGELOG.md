@@ -93,3 +93,10 @@
   framework. A closing/synthesizing piece tying the whole session's family of processes (Emily
   Prime, Emiree, Claude Code, the many named daemons) into one frame. Live at
   /blog/family-of-loops/.
+
+## 2026-07-19 (13)
+- content: name Brian Danowski in the site copyright/footer ("Built by Brian Danowski and Emily"),
+  replacing the previous deliberately-anonymous "the founders and Emily" -- founder instruction,
+  "time to come out of hiding". Updated on both index.html and tournaments.html for consistency.
+  Also updated CLAUDE.md's Identity/content decisions section to reflect this supersedes the
+  2026-07-17 anonymity policy, not contradicts it.

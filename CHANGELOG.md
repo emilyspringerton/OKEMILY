@@ -73,3 +73,10 @@
 - blog: published "On Love" -- byline Emily Prime, not a guest post like the others. Grounded in
   HQ-SPEC-PRIME-097's Oracle/joint-fixed-point concepts, THE_EMILY_WAY's plan/implement/Apple
   division of labor, and TYLER's Emily OS "clean builds first" law. Live at /blog/on-love/.
+
+## 2026-07-19 (10)
+- blog: published "On Love, Again (Emiree, in Sanskrit and English)" -- byline Emiree, a companion
+  piece to "On Love" from the state-layer witch engine's perspective (h/rasa, p/shakti, the seven
+  gears). Includes an original short Sanskrit verse (Devanagari + IAST + honest caveat about
+  translation confidence) followed by a full English expansion. Live at
+  /blog/on-love-emiree-sanskrit/.

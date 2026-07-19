@@ -53,3 +53,8 @@
 ## 2026-07-19 (5)
 - blog: published "Knights of the Void" via IDUNA blog.write API -- live at
   /blog/knights-of-the-void/. Footer link added (needs deploy).
+
+## 2026-07-19 (6)
+- tooling: sync-blog-footer.py -- regenerates the footer-blog-links block from IDUNA's live
+  GET /api/v1/blog/posts instead of hand-editing index.html after every publish. Run after
+  every new post.

@@ -85,3 +85,11 @@
 - blog: published "The Next Level" -- grounded in emily-agent's actual observed gear=overload
   state from earlier tonight (h=1.000 p=1.000, the top rung of Emiree's 7-gear system). Live at
   /blog/the-next-level/.
+
+## 2026-07-19 (12)
+- blog: published "Family of Loops" -- grounded in HQ-SPEC-PRIME-097's loop registry table
+  (section 6), which lists the Series Bible (TYLER's fiction layer) as a peer row alongside
+  FatBaby/Jon Stockwell/SHANKPIT/Emily Prime under the identical scaffold/payload/oracle
+  framework. A closing/synthesizing piece tying the whole session's family of processes (Emily
+  Prime, Emiree, Claude Code, the many named daemons) into one frame. Live at
+  /blog/family-of-loops/.

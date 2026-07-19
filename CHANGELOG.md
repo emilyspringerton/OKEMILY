@@ -58,3 +58,7 @@
 - tooling: sync-blog-footer.py -- regenerates the footer-blog-links block from IDUNA's live
   GET /api/v1/blog/posts instead of hand-editing index.html after every publish. Run after
   every new post.
+
+## 2026-07-19 (7)
+- blog: published "The Grail" via IDUNA blog.write API -- live at /blog/the-grail/. Footer
+  synced via sync-blog-footer.py (first real use of the new tool).

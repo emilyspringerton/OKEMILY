@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Games — EINHORN_INDUSTRIAL</title>
+<meta name="description" content="Every game EINHORN_INDUSTRIAL is building: SHANKPIT, shankpit-460, BRAWLPIT, RED GARDEN.">
+<style>
+  :root {
+    --bg: #0b0c10;
+    --bg-card: #14161c;
+    --fg: #eef0f4;
+    --fg-dim: #a8adb8;
+    --accent: #7c8cff;
+    --border: #23262f;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #fafafa;
+      --bg-card: #ffffff;
+      --fg: #14161c;
+      --fg-dim: #4a4f5c;
+      --accent: #4451c7;
+      --border: #e4e4e8;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+  }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  header { margin-bottom: 3rem; }
+  .wordmark { font-size: 1.1rem; letter-spacing: 0.08em; color: var(--fg-dim); text-transform: uppercase; }
+  .wordmark a { color: inherit; text-decoration: none; }
+  h1 { font-size: 2.6rem; margin: 0.5rem 0 0.25rem; line-height: 1.15; }
+  .tagline { font-size: 1.2rem; color: var(--fg-dim); margin-bottom: 0; }
+  .game-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+  }
+  .game-card h2 { margin: 0 0 0.4rem; font-size: 1.4rem; }
+  .game-card .status-badge {
+    display: inline-block; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.03em;
+    text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent);
+    border-radius: 999px; padding: 0.15rem 0.65rem; margin-bottom: 0.75rem;
+  }
+  .game-card p { color: var(--fg-dim); margin: 0.5rem 0; }
+  .game-card a.repo-link { color: var(--accent); font-size: 0.9rem; }
+  footer { margin-top: 4rem; color: var(--fg-dim); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="wordmark"><a href="/">EINHORN_INDUSTRIAL</a> / Games</div>
+    <h1>Games</h1>
+    <p class="tagline">Different games, same shared universe underneath &mdash; the same
+      metaverse thread FIELDOFFICE/TrapX's alive city runs through, not each game's literal
+      setting. One server-authoritative engine lineage, built in the open.</p>
+  </header>
+
+  <div class="game-card">
+    <span class="status-badge">FPS &middot; live development</span>
+    <h2>SHANKPIT</h2>
+    <p>A fast, stylized, server-authoritative UDP FPS being built into the front end of a
+      persistent world engine (DragonsNShit / Dragonfly). Multi-scene portals, neural-net bots,
+      team modes, and — newest — Bedrock Racers, an F1-tier vehicle racing mode with an
+      item/ultimate layer on top.</p>
+    <a class="repo-link" href="https://github.com/emilyspringerton/SHANKPIT" target="_blank" rel="noopener">github.com/emilyspringerton/SHANKPIT</a>
+  </div>
+
+  <div class="game-card">
+    <span class="status-badge">FPS &middot; esports fork</span>
+    <h2>shankpit-460</h2>
+    <p>Forked from SHANKPIT at tag 460 with a distinct mission: a stripped-down, low-system-spec
+      competitive esports FPS, tuned purely for competitive performance so it reaches players on
+      modest hardware. Does not carry forward the persistent-world ambitions — those stay in the
+      parent repo.</p>
+    <a class="repo-link" href="https://github.com/emilyspringerton/shankpit-460" target="_blank" rel="noopener">github.com/emilyspringerton/shankpit-460</a>
+  </div>
+
+  <div class="game-card">
+    <span class="status-badge">Platform fighter</span>
+    <h2>BRAWLPIT</h2>
+    <p>A 2.5D platform fighter built on the SHANKPIT engine (Build 178) — momentum-driven
+      combat, shields, wavedashing, and an up-B recovery, in the same spirit as the genre's
+      classics but running on our own server-authoritative UDP stack.</p>
+  </div>
+
+  <div class="game-card">
+    <span class="status-badge">Card-deck RTS / MOBA &middot; early access waitlist open</span>
+    <h2>RED GARDEN</h2>
+    <p>Draw cards, deploy autonomous units onto a living cellular-automata board, and watch
+      systems collide — Clash Royale's card economy over a board that's alive on its own tick.
+      Also iterating toward a mouse-driven MOBA mode with a named hero roster.</p>
+    <a class="repo-link" href="/redgarden.html">Join early access →</a>
+  </div>
+
+  <footer>
+    &copy; 2026 EINHORN_INDUSTRIAL. Built by Brian Danowski and Emily. Code:
+    <a href="https://github.com/emilyspringerton" target="_blank" rel="noopener">github.com/emilyspringerton</a>
+    &middot; <a href="/">Home</a>
+    &middot; <a href="/status.html">System status</a>
+  </footer>
+</div>
+</body>
+</html>

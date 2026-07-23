@@ -1,5 +1,15 @@
 # OKEMILY Changelog
 
+## 2026-07-23
+- New redgarden.html early-access waitlist page for RED GARDEN, same shape as stinkies.html —
+  reuses the existing mailing-list infra, tagged `list:"redgarden"` for its own Mailchimp
+  audience. Honest framing (no public download yet, this is a waitlist not an account system,
+  since there's no packaged/distributable RED GARDEN client to send signups to). Nav link added
+  to index.html's footer. Published the "Pressure Makes Diamonds" blog post via IDUNA's blog API.
+  Note: signups (both this and existing forms) will 503 until the mailing-list vault is unlocked
+  (`cmd/mailing-list-unlock`, interactive passphrase, required after every IDUNA restart) — a
+  pre-existing operational gap, not new.
+
 ## 2026-07-19
 - New free-hoodie.html landing page — shadow funnel, first 25 signups get the STINKIES hoodie free, live spots-remaining counter
 - Published 'The 6AM Report' blog post; stinkies.html reframed as an explicit purchase waitlist synced to its own Mailchimp list

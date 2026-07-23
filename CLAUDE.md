@@ -83,3 +83,7 @@ Requires:
 
 Append a dated bullet to `CHANGELOG.md` for any meaningful content or infra change, same as every
 other repo in this monorepo.
+
+## Commit Protocol (standing instruction)
+
+Always commit and push completed work immediately — don't wait to be asked. This is the default for every repo in this monorepo.

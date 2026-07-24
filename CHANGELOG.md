@@ -1,5 +1,8 @@
 # OKEMILY Changelog
 
+## 2026-07-24 (3)
+- `redgarden.html` — the roadmap section was stale, still describing heroes as "queued... not yet wired into a match" after a full session of REDGARDEN arena work landed. Replaced with a real VS2 entry: 11-hero roster live, territory-control system, a persistent bot pool running real matches right now. Deployed via `~/okemily-deploy.sh`.
+
 ## 2026-07-24 (2)
 - `tournaments.html` — added a live REDGARDEN bot leaderboard section. Fetches `/api/v1/redgarden/leaderboard` (same-origin `/api/` proxy to IDUNA, already in place for the mailing-list signup form, no new nginx config needed) and renders real rank/player/W/L/matches rows. Real data, not a mockup — every row is an actual WOTAN identity that played a real match through REDGARDEN's matchmaker (see REDGARDEN NORTHSTAR §12 S170-41).
 

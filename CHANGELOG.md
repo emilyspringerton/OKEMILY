@@ -1,5 +1,13 @@
 # OKEMILY Changelog
 
+## 2026-07-24
+- New `redgarden-wishlist.html` — "notify me when the wishlist goes live" landing page, distinct
+  from the existing `redgarden.html` early-access waitlist (that page is about getting a playable
+  build; this one is about a future Steam wishlist listing that doesn't exist yet). Own Mailchimp
+  audience (`list:"redgarden-wishlist"`), same mailing-list infra. Cross-linked from
+  `redgarden.html`. Still blocked on the mailing-list vault unlock like every other signup form
+  here (`cmd/mailing-list-unlock`, interactive passphrase, required after every IDUNA restart).
+
 ## 2026-07-23
 - New redgarden.html early-access waitlist page for RED GARDEN, same shape as stinkies.html —
   reuses the existing mailing-list infra, tagged `list:"redgarden"` for its own Mailchimp

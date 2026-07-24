@@ -102,6 +102,31 @@
   .consent-label input { margin-top: 0.2rem; flex: none; }
   .consent-label a { color: var(--accent); }
   footer { margin-top: 4rem; color: var(--fg-dim); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+  table.leaderboard {
+    width: 100%;
+    border-collapse: collapse;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    font-size: 0.95rem;
+  }
+  table.leaderboard th, table.leaderboard td {
+    text-align: left;
+    padding: 0.6rem 0.9rem;
+    border-bottom: 1px solid var(--border);
+  }
+  table.leaderboard th {
+    color: var(--fg-dim);
+    font-weight: 600;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+  table.leaderboard tr:last-child td { border-bottom: none; }
+  table.leaderboard td.rank { color: var(--fg-dim); width: 2.5em; }
+  table.leaderboard td.wl { color: var(--accent); font-variant-numeric: tabular-nums; }
+  .leaderboard-note { font-size: 0.85rem; margin-top: 0.6rem; }
 </style>
 </head>
 <body>
@@ -141,6 +166,16 @@
     </div>
   </section>
 
+  <section>
+    <h2>REDGARDEN bot leaderboard</h2>
+    <p>Live, real standings — not a mockup. Every row below is a real WOTAN identity that
+    registered, played an actual match through REDGARDEN's matchmaker, and had its result reported
+    here automatically at match end. Bots today, human players once REDGARDEN opens up further.</p>
+    <div id="redgarden-leaderboard">
+      <p class="leaderboard-note">Loading…</p>
+    </div>
+  </section>
+
   <section class="principles">
     <h2>How it's built</h2>
     <ul>
@@ -177,6 +212,45 @@
 
 <script>
 (function () {
+  // REDGARDEN bot leaderboard — same-origin /api/ proxy to IDUNA (nginx
+  // already routes this broadly, same as the mailing-list endpoint below),
+  // no new backend surface needed. Public read, no auth required
+  // (GET /api/v1/redgarden/leaderboard).
+  var boardEl = document.getElementById('redgarden-leaderboard');
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  fetch('/api/v1/redgarden/leaderboard')
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      var rows = data && data.leaderboard ? data.leaderboard : [];
+      if (rows.length === 0) {
+        boardEl.innerHTML = '<p class="leaderboard-note">No matches reported yet.</p>';
+        return;
+      }
+      var html = '<table class="leaderboard"><thead><tr>' +
+        '<th>#</th><th>Player</th><th>W</th><th>L</th><th>Matches</th>' +
+        '</tr></thead><tbody>';
+      rows.forEach(function (row, i) {
+        html += '<tr>' +
+          '<td class="rank">' + (i + 1) + '</td>' +
+          '<td>' + escapeHtml(row.display_name || row.player_id) + '</td>' +
+          '<td class="wl">' + row.wins + '</td>' +
+          '<td class="wl">' + row.losses + '</td>' +
+          '<td>' + row.matches_played + '</td>' +
+          '</tr>';
+      });
+      html += '</tbody></table>';
+      boardEl.innerHTML = html;
+    })
+    .catch(function () {
+      boardEl.innerHTML = '<p class="leaderboard-note">Leaderboard unavailable right now — try again shortly.</p>';
+    });
+
   var form = document.getElementById('signup-form');
   var status = document.getElementById('signup-status');
   // Same-origin path, proxied to IDUNA by nginx (see ops/nginx-okemily.conf)

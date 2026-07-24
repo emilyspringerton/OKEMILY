@@ -1,5 +1,8 @@
 # OKEMILY Changelog
 
+## 2026-07-24 (2)
+- `tournaments.html` — added a live REDGARDEN bot leaderboard section. Fetches `/api/v1/redgarden/leaderboard` (same-origin `/api/` proxy to IDUNA, already in place for the mailing-list signup form, no new nginx config needed) and renders real rank/player/W/L/matches rows. Real data, not a mockup — every row is an actual WOTAN identity that played a real match through REDGARDEN's matchmaker (see REDGARDEN NORTHSTAR §12 S170-41).
+
 ## 2026-07-24
 - New `redgarden-wishlist.html` — "notify me when the wishlist goes live" landing page, distinct
   from the existing `redgarden.html` early-access waitlist (that page is about getting a playable

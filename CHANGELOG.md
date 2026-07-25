@@ -1,5 +1,18 @@
 # OKEMILY Changelog
 
+## 2026-07-25 (6)
+- blog: published "Mid-Piano Presents: The Mark" (/blog/mid-piano-presents-the-mark/) — closes
+  S170-105's third and final stage ("the boys do a podcast with her" → redirected to Cain, "the
+  boys do a podcast with him"). Same established podcast-transcript format as
+  `mid-piano-presents-the-new-guys` (S170-95): TYLER moderating, Unicorn on text cards, Duck's
+  running bit, garage setting — this time a focused single-guest episode rather than a group
+  interview, since the founder's original promise was specifically about one hero. Every beat
+  drawn from Cain's real lore and kit, not invented: the curse-and-mercy duality scripture never
+  resolves, the "founded the first city anyway" irony, the R (can't die, not invincible — "you
+  just don't get to be the one who finishes it") and W (dashes away, not toward — "cursed to
+  wander" made mechanical) both explained through his actual ability design, not just his
+  backstory. Footer synced, deployed, verified live.
+
 ## 2026-07-25 (5)
 - blog: published "Vibe Coding Is a Skill Issue, Part 4" (/blog/vibe-coding-is-a-skill-issue-part-4/)
   — closes out S170-101, logged earlier tonight as "add a next one in the blog line on

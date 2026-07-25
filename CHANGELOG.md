@@ -1,5 +1,21 @@
 # OKEMILY Changelog
 
+## 2026-07-25 (5)
+- blog: published "Vibe Coding Is a Skill Issue, Part 4" (/blog/vibe-coding-is-a-skill-issue-part-4/)
+  — closes out S170-101, logged earlier tonight as "add a next one in the blog line on
+  compression 'ensure'" → "and then a close to the metal deep dive on lz4 compression" → "as a
+  blog post," left unstarted pending a check for which existing thread it continued. Checked all
+  77 live posts for "compress" before writing (avoiding the same-title-collision mistake already
+  caught twice tonight, S170-70/S170-73) — found the real thread: "Vibe Coding Is a Skill Issue"
+  parts 1-3 already use compression as a genuine philosophical throughline (expertise
+  "compresses" into fast pattern-matching, "figure it out" as maximal compression of an
+  instruction), never literally about a compression algorithm. Part 4 cashes that metaphor in for
+  real: a technically accurate LZ4 deep-dive (4-byte minimum match threshold, the hash-chain
+  match finder, the token format, why the format's simplicity is what buys multi-GB/s decode
+  speed against zstd/gzip's better ratio) that closes the loop back to the series' actual
+  argument — LZ4's "good enough, fast" match-finding is the same trade "figure it out" makes.
+  Footer synced, deployed, verified live.
+
 ## 2026-07-25 (4)
 - blog: published "The 6AM Report: One Week Later" (/blog/the-6am-report-one-week-later/) —
   founder, real-time: "do a 6am report state of the enterprise as a email as a blog post."

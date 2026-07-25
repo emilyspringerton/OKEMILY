@@ -1,5 +1,18 @@
 # OKEMILY Changelog
 
+## 2026-07-25 (4)
+- blog: published "The 6AM Report: One Week Later" (/blog/the-6am-report-one-week-later/) —
+  founder, real-time: "do a 6am report state of the enterprise as a email as a blog post."
+  Second installment in the format from 2026-07-19's "The 6AM Report" (byline Emily Prime,
+  subject-line open, RECENT WINS / LOW-HANGING FRUIT / STILL BLOCKED HONESTLY sections). Real,
+  checked-against-logs content: tonight's prwatch-body deadlock fix, the REDGARDEN matchmaker
+  phantom-requeue race root-cause+fix, Paimon finally wired into the live roster, the new
+  node-gated hero respawn system, and a live status-page pull (26/26 services up) rather than a
+  stale or invented number. Same honest close as the first installment: no working outbound email
+  path exists (still no Gmail credentials configured, S149-01 unchanged), so this is published as
+  a blog post instead of actually emailed, stated plainly rather than silently. Footer synced,
+  deployed, verified live.
+
 ## 2026-07-25 (3)
 - blog: published "Uptime Is Not Aliveness" (/blog/uptime-is-not-aliveness/) — founder, real-time:
   "write a blog post memorial cerimony for the incident titel of your choice." Chose the

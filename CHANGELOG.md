@@ -1,5 +1,16 @@
 # OKEMILY Changelog
 
+## 2026-07-25 (3)
+- blog: published "Uptime Is Not Aliveness" (/blog/uptime-is-not-aliveness/) — founder, real-time:
+  "write a blog post memorial cerimony for the incident titel of your choice." Chose the
+  prwatch-body crawler deadlock from earlier tonight (S24-06/S24-07): a single unbounded HTTP
+  fetch held all 4 crawler workers hostage for 4.5 hours with zero symptoms visible from outside
+  the process — `systemctl status` said `active (running)` the entire time, true and completely
+  uninformative. Framed as a real eulogy for the silent window rather than a dry postmortem;
+  central claim is that "alive" and "working" are different properties and most of this system's
+  monitoring only ever answers the first. Footer synced via `sync-blog-footer.py` (also caught up
+  two other already-published-but-unsynced posts). Deployed via `~/okemily-deploy.sh`, verified live.
+
 ## 2026-07-25 (2)
 - content: `redgarden.html` + `redgarden-wishlist.html` rebranded to Knights of the Void. Founder:
   "update the redgarden landing page to be knights of the void" → "current status download from

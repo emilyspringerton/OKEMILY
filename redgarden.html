@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RED GARDEN &mdash; EINHORN_INDUSTRIAL</title>
-<meta name="description" content="RED GARDEN: a deck-based real-time strategy game where a living cellular-automata board reacts to every card you deploy. Early access waitlist.">
+<title>Knights of the Void &mdash; EINHORN_INDUSTRIAL</title>
+<meta name="description" content="Knights of the Void: a real-time, server-authoritative 10v10 team battle arena from EINHORN_INDUSTRIAL, built on REDGARDEN's engine. Early access waitlist.">
 <style>
   :root {
     --bg: #0b0c10;
@@ -100,37 +100,50 @@
 <body>
 <div class="wrap">
   <header>
-    <div class="wordmark"><a href="/">EINHORN_INDUSTRIAL</a> / RED GARDEN</div>
+    <div class="wordmark"><a href="/">EINHORN_INDUSTRIAL</a> / REDGARDEN &mdash; Knights of the Void</div>
     <span class="status-badge">Early access &middot; pre-launch</span>
-    <h1>RED GARDEN</h1>
-    <p class="tagline">A deck-based real-time strategy game: draw cards, deploy autonomous units onto a living cellular-automata board, and watch systems collide. Clash Royale's card economy, Conway's Game of Life underneath it.</p>
+    <h1>Knights of the Void</h1>
+    <p class="tagline">A real-time, server-authoritative 10v10 team battle arena: click to move, fight for territory, capture objectives Arathi Basin-style. Built on REDGARDEN's own engine, named for real.</p>
   </header>
 
   <section>
     <h2>What this is</h2>
     <p>
-      You don't control units directly &mdash; you introduce pressure onto a board that's alive on
-      its own tick, independent of anything you do. Every cell has a state (Neutral, Player, Enemy,
-      Corrupted) that spreads and reacts on a 2-second automata clock, whether or not you're
-      looking at it. Card-hand deployment, LoL-style affordances, real-time not turn-based, PC
-      first. Desktop is the whole focus right now &mdash; no mobile build yet.
+      Two teams of ten, a living map with real capture nodes &mdash; walk a node uncontested and it
+      starts flipping to your side, get spotted or take a hit mid-channel and you lose the progress,
+      the same stakes as a real Arathi Basin flag. Territorial jungle creeps reward holding ground
+      instead of just fighting for it. Click to move, Q/W/E for your kit. Desktop is the whole focus
+      right now &mdash; no mobile build yet.
     </p>
   </section>
 
   <section>
     <h2>What's actually built (not a pitch, the real state)</h2>
     <ul class="roadmap">
-      <li><span class="vs">VS0</span><span><strong>Bot-vs-bot matches</strong> &mdash; the living grid, four starting cards, a working tech tree, a real win condition. Validated headless, end to end.</span></li>
+      <li><span class="vs">VS0</span><span><strong>Bot-vs-bot matches</strong> &mdash; REDGARDEN's original card-RTS engine this all started from: the living grid, four starting cards, a working tech tree, a real win condition. Validated headless, end to end.</span></li>
       <li><span class="vs">VS1</span><span><strong>Online play</strong> &mdash; matchmaking, connect-ticket accounts, validated with ten independent bots holding five concurrent matches under sustained load, zero crashes.</span></li>
-      <li><span class="vs">VS2</span><span><strong>The MOBA, live</strong> &mdash; a real click-to-move 10v10 arena with an 11-hero roster (drawn from EINHORN_INDUSTRIAL's own multiverse lore &mdash; real Irish and Norse myth, real historical figures) and a territory-control system contested by team presence. Not a pitch: a persistent bot pool is running real matches on this build right now.</span></li>
-      <li><span class="vs">Next</span><span><strong>Ranked play</strong> &mdash; a rating system is designed (plain ELO), not yet built. More heroes queued.</span></li>
+      <li><span class="vs">VS2</span><span><strong>Knights of the Void, live</strong> &mdash; a real click-to-move 10v10 arena with a growing hero roster (drawn from EINHORN_INDUSTRIAL's own multiverse lore &mdash; real Irish, Norse, and historical figures) and a genuine Arathi Basin-style capture system: exclusive presence, interruptible channels, stealth plays, territorial jungle creeps. Not a pitch: a persistent bot pool is running real matches on this build right now, and a real external human connection has already been validated live.</span></li>
+      <li><span class="vs">Next</span><span><strong>Ranked play</strong> &mdash; a rating system is designed (plain ELO), not yet built. More heroes queued, a real draft/lobby UI, hover-based targeting indicators.</span></li>
     </ul>
   </section>
 
   <section>
-    <h2>Get early access</h2>
-    <p>There's no public download yet &mdash; the client isn't packaged for distribution. Join the
-      list below and you'll be emailed the moment there's a build you can actually install, before
+    <h2>Play the current build right now</h2>
+    <p>Every push to the main branch cross-compiles a real Windows client and uploads it as a
+      GitHub Actions build artifact &mdash; no separate release process yet, but a genuine,
+      current, downloadable build:</p>
+    <ol style="color: var(--fg-dim); padding-left: 1.3rem;">
+      <li>Open the <a href="https://github.com/emilyspringerton/REDGARDEN/actions/workflows/ci.yml" target="_blank" rel="noopener">latest CI runs</a> and pick the most recent green (successful) one on <code>main</code>.</li>
+      <li>Scroll down to <strong>Artifacts</strong> and download <code>red-garden-build</code>. (GitHub requires a free account to download Actions artifacts, even on a public repo like this one &mdash; that's a GitHub platform limit, not something we're gating.)</li>
+      <li>Unzip it, then unzip the <code>RedGarden_Client_*.zip</code> inside.</li>
+      <li>Run <code>PLAY.bat</code> &mdash; it connects straight to our live persistent bot pool, no setup required.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2>Get early access by email instead</h2>
+    <p>Prefer not to dig through CI runs? Join the
+      list below and you'll be emailed when there's a proper installer, before
       it's announced anywhere else.</p>
 
     <form class="signup" id="signup-form" novalidate>
@@ -138,7 +151,7 @@
       <button type="submit">Join early access</button>
       <label class="consent-label">
         <input type="checkbox" name="consent" id="signup-consent" required>
-        I'd like to be emailed when RED GARDEN has a build available to play. See our
+        I'd like to be emailed when Knights of the Void has a build available to play. See our
         <a href="/privacy.html">Privacy Policy</a>.
       </label>
     </form>

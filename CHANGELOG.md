@@ -1,5 +1,21 @@
 # OKEMILY Changelog
 
+## 2026-07-25 (2)
+- content: `redgarden.html` + `redgarden-wishlist.html` rebranded to Knights of the Void. Founder:
+  "update the redgarden landing page to be knights of the void" → "current status download from
+  artifacts on github instructions mailing list for knights of the void wishlist on steam." Title/
+  heading/tagline/roadmap copy updated to match the official name (per the FATBABY_NEWSWIRE press
+  release, `/blog/redgarden-knights-of-the-void/`) and the actual current game identity (the "what
+  this is" section still described the old card-RTS pitch -- replaced with the real MOBA/Arathi
+  Basin-capture description matching the already-existing VS2 roadmap entry). New "Play the current
+  build right now" section with real, accurate GitHub Actions artifact download instructions
+  (checked `.github/workflows/ci.yml` directly: the `red-garden-build` artifact contains
+  `RedGarden_Client_*.zip` with `PLAY.bat` pre-configured to connect to the live bot pool) --
+  including the honest caveat that GitHub requires a free account to download Actions artifacts
+  even on a public repo, a platform limit not something we're gating. Steam wishlist page
+  (`redgarden-wishlist.html`) rebranded to match, broken blog link fixed to the real
+  `redgarden-knights-of-the-void` slug. Deployed via `~/okemily-deploy.sh`, verified live.
+
 ## 2026-07-25 (1)
 - feat(index): real News section + content refresh (S170-117). Founder: "freshen up the okemily
   main index landing page content a bit with some of the new updates and add a news section" →

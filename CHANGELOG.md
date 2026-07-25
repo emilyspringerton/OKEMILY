@@ -1,5 +1,16 @@
 # OKEMILY Changelog
 
+## 2026-07-25 (1)
+- feat(index): real News section + content refresh (S170-117). Founder: "freshen up the okemily
+  main index landing page content a bit with some of the new updates and add a news section" →
+  "for the einhorn newswire posts to the blog." New `.news` section right after the header,
+  surfacing the two real `FATBABY_NEWSWIRE`-authored posts (Knights of the Void's human-validated
+  milestone + the product launch), hand-maintained static links matching this page's existing
+  no-build-step, no-framework design constraint (same pattern the footer's blog-links list
+  already used) rather than adding a live API fetch. Also lightly updated "What we're building"
+  and the "Game Worlds" pillar to name Knights of the Void directly instead of only describing it
+  generically. Deployed via `~/okemily-deploy.sh`, verified live on okemily.com.
+
 ## 2026-07-24 (3)
 - `redgarden.html` — the roadmap section was stale, still describing heroes as "queued... not yet wired into a match" after a full session of REDGARDEN arena work landed. Replaced with a real VS2 entry: 11-hero roster live, territory-control system, a persistent bot pool running real matches right now. Deployed via `~/okemily-deploy.sh`.
 

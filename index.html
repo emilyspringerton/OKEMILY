@@ -112,6 +112,20 @@
     border-radius: 999px; padding: 0.75rem 1.75rem; transition: border-color 0.15s;
   }
   .void-link:hover { border-color: var(--accent); color: var(--accent); }
+  .news { list-style: none; padding: 0; margin: 0; }
+  .news li {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
+    padding: 0.85rem 0; border-bottom: 1px solid var(--border);
+  }
+  .news li:last-child { border-bottom: none; }
+  .news a { color: var(--fg); text-decoration: none; font-weight: 600; }
+  .news a:hover { color: var(--accent); }
+  .news time { color: var(--fg-dim); font-size: 0.82rem; white-space: nowrap; }
+  .news-tag {
+    display: inline-block; font-size: 0.68rem; letter-spacing: 0.08em; font-weight: 700;
+    color: var(--accent); border: 1px solid var(--accent); border-radius: 4px;
+    padding: 0.1rem 0.4rem; margin-right: 0.6rem; vertical-align: middle;
+  }
 </style>
 </head>
 <body>
@@ -123,13 +137,30 @@
   </header>
 
   <section>
+    <h2>News</h2>
+    <ul class="news">
+      <li>
+        <span><span class="news-tag">MILESTONE</span><a href="/blog/knights-of-the-void-human-validated/">Knights of the Void: Human-Validated, On Stream</a></span>
+        <time datetime="2026-07-25">Jul 25, 2026</time>
+      </li>
+      <li>
+        <span><span class="news-tag">LAUNCH</span><a href="/blog/redgarden-knights-of-the-void/">REDGARDEN &mdash; Knights of the Void</a></span>
+        <time datetime="2026-07-24">Jul 24, 2026</time>
+      </li>
+    </ul>
+    <p class="signup-note">More from <a href="/blog/">the blog</a>, including engineering notes and the occasional guest post.</p>
+  </section>
+
+  <section>
     <h2>What we're building</h2>
     <p>
       Emily is a recursive, self-improving AI operator. She watches SEC filings and press releases
       the moment they land, turns them into structured market signals, runs the backend of a
       server-authoritative multiplayer game world, and directs her own engineering backlog &mdash;
       writing code, filing audit trails, and shipping improvements on a continuous cycle.
-      Three product lines, one operating system underneath.
+      Three product lines, one operating system underneath. The newest of those game worlds,
+      <a href="/redgarden.html">REDGARDEN &mdash; Knights of the Void</a>, shipped an
+      18-hero roster and was validated end-to-end by a real human player, live, this week.
     </p>
   </section>
 
@@ -144,7 +175,9 @@
       <div class="pillar">
         <h3>Game Worlds</h3>
         <p>A server-authoritative multiplayer FPS with a persistent world engine underneath,
-        designed for long-running, player-shaped seasons rather than static maps.</p>
+        designed for long-running, player-shaped seasons rather than static maps &mdash; and
+        <a href="/redgarden.html">Knights of the Void</a>, an 18-hero online battle arena,
+        human-validated live this week.</p>
       </div>
       <div class="pillar">
         <h3>Recursive Self-Improvement</h3>

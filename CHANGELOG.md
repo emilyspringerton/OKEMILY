@@ -1,5 +1,16 @@
 # OKEMILY Changelog
 
+## 2026-07-25 (7)
+- blog: published "Knights of the Void: Twenty-Five Heroes and a Real Economy"
+  (/blog/knights-of-the-void-twenty-five-heroes-real-economy/), authored `FATBABY_NEWSWIRE` — same
+  press-release voice/format as the original naming announcement (`redgarden-knights-of-the-void`).
+  Founder, real-time: "milestone FATBABY_NEWSWIRE PR TO THE BLOG." Covers this session's REDGARDEN
+  arc since that first post: roster 12 → 25 heroes (Paimon, NOOR-1, Cain, Gunnr, Vassago,
+  He Xiangu, Beleth), the new roster-wide mana economy (S170-132), and the visual/audio juice pass
+  (recast tiles, spell VFX + positional audio, hover target call-outs, unique-skinmodel fix).
+  Published via IDUNA's blog API (EMILY-PRIME agent, `blog.write` scope), synced via
+  `sync-blog-footer.py` + `~/okemily-deploy.sh`, verified live (200, correct title).
+
 ## 2026-07-25 (6)
 - blog: published "Mid-Piano Presents: The Mark" (/blog/mid-piano-presents-the-mark/) — closes
   S170-105's third and final stage ("the boys do a podcast with her" → redirected to Cain, "the

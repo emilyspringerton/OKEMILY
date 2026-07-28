@@ -46,6 +46,58 @@ deploy: always `cat /etc/nginx/sites-available/okemily` first and diff against t
 if they've diverged (they will, after any certbot run), copy the live file into the repo first,
 then make your edit on top of that, never the other way around.**
 
+## Blog posts (2026-07-28)
+
+Blog content is **not in this git repo at all** — it lives in `IDUNA/var/blog.db` (SQLite) and
+gets rendered live, on every publish, straight into `/var/www/okemily/blog/<slug>/` by IDUNA's
+own blog handler (`IDUNA/internal/http/handlers/blog.go` + `internal/blog`). That's why
+`~/okemily-deploy.sh`'s rsync excludes `blog/` (see Deploy section above) — this repo has nothing
+to do with blog content, only the surrounding static page.
+
+**Two ways to get a post live, pick based on the ask:**
+
+1. **Draft-then-Fable-publishes** (the default for anything that should get a real editorial
+   pass first — essays, anything long-form/literary). Write the full post as a pre-pass draft in
+   `EMILY/docs/fable-prompts/okemily-blog-<slug>-DRAFT.md`, following the exact template the
+   existing drafts in that directory use (status line, voice/format reference, publish path,
+   numbered "facts to verify," then the full post body under its own heading — see
+   `okemily-blog-clean-builds-first-DRAFT.md` for the canonical shape). Commit and push to
+   `EMILY`. Fable's own pass does the line-edit and the actual publish (step 2 below).
+
+2. **Publish it yourself, right now** (when the ask is "just get it live" — verified working
+   2026-07-28, publishing "Mid-Piano Presents: The Squad"):
+   ```bash
+   # 1. Mint a short-lived (1h) bearer token for an agent with blog.write.
+   #    Which agents have it: python3 -c "import json; d=json.load(open('/home/fatbaby/IDUNA/config/agents.json')); [print(a['name']) for a in d['agents'] if 'blog.write' in a.get('permissions', [])]"
+   #    As of this writing, only EMILY-PRIME does.
+   #    GOTCHA: the registered agent_name is HYPHENATED ("EMILY-PRIME"), not the underscored
+   #    form CLAUDE.md's own env-var table uses elsewhere ("EMILY_PRIME") -- that mismatch is a
+   #    real 401 the first time, not a typo to fix blindly. Confirm the exact string against
+   #    IDUNA/config/agents.json, don't assume.
+   source /home/fatbaby/IDUNA/var/agent-secrets.env   # provides IDUNA_SECRET_EMILY_PRIME
+   TOKEN=$(curl -s -X POST http://localhost:8080/api/v1/auth/agent \
+     -H "Content-Type: application/json" \
+     -d "{\"agent_name\": \"EMILY-PRIME\", \"agent_secret\": \"$IDUNA_SECRET_EMILY_PRIME\"}" \
+     | python3 -c "import json,sys; print(json.load(sys.stdin)['access_token'])")
+
+   # 2. POST the post itself. slug must be lowercase-hyphenated; author defaults to
+   #    EINHORN_INDUSTRIAL if omitted. Publishing is instant -- no build step, no deploy script,
+   #    live the moment this returns 200.
+   curl -s -X POST http://localhost:8080/api/v1/blog/posts \
+     -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" \
+     -d '{"slug": "my-post-slug", "title": "My Post", "author": "EINHORN_INDUSTRIAL", "body": "..."}'
+   # -> {"status":"published","slug":"my-post-slug","url":"https://okemily.com/blog/my-post-slug/"}
+   ```
+   Verify with `curl -s http://localhost:8080/api/v1/blog/posts/<slug>` (public, no auth) or
+   check `/var/www/okemily/blog/<slug>/index.html` exists directly.
+
+**Voice/format reference for anything narrative** ("Mid-Piano Presents" episodes, hero-voiced
+posts): the existing posts at `GET /api/v1/blog/posts` (public, lists every slug/title/author) are
+the real corpus — read a couple of the closest-matching ones before writing, don't invent a new
+voice from scratch. `TYLER/just_a_duck.md` is the original source material (the real "Jack's
+Factory" short transcript) the entire hero roster, and the "Mid-Piano" show name itself (The
+Ghost was mid-piano in the source clip), are grounded in.
+
 ## Mailing-list signup (2026-07-18)
 
 The signup form posts via JS `fetch()` to IDUNA's `/api/v1/mailing-list/subscribe`

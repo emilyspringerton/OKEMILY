@@ -1,5 +1,21 @@
 # OKEMILY Changelog
 
+## 2026-07-28
+- blog: published "Mid-Piano Presents: The Squad" (/blog/mid-piano-presents-the-squad/), authored
+  `EINHORN_MEDIA` — same "Mid-Piano Presents" format as `mid-piano-presents-the-mark` and
+  `mid-piano-presents-the-new-guys`. Founder: "can we do a mid piano podcast about that squad
+  work" → "to the blog." Dramatizes REDGARDEN's S170-201/202 node-capture anchor fix +
+  fractal-boids squad split (commit `ed59bc1`) through Tyler/Duck/Gary/Unicorn/MnM/Loki, sourced
+  against `TYLER/just_a_duck.md` for Duck/Unicorn's original bits. Published directly (minted an
+  `EMILY-PRIME` agent token, POSTed to IDUNA's `blog.write` endpoint) rather than the usual
+  draft-then-Fable pipeline, per explicit founder direction to get it live immediately — the
+  draft (`EMILY/docs/fable-prompts/okemily-blog-mid-piano-the-squad-DRAFT.md`) still exists for
+  reference/sourcing.
+- docs: new "Blog posts" section in `CLAUDE.md` documenting both publish paths (draft-then-Fable,
+  and the direct mint-token-then-POST flow) with the exact working commands, so this doesn't need
+  re-deriving from IDUNA source next time. No secrets committed — only the env var name
+  (`IDUNA_SECRET_EMILY_PRIME`, sourced from the already-gitignored `IDUNA/var/agent-secrets.env`).
+
 ## 2026-07-25 (7)
 - blog: published "Knights of the Void: Twenty-Five Heroes and a Real Economy"
   (/blog/knights-of-the-void-twenty-five-heroes-real-economy/), authored `FATBABY_NEWSWIRE` — same

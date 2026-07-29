@@ -176,6 +176,17 @@
     </div>
   </section>
 
+  <section>
+    <h2>REDGARDEN hero strength</h2>
+    <p>Win rate per hero, aggregated across every real match played — not per-account, per-hero:
+    "how often does anyone playing this hero actually win." Same live, real-data guarantee as the
+    leaderboard above; heroes with very few recorded games are still shown, but treat their win
+    rate as noisy until more matches build up.</p>
+    <div id="redgarden-hero-stats">
+      <p class="leaderboard-note">Loading…</p>
+    </div>
+  </section>
+
   <section class="principles">
     <h2>How it's built</h2>
     <ul>
@@ -249,6 +260,51 @@
     })
     .catch(function () {
       boardEl.innerHTML = '<p class="leaderboard-note">Leaderboard unavailable right now — try again shortly.</p>';
+    });
+
+  // REDGARDEN hero strength (2026-07-29, founder: "can we start crunching the data on the
+  // heroes that are the strongest?" -> "ok i want to start tracking it on okemily.com") --
+  // same same-origin /api/ proxy pattern as the player leaderboard above, public read, no auth
+  // (GET /api/v1/redgarden/hero-leaderboard). HERO_NAMES is a hand-synced copy of
+  // packages/simulation/arena_ai_bridge.c's own arena_hero_name() switch -- this page has no
+  // access to that C code at all, same "duplicated by hand" reasoning REDGARDEN's own
+  // scripts/hero_stats.py and apps/arena_bot/src/main.c's ARENA_HERO_COUNT copy already
+  // document for themselves. Bump alongside arena_hero_name() whenever a new hero is added.
+  var HERO_NAMES = [
+    'Unicorn', 'Duck', 'Ghost', 'Frog', 'Doc Wheel', 'Tree', 'Pizza', 'Flamel',
+    'Morrigan', 'Dagda', 'Courier', 'Loki', 'Gary', 'Flute Debt', 'Bacon Puck',
+    'Abraham', 'Ada', 'Tyler', 'Paimon', 'NOOR-1', 'Cain', 'Gunnr', 'Vassago',
+    'He Xiangu', 'Beleth', 'MnM', 'Weatherman', 'Zagan'
+  ];
+  var heroStatsEl = document.getElementById('redgarden-hero-stats');
+
+  fetch('/api/v1/redgarden/hero-leaderboard')
+    .then(function (res) { return res.json(); })
+    .then(function (data) {
+      var rows = data && data.heroes ? data.heroes : [];
+      if (rows.length === 0) {
+        heroStatsEl.innerHTML = '<p class="leaderboard-note">No hero data reported yet — check back after a few real matches finish.</p>';
+        return;
+      }
+      var html = '<table class="leaderboard"><thead><tr>' +
+        '<th>#</th><th>Hero</th><th>W</th><th>L</th><th>Matches</th><th>Win rate</th>' +
+        '</tr></thead><tbody>';
+      rows.forEach(function (row, i) {
+        var name = HERO_NAMES[row.hero_id] || ('Hero ' + row.hero_id);
+        html += '<tr>' +
+          '<td class="rank">' + (i + 1) + '</td>' +
+          '<td>' + escapeHtml(name) + '</td>' +
+          '<td class="wl">' + row.wins + '</td>' +
+          '<td class="wl">' + row.losses + '</td>' +
+          '<td>' + row.matches_played + '</td>' +
+          '<td>' + (row.win_rate * 100).toFixed(1) + '%</td>' +
+          '</tr>';
+      });
+      html += '</tbody></table>';
+      heroStatsEl.innerHTML = html;
+    })
+    .catch(function () {
+      heroStatsEl.innerHTML = '<p class="leaderboard-note">Hero stats unavailable right now — try again shortly.</p>';
     });
 
   var form = document.getElementById('signup-form');

@@ -1,5 +1,23 @@
 # OKEMILY Changelog
 
+## 2026-07-29
+- feat: REDGARDEN hero win-rate leaderboard on `tournaments.html`. Founder: "can we start
+  crunching the data on the heroes that are the strongest?" -> "ok i want to start tracking it
+  on okemily.com." New "REDGARDEN hero strength" section, same live-data-not-a-mockup guarantee
+  and same-origin `/api/` proxy pattern as the existing player leaderboard just above it, fetches
+  the new `GET /api/v1/redgarden/hero-leaderboard` (IDUNA Apple #11320). `HERO_NAMES` is a
+  hand-synced copy of `packages/simulation/arena_ai_bridge.c`'s own `arena_hero_name()` -- this
+  page has no C header access, same duplication convention every cross-language boundary in this
+  monorepo already uses. Deployed live via `~/okemily-deploy.sh`, verified working at
+  `okemily.com/tournaments.html`.
+- infra: draft `ops/nginx-wotan.conf` for `wotan.okemily.com` (founder: "wotan.okemily.com dns
+  already exists"). Serves the same static root as `okemily.com` with `tournaments.html` (the
+  existing WOTAN brand page, S169-05's own "okemily.com/tournaments.html already covers it"
+  precedent) as the default index, instead of moving/duplicating content. NOT YET LIVE --
+  installing the vhost and provisioning its TLS cert both need interactive `sudo`, which Claude
+  Code can't complete unattended (see this repo's own CLAUDE.md "Deploy" section); see that new
+  file's own header comment for the exact commands the founder needs to run.
+
 ## 2026-07-28
 - blog: published "Mid-Piano Presents: The Squad" (/blog/mid-piano-presents-the-squad/), authored
   `EINHORN_MEDIA` — same "Mid-Piano Presents" format as `mid-piano-presents-the-mark` and

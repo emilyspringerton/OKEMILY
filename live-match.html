@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>REDGARDEN Live Match &mdash; EINHORN_INDUSTRIAL</title>
+<meta name="description" content="Watch a live REDGARDEN arena match: node control, tower status, and the live scoreboard, updated every few seconds.">
+<style>
+  :root {
+    --bg: #0b0c10;
+    --bg-card: #14161c;
+    --fg: #eef0f4;
+    --fg-dim: #a8adb8;
+    --accent: #7c8cff;
+    --border: #23262f;
+    --team0: #3f66ff;
+    --team1: #ff4d3f;
+    --neutral: #d9b23c;
+    --good: #4ade80;
+    --bad: #f87171;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #fafafa;
+      --bg-card: #ffffff;
+      --fg: #14161c;
+      --fg-dim: #4a4f5c;
+      --accent: #4451c7;
+      --border: #e4e4e8;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.5;
+  }
+  .wrap { max-width: 480px; margin: 0 auto; padding: 1.5rem 1rem 4rem; }
+  header { margin-bottom: 1.5rem; text-align: center; }
+  .wordmark { font-size: 0.85rem; letter-spacing: 0.08em; color: var(--fg-dim); text-transform: uppercase; }
+  .wordmark a { color: inherit; text-decoration: none; }
+  h1 { font-size: 1.5rem; margin: 0.4rem 0; }
+  #status-line { font-size: 0.9rem; color: var(--fg-dim); }
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1rem;
+    margin-bottom: 1rem;
+  }
+  .card h2 { font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.04em; color: var(--fg-dim); margin: 0 0 0.75rem; }
+  .resource-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem; }
+  .resource-row:last-child { margin-bottom: 0; }
+  .resource-label { width: 4.5rem; font-size: 0.85rem; font-weight: 600; flex-shrink: 0; }
+  .resource-bar-track { flex: 1; height: 10px; border-radius: 5px; background: var(--border); overflow: hidden; }
+  .resource-bar-fill { height: 100%; border-radius: 5px; }
+  .resource-value { width: 3rem; text-align: right; font-size: 0.8rem; color: var(--fg-dim); flex-shrink: 0; }
+  .nodes-grid { display: flex; gap: 0.4rem; flex-wrap: wrap; }
+  .node-badge {
+    flex: 1; min-width: 3.2rem; text-align: center; padding: 0.5rem 0.25rem;
+    border-radius: 8px; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.02em;
+  }
+  .tower-row { display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.4rem; font-size: 0.8rem; }
+  .tower-row:last-child { margin-bottom: 0; }
+  .tower-dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; flex-shrink: 0; }
+  .tower-bar-track { flex: 1; height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; }
+  .tower-bar-fill { height: 100%; border-radius: 3px; background: var(--fg-dim); }
+  table.scoreboard { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+  table.scoreboard th, table.scoreboard td { padding: 0.35rem 0.3rem; text-align: left; border-bottom: 1px solid var(--border); }
+  table.scoreboard th { color: var(--fg-dim); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; }
+  table.scoreboard tr:last-child td { border-bottom: none; }
+  .team-tag { display: inline-block; width: 0.55rem; height: 0.55rem; border-radius: 50%; margin-right: 0.35rem; vertical-align: middle; }
+  .dead { opacity: 0.4; text-decoration: line-through; }
+  .hp-cell { white-space: nowrap; }
+  .note { color: var(--fg-dim); font-size: 0.9rem; text-align: center; padding: 2rem 0; }
+  footer { text-align: center; color: var(--fg-dim); font-size: 0.8rem; margin-top: 2rem; }
+  footer a { color: inherit; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="wordmark"><a href="/">EINHORN_INDUSTRIAL</a></div>
+    <h1>REDGARDEN &mdash; Live Match</h1>
+    <div id="status-line">Connecting&hellip;</div>
+  </header>
+
+  <div id="content"></div>
+
+  <footer>
+    Updates every few seconds. <a href="/tournaments.html">Hero stats &amp; leaderboard &rarr;</a>
+  </footer>
+</div>
+
+<script>
+  // REDGARDEN live-match spectator dashboard (2026-07-30, founder: "i want to watch the match on
+  // my phone web view"). Same same-origin /api/ proxy pattern tournaments.html already uses --
+  // public read, no auth (GET /api/v1/redgarden/live-match/latest). apps/arena_server posts a
+  // fresh snapshot here every 3 seconds while a match is ARENA_PHASE_LIVE; this page just polls
+  // and renders it as plain HTML, no game rendering at all -- a live scoreboard, not a visual
+  // replay of the match itself (a real WebGL/canvas renderer reading the wire protocol would be
+  // a much bigger, separate build).
+  var HERO_NAMES = [
+    'Unicorn', 'Duck', 'Ghost', 'Frog', 'Doc Wheel', 'Tree', 'Pizza', 'Flamel',
+    'Morrigan', 'Dagda', 'Courier', 'Loki', 'Gary', 'Flute Debt', 'Bacon Puck',
+    'Abraham', 'Ada', 'Tyler', 'Paimon', 'NOOR-1', 'Cain', 'Gunnr', 'Vassago',
+    'He Xiangu', 'Beleth', 'MnM', 'Weatherman', 'Zagan'
+  ];
+  var RESOURCE_CAP = 2000; // packages/simulation/arena_game.h's ARENA_RESOURCE_CAP -- hand-synced,
+                           // same "no access to the C header from a static page" reasoning
+                           // tournaments.html's own HERO_NAMES copy already documents.
+  var POLL_MS = 3000;
+
+  function escapeHtml(s) {
+    return String(s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+
+  function teamColor(team) { return team === 0 ? 'var(--team0)' : 'var(--team1)'; }
+
+  function formatElapsed(ms) {
+    var totalSec = Math.floor((ms || 0) / 1000);
+    var m = Math.floor(totalSec / 60), s = totalSec % 60;
+    return m + ':' + (s < 10 ? '0' : '') + s;
+  }
+
+  function render(data) {
+    var statusEl = document.getElementById('status-line');
+    var contentEl = document.getElementById('content');
+
+    if (!data || !data.live) {
+      statusEl.textContent = 'No match in progress';
+      contentEl.innerHTML = '<p class="note">Nothing live right now &mdash; the bot pool requeues into a fresh match automatically. Check back in a minute.</p>';
+      return;
+    }
+
+    var m = data.match;
+    var phaseLabel = m.phase === 2 ? 'LIVE' : (m.phase === 1 ? 'DRAFT' : 'WAITING');
+    statusEl.innerHTML = escapeHtml(phaseLabel) + ' &middot; ' + escapeHtml(formatElapsed(m.match_elapsed_ms)) + ' elapsed';
+
+    var html = '';
+
+    // Resource race (team 0 vs team 1, first to RESOURCE_CAP wins -- see arena_tick_resources).
+    var res = m.resources || [0, 0];
+    html += '<div class="card"><h2>Resource Race</h2>';
+    [0, 1].forEach(function (t) {
+      var pct = Math.min(100, (res[t] / RESOURCE_CAP) * 100);
+      html += '<div class="resource-row">' +
+        '<div class="resource-label" style="color:' + teamColor(t) + '">Team ' + t + '</div>' +
+        '<div class="resource-bar-track"><div class="resource-bar-fill" style="width:' + pct + '%;background:' + teamColor(t) + '"></div></div>' +
+        '<div class="resource-value">' + res[t] + '</div>' +
+        '</div>';
+    });
+    html += '</div>';
+
+    // Node ownership (5 nodes: owner 0=neutral, 1=team0, 2=team1; capturing_team -1=none).
+    html += '<div class="card"><h2>Nodes</h2><div class="nodes-grid">';
+    (m.nodes || []).forEach(function (node) {
+      var bg, label;
+      if (node.owner === 1) { bg = 'var(--team0)'; label = 'T0'; }
+      else if (node.owner === 2) { bg = 'var(--team1)'; label = 'T1'; }
+      else { bg = 'var(--neutral)'; label = 'NEUTRAL'; }
+      var capturing = node.capturing_team >= 0 ? ' (capturing&hellip;)' : '';
+      html += '<div class="node-badge" style="background:' + bg + ';color:#0b0c10">' + label + capturing + '</div>';
+    });
+    html += '</div></div>';
+
+    // Tower status (2026-07-30: node towers gate early capture -- see NORTHSTAR §19.5).
+    html += '<div class="card"><h2>Towers</h2>';
+    (m.towers || []).forEach(function (tw, i) {
+      var pct = tw.max_hp > 0 ? (tw.hp / tw.max_hp) * 100 : 0;
+      html += '<div class="tower-row">' +
+        '<div class="tower-dot" style="background:' + (tw.alive ? 'var(--good)' : 'var(--bad)') + '"></div>' +
+        '<div style="width:3.5rem">Node ' + i + '</div>' +
+        (tw.alive
+          ? '<div class="tower-bar-track"><div class="tower-bar-fill" style="width:' + pct + '%"></div></div>'
+          : '<div style="color:var(--fg-dim)">destroyed</div>') +
+        '</div>';
+    });
+    html += '</div>';
+
+    // Scoreboard -- every hero, team-colored, HP/K/D/Flow.
+    var heroes = (m.heroes || []).slice().sort(function (a, b) {
+      if (a.team !== b.team) return a.team - b.team;
+      return b.flow - a.flow;
+    });
+    html += '<div class="card"><h2>Scoreboard</h2><table class="scoreboard"><thead><tr>' +
+      '<th>Hero</th><th>HP</th><th>K</th><th>D</th><th>Flow</th></tr></thead><tbody>';
+    heroes.forEach(function (h) {
+      var name = HERO_NAMES[h.hero_id] || ('Hero ' + h.hero_id);
+      var hpPct = h.max_hp > 0 ? Math.round((h.hp / h.max_hp) * 100) : 0;
+      html += '<tr class="' + (h.alive ? '' : 'dead') + '">' +
+        '<td><span class="team-tag" style="background:' + teamColor(h.team) + '"></span>' + escapeHtml(name) + '</td>' +
+        '<td class="hp-cell">' + (h.alive ? hpPct + '%' : 'dead') + '</td>' +
+        '<td>' + h.kills + '</td>' +
+        '<td>' + h.deaths + '</td>' +
+        '<td>' + h.flow + '</td>' +
+        '</tr>';
+    });
+    html += '</tbody></table></div>';
+
+    if (m.winner) {
+      html = '<div class="card" style="text-align:center;border-color:' + teamColor(m.winner - 1) + '">' +
+        '<h2 style="color:' + teamColor(m.winner - 1) + '">Team ' + (m.winner - 1) + ' Wins</h2></div>' + html;
+    }
+
+    contentEl.innerHTML = html;
+  }
+
+  function poll() {
+    fetch('/api/v1/redgarden/live-match/latest')
+      .then(function (res) { return res.json(); })
+      .then(render)
+      .catch(function () {
+        document.getElementById('status-line').textContent = 'Connection error — retrying…';
+      });
+  }
+
+  poll();
+  setInterval(poll, POLL_MS);
+</script>
+</body>
+</html>

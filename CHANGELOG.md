@@ -1,5 +1,17 @@
 # OKEMILY Changelog
 
+## 2026-07-30
+- feat: `live-match.html`, a REDGARDEN live-match spectator dashboard. Founder: "i want to watch
+  the match on my phone web view" -> "live text dashboard." New standalone page, mobile-first
+  single column, polls the new public `GET /api/v1/redgarden/live-match/latest` every 3s (same
+  same-origin `/api/` proxy pattern `tournaments.html` already uses) and renders resource-race
+  bars, node ownership badges, tower HP, and a team-colored HP/K/D/Flow scoreboard -- plain HTML/
+  JS, no game rendering at all (a real visual replay would need a WebGL/canvas client reading the
+  live wire protocol, a much bigger separate build). `HERO_NAMES`/`RESOURCE_CAP` are hand-synced
+  copies of REDGARDEN's own C constants, same duplication convention `tournaments.html`'s own
+  `HERO_NAMES` copy already documents. Deployed and verified live: `okemily.com/live-match.html`
+  (200) rendering a real in-progress bot match.
+
 ## 2026-07-29
 - feat: REDGARDEN hero win-rate leaderboard on `tournaments.html`. Founder: "can we start
   crunching the data on the heroes that are the strongest?" -> "ok i want to start tracking it

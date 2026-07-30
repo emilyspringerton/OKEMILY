@@ -235,32 +235,44 @@
     });
   }
 
-  fetch('/api/v1/redgarden/leaderboard')
-    .then(function (res) { return res.json(); })
-    .then(function (data) {
-      var rows = data && data.leaderboard ? data.leaderboard : [];
-      if (rows.length === 0) {
-        boardEl.innerHTML = '<p class="leaderboard-note">No matches reported yet.</p>';
-        return;
-      }
-      var html = '<table class="leaderboard"><thead><tr>' +
-        '<th>#</th><th>Player</th><th>W</th><th>L</th><th>Matches</th>' +
-        '</tr></thead><tbody>';
-      rows.forEach(function (row, i) {
-        html += '<tr>' +
-          '<td class="rank">' + (i + 1) + '</td>' +
-          '<td>' + escapeHtml(row.display_name || row.player_id) + '</td>' +
-          '<td class="wl">' + row.wins + '</td>' +
-          '<td class="wl">' + row.losses + '</td>' +
-          '<td>' + row.matches_played + '</td>' +
-          '</tr>';
+  // 2026-07-30, founder: "we need the stats on the wotan page on okemily those need to live
+  // update just like the live-match page live updates" -- both leaderboards below now poll on a
+  // timer (same setInterval idiom live-match.html already uses) instead of fetching once on page
+  // load. STATS_POLL_MS is deliberately longer than live-match.html's own 3s (these are DB-backed
+  // aggregates that only actually change once per completed match, not several times a second
+  // like live positional state) -- "updates without a manual reload" is the actual thing being
+  // asked for, hammering the DB every 3s for data that moves on the order of minutes would just
+  // be waste. Easy to tighten later if that judgment call turns out wrong.
+  var STATS_POLL_MS = 10000;
+
+  function loadLeaderboard() {
+    fetch('/api/v1/redgarden/leaderboard')
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        var rows = data && data.leaderboard ? data.leaderboard : [];
+        if (rows.length === 0) {
+          boardEl.innerHTML = '<p class="leaderboard-note">No matches reported yet.</p>';
+          return;
+        }
+        var html = '<table class="leaderboard"><thead><tr>' +
+          '<th>#</th><th>Player</th><th>W</th><th>L</th><th>Matches</th>' +
+          '</tr></thead><tbody>';
+        rows.forEach(function (row, i) {
+          html += '<tr>' +
+            '<td class="rank">' + (i + 1) + '</td>' +
+            '<td>' + escapeHtml(row.display_name || row.player_id) + '</td>' +
+            '<td class="wl">' + row.wins + '</td>' +
+            '<td class="wl">' + row.losses + '</td>' +
+            '<td>' + row.matches_played + '</td>' +
+            '</tr>';
+        });
+        html += '</tbody></table>';
+        boardEl.innerHTML = html;
+      })
+      .catch(function () {
+        boardEl.innerHTML = '<p class="leaderboard-note">Leaderboard unavailable right now — try again shortly.</p>';
       });
-      html += '</tbody></table>';
-      boardEl.innerHTML = html;
-    })
-    .catch(function () {
-      boardEl.innerHTML = '<p class="leaderboard-note">Leaderboard unavailable right now — try again shortly.</p>';
-    });
+  }
 
   // REDGARDEN hero strength (2026-07-29, founder: "can we start crunching the data on the
   // heroes that are the strongest?" -> "ok i want to start tracking it on okemily.com") --
@@ -278,34 +290,41 @@
   ];
   var heroStatsEl = document.getElementById('redgarden-hero-stats');
 
-  fetch('/api/v1/redgarden/hero-leaderboard')
-    .then(function (res) { return res.json(); })
-    .then(function (data) {
-      var rows = data && data.heroes ? data.heroes : [];
-      if (rows.length === 0) {
-        heroStatsEl.innerHTML = '<p class="leaderboard-note">No hero data reported yet — check back after a few real matches finish.</p>';
-        return;
-      }
-      var html = '<table class="leaderboard"><thead><tr>' +
-        '<th>#</th><th>Hero</th><th>W</th><th>L</th><th>Matches</th><th>Win rate</th>' +
-        '</tr></thead><tbody>';
-      rows.forEach(function (row, i) {
-        var name = HERO_NAMES[row.hero_id] || ('Hero ' + row.hero_id);
-        html += '<tr>' +
-          '<td class="rank">' + (i + 1) + '</td>' +
-          '<td>' + escapeHtml(name) + '</td>' +
-          '<td class="wl">' + row.wins + '</td>' +
-          '<td class="wl">' + row.losses + '</td>' +
-          '<td>' + row.matches_played + '</td>' +
-          '<td>' + (row.win_rate * 100).toFixed(1) + '%</td>' +
-          '</tr>';
+  function loadHeroLeaderboard() {
+    fetch('/api/v1/redgarden/hero-leaderboard')
+      .then(function (res) { return res.json(); })
+      .then(function (data) {
+        var rows = data && data.heroes ? data.heroes : [];
+        if (rows.length === 0) {
+          heroStatsEl.innerHTML = '<p class="leaderboard-note">No hero data reported yet — check back after a few real matches finish.</p>';
+          return;
+        }
+        var html = '<table class="leaderboard"><thead><tr>' +
+          '<th>#</th><th>Hero</th><th>W</th><th>L</th><th>Matches</th><th>Win rate</th>' +
+          '</tr></thead><tbody>';
+        rows.forEach(function (row, i) {
+          var name = HERO_NAMES[row.hero_id] || ('Hero ' + row.hero_id);
+          html += '<tr>' +
+            '<td class="rank">' + (i + 1) + '</td>' +
+            '<td>' + escapeHtml(name) + '</td>' +
+            '<td class="wl">' + row.wins + '</td>' +
+            '<td class="wl">' + row.losses + '</td>' +
+            '<td>' + row.matches_played + '</td>' +
+            '<td>' + (row.win_rate * 100).toFixed(1) + '%</td>' +
+            '</tr>';
+        });
+        html += '</tbody></table>';
+        heroStatsEl.innerHTML = html;
+      })
+      .catch(function () {
+        heroStatsEl.innerHTML = '<p class="leaderboard-note">Hero stats unavailable right now — try again shortly.</p>';
       });
-      html += '</tbody></table>';
-      heroStatsEl.innerHTML = html;
-    })
-    .catch(function () {
-      heroStatsEl.innerHTML = '<p class="leaderboard-note">Hero stats unavailable right now — try again shortly.</p>';
-    });
+  }
+
+  loadLeaderboard();
+  loadHeroLeaderboard();
+  setInterval(loadLeaderboard, STATS_POLL_MS);
+  setInterval(loadHeroLeaderboard, STATS_POLL_MS);
 
   var form = document.getElementById('signup-form');
   var status = document.getElementById('signup-status');

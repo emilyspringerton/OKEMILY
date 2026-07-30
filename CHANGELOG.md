@@ -1,6 +1,16 @@
 # OKEMILY Changelog
 
 ## 2026-07-30
+- feat: `tournaments.html`'s two leaderboards now auto-refresh. Founder: "we need the stats on
+  the wotan page on okemily those need to live update just like the live-match page live
+  updates." Both the player leaderboard and the hero-strength leaderboard were fetch-once-on-
+  page-load; refactored into named `loadLeaderboard()`/`loadHeroLeaderboard()` functions called
+  once immediately and then on a `setInterval`, same idiom `live-match.html` already established.
+  `STATS_POLL_MS` (10s) is deliberately longer than `live-match.html`'s own 3s -- these are
+  DB-backed aggregates that only actually change once per completed match, not several times a
+  second like live positional state, so a tighter interval would just be wasted DB load for data
+  that isn't moving that fast. Deployed and verified live.
+
 - feat: mini-map on `live-match.html`. Founder: "can we get coords too and show a little map
   with emojis." Node-owner-colored squares as a spatial layer, hero emoji markers on top (team-
   colored ring, dead heroes render grayscale at their last known position instead of vanishing),

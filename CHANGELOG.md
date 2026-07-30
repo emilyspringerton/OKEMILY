@@ -1,6 +1,13 @@
 # OKEMILY Changelog
 
 ## 2026-07-30
+- feat: mini-map on `live-match.html`. Founder: "can we get coords too and show a little map
+  with emojis." Node-owner-colored squares as a spatial layer, hero emoji markers on top (team-
+  colored ring, dead heroes render grayscale at their last known position instead of vanishing),
+  scaled off a hand-synced `ARENA_HALF_EXTENT`. New `HERO_EMOJI` array, index-matched to the
+  existing `HERO_NAMES` -- best-effort visual shorthand, not a canonical mapping, same "hand-
+  synced, not authoritative" spirit `HERO_NAMES` itself already is.
+
 - feat: `live-match.html`, a REDGARDEN live-match spectator dashboard. Founder: "i want to watch
   the match on my phone web view" -> "live text dashboard." New standalone page, mobile-first
   single column, polls the new public `GET /api/v1/redgarden/live-match/latest` every 3s (same

@@ -67,6 +67,22 @@
   .tower-dot { width: 0.6rem; height: 0.6rem; border-radius: 50%; flex-shrink: 0; }
   .tower-bar-track { flex: 1; height: 6px; border-radius: 3px; background: var(--border); overflow: hidden; }
   .tower-bar-fill { height: 100%; border-radius: 3px; background: var(--fg-dim); }
+  .map-box {
+    position: relative; width: 100%; aspect-ratio: 1 / 1;
+    background: #05060a;
+    border: 1px solid var(--border); border-radius: 8px; overflow: hidden;
+  }
+  @media (prefers-color-scheme: light) { .map-box { background: #e2e4ea; } }
+  .map-node {
+    position: absolute; width: 0.9rem; height: 0.9rem; border-radius: 3px;
+    transform: translate(-50%, -50%); opacity: 0.55;
+  }
+  .map-hero {
+    position: absolute; transform: translate(-50%, -50%);
+    width: 1.5rem; height: 1.5rem; line-height: 1.5rem; text-align: center;
+    font-size: 1rem; border-radius: 50%; border: 2px solid;
+  }
+  .map-hero.dead { opacity: 0.35; filter: grayscale(1); }
   table.scoreboard { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
   table.scoreboard th, table.scoreboard td { padding: 0.35rem 0.3rem; text-align: left; border-bottom: 1px solid var(--border); }
   table.scoreboard th { color: var(--fg-dim); font-weight: 600; font-size: 0.72rem; text-transform: uppercase; }
@@ -111,7 +127,25 @@
   var RESOURCE_CAP = 2000; // packages/simulation/arena_game.h's ARENA_RESOURCE_CAP -- hand-synced,
                            // same "no access to the C header from a static page" reasoning
                            // tournaments.html's own HERO_NAMES copy already documents.
+  // HERO_EMOJI (2026-07-30, founder: "can we get coords too and show a little map with emojis"):
+  // index-matched to HERO_NAMES above. Best-effort visual shorthand, not a canonical mapping --
+  // same spirit HERO_NAMES itself already is (a hand-synced, not-authoritative copy for a page
+  // with no access to the real C roster).
+  var HERO_EMOJI = [
+    '🦄', '🦆', '👻', '🐸', '🛞', '🌳', '🍕', '⚗️',
+    '🐦‍⬛', '🔨', '📦', '🎭', '🏹', '🎵', '🥓',
+    '🧙', '💻', '👯', '👑', '⛄', '🗡️', '🛡️', '😈',
+    '🪷', '👿', '🍬', '⛈️', '👹'
+  ];
+  // ARENA_HALF_EXTENT (packages/simulation/arena_game.h) -- hand-synced, same reasoning as
+  // RESOURCE_CAP above. Map coords range roughly [-HALF_EXTENT, +HALF_EXTENT] on both axes.
+  var HALF_EXTENT = 51.78;
   var POLL_MS = 3000;
+
+  function toPct(coord) {
+    var p = ((coord + HALF_EXTENT) / (2 * HALF_EXTENT)) * 100;
+    return Math.max(2, Math.min(98, p)); // clamp inside the box so a marker at the map edge doesn't clip off it
+  }
 
   function escapeHtml(s) {
     return String(s).replace(/[&<>"']/g, function (c) {
@@ -155,6 +189,23 @@
         '</div>';
     });
     html += '</div>';
+
+    // Mini-map (2026-07-30, founder: "can we get coords too and show a little map with
+    // emojis"): node squares as a spatial reference layer, hero emoji on top -- x maps to
+    // left%, z maps to top%, both scaled off HALF_EXTENT. Dead heroes render grayscale/dim
+    // (their last known position, not removed) rather than vanishing outright, so a spectator
+    // can still see where a fight just happened.
+    html += '<div class="card"><h2>Map</h2><div class="map-box">';
+    (m.nodes || []).forEach(function (node) {
+      var bg = node.owner === 1 ? 'var(--team0)' : (node.owner === 2 ? 'var(--team1)' : 'var(--neutral)');
+      html += '<div class="map-node" style="left:' + toPct(node.x) + '%;top:' + toPct(node.z) + '%;background:' + bg + '"></div>';
+    });
+    (m.heroes || []).forEach(function (h) {
+      var emoji = h.alive ? (HERO_EMOJI[h.hero_id] || '❓') : '💀';
+      html += '<div class="map-hero' + (h.alive ? '' : ' dead') + '" style="left:' + toPct(h.x) + '%;top:' + toPct(h.z) +
+        '%;border-color:' + teamColor(h.team) + ';background:' + (h.team === 0 ? 'rgba(63,102,255,0.25)' : 'rgba(255,77,63,0.25)') + '">' + emoji + '</div>';
+    });
+    html += '</div></div>';
 
     // Node ownership (5 nodes: owner 0=neutral, 1=team0, 2=team1; capturing_team -1=none).
     html += '<div class="card"><h2>Nodes</h2><div class="nodes-grid">';

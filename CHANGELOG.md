@@ -1,5 +1,16 @@
 # OKEMILY Changelog
 
+## 2026-07-31
+- content: `redgarden.html` funnel page was stale -- founder: "update redgarden funnel page ots
+  stale." Last touched 2026-07-25, before a real week of REDGARDEN shipping: destructible node
+  towers gating capture, real dodgeable skill-shot projectiles (replacing instant hits), the
+  27-item proximity-auto-open shop (Blink Dagger's real active among them), and a genuine
+  click-to-pick hero draft screen all landed since. The VS2 "what's built" bullet now names all
+  four; the "Next" row dropped "draft/lobby UI" and "hover-based targeting" (both already live --
+  hover-cast targeting shipped alongside the shop work) and added the jungle-camp ecosystem
+  (NORTHSTAR §22, spec written, not yet built) as what's genuinely still ahead alongside ranked/
+  ELO. Deployed and verified live.
+
 ## 2026-07-30
 - feat: `tournaments.html`'s two leaderboards now auto-refresh. Founder: "we need the stats on
   the wotan page on okemily those need to live update just like the live-match page live

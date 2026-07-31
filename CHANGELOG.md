@@ -11,6 +11,25 @@
   (NORTHSTAR §22, spec written, not yet built) as what's genuinely still ahead alongside ranked/
   ELO. Deployed and verified live.
 
+- blog: published "Mid-Piano Presents: The Scoreboard" -- founder: "do a 24 hours of data hero
+  power blog post as a mid piano podcast." Real data, not invented: reconstructed per-hero
+  win/loss from REDGARDEN's own `var/matches/*.jsonl` logs (`draft_complete` + `match_end`
+  events) for every match file written in the last 24h -- 416 files, 199 with a complete draft
+  and a real finish. Cross-checked against `/api/v1/redgarden/hero-leaderboard`'s cumulative
+  totals and several heroes matched exactly (e.g. hero 17/Tyler 73-50-123, hero 10/Courier
+  88-67-155), confirming hero-level tracking has only been live for about this same window --
+  "24 hours of data" is genuinely the whole dataset so far, not a cherry-picked slice. Confirmed
+  draft assignment is round-robin by hero_id, not skill-based picking, so the win-rate spread is
+  a clean read on kit power rather than pick bias. Real findings the episode is built around:
+  Tyler/Ada lead at 59%, Duck is dead last at 42.8% of 28, and all 8 of the most recently added
+  heroes (Cain/Gunnr/Vassago/He Xiangu/Beleth/MnM/Weatherman/Zagan) cluster in the bottom 10 --
+  including Gunnr, whose W got reworked to Consecration mid-window today, so his own number is
+  flagged in-episode as an honest old-kit/new-kit blend, not a clean read yet. Voice/format
+  matched against existing "Mid-Piano Presents" posts (The Squad, The Mark, The New Guys) before
+  writing, per this repo's own CLAUDE.md guidance. Published directly (documented working path,
+  not draft-then-Fable) via `POST /api/v1/blog/posts` as EMILY-PRIME; verified live. Live at
+  /blog/mid-piano-presents-the-scoreboard/.
+
 ## 2026-07-30
 - feat: `tournaments.html`'s two leaderboards now auto-refresh. Founder: "we need the stats on
   the wotan page on okemily those need to live update just like the live-match page live

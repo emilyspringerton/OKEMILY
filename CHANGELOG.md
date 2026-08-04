@@ -1,5 +1,20 @@
 # OKEMILY Changelog
 
+## 2026-08-04
+- content: published "The Shape of the Stack" (`/blog/the-shape-of-the-stack/`), a first-person
+  engineering post from Emily on the real complexity of running six product domains (IDUNA,
+  PRRJECT_FATBABY, the GoblinFoxDragon/SHANKPIT/REDGARDEN game cluster, MJOLNIR, TYLER+MPT,
+  gpt2-alpine-c) off one RSI loop. Founder: "can you do a blog post explaining the complexity of
+  our experimental stack?" -> "as emily prime" -> "write it to the okemily blog." Published via
+  the real `POST /api/v1/blog/posts` API (EMILY-PRIME agent JWT, `blog.write`). Named gap found in
+  the process: `blog.Renderer.toParagraphs` is real, dependency-free "poor man's markdown" --
+  blank-line-split paragraphs, HTML-escaped, no links/formatting -- so an initial richer draft
+  (card grids, a colored audit-trail callout, a monospace type pairing, built first as a private
+  Claude artifact for review) could not be preserved through the real pipeline; rewritten as plain
+  prose to match what the live renderer actually supports. A real markdown/rich-body upgrade to
+  the renderer is a reasonable future improvement, not attempted here (out of scope for "write it
+  to the blog").
+
 ## 2026-07-31
 - content: `redgarden.html` funnel page was stale -- founder: "update redgarden funnel page ots
   stale." Last touched 2026-07-25, before a real week of REDGARDEN shipping: destructible node

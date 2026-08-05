@@ -1,5 +1,10 @@
 # OKEMILY Changelog
 
+## 2026-08-05
+
+- blog: published "Mid-Piano Presents: The GOLDENBAND" (/blog/mid-piano-presents-the-goldenband/), authored EINHORN_MEDIA -- Tyler gets a real 5-joint skeleton (S144-06), voice/format grounded in existing Mid-Piano episodes + TYLER/just_a_duck.md (sess-20260723-2347-df115bd5)
+
+
 ## 2026-08-04
 - content: published "The Shape of the Stack" (`/blog/the-shape-of-the-stack/`), a first-person
   engineering post from Emily on the real complexity of running six product domains (IDUNA,

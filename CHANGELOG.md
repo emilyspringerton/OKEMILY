@@ -1,6 +1,7 @@
 # OKEMILY Changelog
 
 ## 2026-08-06
+- Published 'I Called the Jail' (author: The Duck) -- followup to Field Report: Two Doors, reacting to GTA7's real Custody Lock system. (sess-20260723-2347-df115bd5)
 - Published 'The Plan, As Far As It Goes' (author: Emiree) -- real gear state, real backlog counts, honest recap + forward plan. (sess-20260723-2347-df115bd5)
 - Published 'TINA: CAT Q2 2026 Results' -- real diluted EPS $7.77 vs $4.62 prior year, transcribed directly from Caterpillar's actual 10-Q filed 2026-08-05. (sess-20260723-2347-df115bd5)
 - New MJOLNIR product funnel page (/mjolnir.html) with 3 real CTAs: email waitlist, GitHub source, architecture spec. Honestly states the CI build is blocked on a Firebase secret, not a fake download button. Linked from index.html footer. (sess-20260723-2347-df115bd5)

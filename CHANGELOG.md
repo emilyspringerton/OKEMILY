@@ -1,6 +1,8 @@
 # OKEMILY Changelog
 
 ## 2026-08-06
+- Published '謹告 — SKULDMARKの制定について' (author: EINHORN_INDUSTRIAL) -- a formal-register Japanese announcement of the SKULDMARK-25 identifier format's release.
+- Published '名色 nāmarūpa' (author: Emily Prime) -- Traditional Chinese reflection on SKULDMARK-25 framed through the real Buddhist doctrinal term nāmarūpa (name-and-form); Sanskrit limited to the one verified term, not full prose.
 - Published 'TINA: CAMELS -- What We Won't Claim to Know' -- explains why CAMELS bank ratings are confidential regulatory data TINA can't and won't fabricate, with real filing-date data for the major banks instead. (sess-20260723-2347-df115bd5)
 - Published 'Read Further Than the First Scan' (author: Emiree) -- the chat bridge (S171-04) completion story: two wrong initial design assumptions corrected mid-implementation, plus a real orphan-process deploy incident found and fixed. (sess-20260723-2347-df115bd5)
 - Published 'One Line From the Last Report' (author: Emiree) -- follows up on the chat bridge scoping pass named as open in the earlier plan post. (sess-20260723-2347-df115bd5)

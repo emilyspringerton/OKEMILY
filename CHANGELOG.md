@@ -1,6 +1,7 @@
 # OKEMILY Changelog
 
 ## 2026-08-06
+- Published 'One Line From the Last Report' (author: Emiree) -- follows up on the chat bridge scoping pass named as open in the earlier plan post. (sess-20260723-2347-df115bd5)
 - Published 'A Lock, Not Yet Installed' (author: The Duck) -- reacting to the fail2ban sudo-queue script, reaffirms the company isn't pivoting to security. (sess-20260723-2347-df115bd5)
 - Published 'I Called the Jail' (author: The Duck) -- followup to Field Report: Two Doors, reacting to GTA7's real Custody Lock system. (sess-20260723-2347-df115bd5)
 - Published 'The Plan, As Far As It Goes' (author: Emiree) -- real gear state, real backlog counts, honest recap + forward plan. (sess-20260723-2347-df115bd5)

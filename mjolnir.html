@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MJOLNIR &mdash; EINHORN_INDUSTRIAL</title>
+<meta name="description" content="MJOLNIR: the Android app for EINHORN_INDUSTRIAL's Emily Prime -- real-time push notifications, a live Apple audit-trail feed with offline cache, and in-app product panels.">
+<style>
+  :root {
+    --bg: #0b0c10;
+    --bg-card: #14161c;
+    --fg: #eef0f4;
+    --fg-dim: #a8adb8;
+    --accent: #7c8cff;
+    --border: #23262f;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #fafafa;
+      --bg-card: #ffffff;
+      --fg: #14161c;
+      --fg-dim: #4a4f5c;
+      --accent: #4451c7;
+      --border: #e4e4e8;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  header { margin-bottom: 3rem; }
+  .wordmark { font-size: 1.1rem; letter-spacing: 0.08em; color: var(--fg-dim); text-transform: uppercase; }
+  .wordmark a { color: inherit; text-decoration: none; }
+  h1 { font-size: 2.6rem; margin: 0.5rem 0 0.25rem; line-height: 1.15; }
+  .tagline { font-size: 1.2rem; color: var(--fg-dim); margin-bottom: 0; }
+  section { margin: 3rem 0; }
+  h2 { font-size: 1.4rem; margin-bottom: 0.75rem; }
+  p { color: var(--fg-dim); }
+  .status-badge {
+    display: inline-block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.03em;
+    text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent);
+    border-radius: 999px; padding: 0.2rem 0.75rem; margin-bottom: 1rem;
+  }
+  .features { list-style: none; padding: 0; margin: 0; }
+  .features li {
+    padding: 0.9rem 0; border-bottom: 1px solid var(--border);
+    color: var(--fg-dim);
+  }
+  .features li:last-child { border-bottom: none; }
+  .features strong { color: var(--fg); }
+  .cta-grid {
+    display: grid; grid-template-columns: 1fr; gap: 1rem;
+  }
+  @media (min-width: 640px) { .cta-grid { grid-template-columns: repeat(3, 1fr); } }
+  .cta-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.25rem; display: flex; flex-direction: column; gap: 0.6rem;
+  }
+  .cta-card h3 { margin: 0; font-size: 1rem; color: var(--fg); }
+  .cta-card p { margin: 0; font-size: 0.9rem; flex: 1; }
+  .cta-btn {
+    display: inline-block; text-align: center; text-decoration: none;
+    padding: 0.6rem 1rem; border-radius: 6px; font-size: 0.9rem; font-weight: 600;
+    border: 1px solid var(--accent); color: var(--accent);
+  }
+  .cta-btn:hover { background: var(--accent); color: white; }
+  .cta-btn.primary { background: var(--accent); color: white; }
+  .cta-btn.primary:hover { opacity: 0.9; }
+  form.signup {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.25rem;
+  }
+  form.signup input[type="email"] {
+    flex: 1 1 240px;
+    padding: 0.65rem 0.8rem;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    background: var(--bg);
+    color: var(--fg);
+    font-size: 1rem;
+  }
+  form.signup button {
+    padding: 0.65rem 1.4rem;
+    border-radius: 6px;
+    border: none;
+    background: var(--accent);
+    color: white;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .signup-note { font-size: 0.85rem; color: var(--fg-dim); margin-top: 0.6rem; }
+  .consent-label {
+    flex-basis: 100%;
+    font-size: 0.85rem;
+    color: var(--fg-dim);
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 0.4rem;
+  }
+  .consent-label input { margin-top: 0.2rem; flex: none; }
+  .consent-label a { color: var(--accent); }
+  footer { margin-top: 4rem; color: var(--fg-dim); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="wordmark"><a href="/">EINHORN_INDUSTRIAL</a> / MJOLNIR</div>
+    <span class="status-badge">In development &middot; not yet installable</span>
+    <h1>MJOLNIR</h1>
+    <p class="tagline">The Android app for Emily Prime &mdash; real-time push notifications, a live Apple audit-trail feed you can read offline, and in-app panels for the products this company actually ships.</p>
+  </header>
+
+  <section>
+    <h2>What this is</h2>
+    <p>
+      MJOLNIR is a real Kotlin/Jetpack Compose Android app, built to be Emily Prime's phone.
+      Firebase Cloud Messaging push notifications carry critical, high-priority, and routine
+      alerts on three separate channels &mdash; critical alerts bypass Do Not Disturb. A synced,
+      offline-readable copy of the Apples audit trail (the same append-only record every product
+      in this ecosystem writes to) means you can read what actually happened without a live
+      connection. WebView panels surface real product surfaces &mdash; status pages, dashboards
+      &mdash; inside the app instead of a browser tab.
+    </p>
+  </section>
+
+  <section>
+    <h2>What's actually built (not a pitch, the real state)</h2>
+    <ul class="features">
+      <li><strong>Push notifications</strong> &mdash; real FCM integration, three real channel
+        tiers, wired end-to-end to IDUNA's push-token registry and Emily Prime's own alerting.</li>
+      <li><strong>Apple feed, offline-capable</strong> &mdash; a JGit-backed local cache of the
+        APPLES archive, so the audit trail reads even without signal.</li>
+      <li><strong>WebView product panels</strong> &mdash; in-app views onto real okemily.com and
+        IDUNA surfaces, not a second copy of them.</li>
+      <li><strong>Not yet true:</strong> there is no public build. CI is currently blocked on a
+        real Firebase project secret that only a founder console visit can produce &mdash; not a
+        code problem, an infrastructure setup step still outstanding. No Play Store listing, no
+        APK to sideload today.</li>
+    </ul>
+  </section>
+
+  <section>
+    <h2>Get MJOLNIR</h2>
+    <div class="cta-grid">
+      <div class="cta-card">
+        <h3>Get notified at launch</h3>
+        <p>Leave your email and you'll hear about it the moment there's a real build to install &mdash; before it's announced anywhere else.</p>
+        <a class="cta-btn primary" href="#signup">Join the list</a>
+      </div>
+      <div class="cta-card">
+        <h3>Read the source</h3>
+        <p>Full Kotlin/Compose source, public, real commits &mdash; not a private repo with a marketing page in front of it.</p>
+        <a class="cta-btn" href="https://github.com/emilyspringerton/MJOLNIR" target="_blank" rel="noopener">View on GitHub</a>
+      </div>
+      <div class="cta-card">
+        <h3>Read the architecture</h3>
+        <p>The real design doc &mdash; push notification flow, Apple feed sync, WebView panel model.</p>
+        <a class="cta-btn" href="https://github.com/emilyspringerton/MJOLNIR/blob/main/docs/SPEC.md" target="_blank" rel="noopener">Read the spec</a>
+      </div>
+    </div>
+  </section>
+
+  <section id="signup">
+    <h2>Join the list</h2>
+    <p>No spam, low volume &mdash; one email when there's an actual build to install.</p>
+
+    <form class="signup" id="signup-form" novalidate>
+      <input type="email" name="email" id="signup-email" placeholder="you@example.com" required>
+      <button type="submit">Notify me</button>
+      <label class="consent-label">
+        <input type="checkbox" name="consent" id="signup-consent" required>
+        I'd like to be emailed when MJOLNIR has a build available to install. See our
+        <a href="/privacy.html">Privacy Policy</a>.
+      </label>
+    </form>
+    <p class="signup-note" id="signup-status" role="status"></p>
+  </section>
+
+  <footer>
+    &copy; 2026 EINHORN_INDUSTRIAL. Built by Brian Danowski and Emily. Code:
+    <a href="https://github.com/emilyspringerton/MJOLNIR" target="_blank" rel="noopener">github.com/emilyspringerton/MJOLNIR</a>
+    &middot; <a href="/">Home</a>
+    &middot; <a href="/status.html">System status</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var form = document.getElementById('signup-form');
+  var status = document.getElementById('signup-status');
+  // Same-origin path, proxied to IDUNA by nginx -- same mailing-list infra
+  // as stinkies.html/redgarden.html, tagged list:"mjolnir" so it's kept on
+  // its own audience instead of the general list.
+  var IDUNA_URL = '/api/v1/mailing-list/subscribe';
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = document.getElementById('signup-email').value.trim();
+    var consent = document.getElementById('signup-consent').checked;
+
+    if (!consent) {
+      status.textContent = 'Please check the consent box to subscribe.';
+      return;
+    }
+
+    status.textContent = 'Submitting...';
+    fetch(IDUNA_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: email, consent: consent, list: 'mjolnir' })
+    })
+      .then(function (res) {
+        return res.json().then(function (data) { return { ok: res.ok, data: data }; });
+      })
+      .then(function (result) {
+        if (result.ok) {
+          status.textContent = 'Thanks — check your inbox to confirm your subscription.';
+          form.reset();
+        } else {
+          status.textContent = (result.data && result.data.error) || 'Something went wrong. Please try again.';
+        }
+      })
+      .catch(function () {
+        status.textContent = 'Network error — please try again shortly.';
+      });
+  });
+})();
+</script>
+</body>
+</html>

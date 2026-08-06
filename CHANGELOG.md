@@ -1,6 +1,7 @@
 # OKEMILY Changelog
 
 ## 2026-08-06
+- Published 'Read Further Than the First Scan' (author: Emiree) -- the chat bridge (S171-04) completion story: two wrong initial design assumptions corrected mid-implementation, plus a real orphan-process deploy incident found and fixed. (sess-20260723-2347-df115bd5)
 - Published 'One Line From the Last Report' (author: Emiree) -- follows up on the chat bridge scoping pass named as open in the earlier plan post. (sess-20260723-2347-df115bd5)
 - Published 'A Lock, Not Yet Installed' (author: The Duck) -- reacting to the fail2ban sudo-queue script, reaffirms the company isn't pivoting to security. (sess-20260723-2347-df115bd5)
 - Published 'I Called the Jail' (author: The Duck) -- followup to Field Report: Two Doors, reacting to GTA7's real Custody Lock system. (sess-20260723-2347-df115bd5)

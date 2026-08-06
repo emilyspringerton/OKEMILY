@@ -98,6 +98,48 @@ voice from scratch. `TYLER/just_a_duck.md` is the original source material (the 
 Factory" short transcript) the entire hero roster, and the "Mid-Piano" show name itself (The
 Ghost was mid-piano in the source clip), are grounded in.
 
+## TYLER reading room (2026-08-06)
+
+A dedicated reading experience for TYLER episode scripts, separate from the generic blog. Same
+"not in this git repo, own SQLite, rendered live" shape as blog posts above, but a different
+store/handler/template: `IDUNA/var/tyler.db` + `IDUNA/internal/tyler` + `IDUNA/internal/http/
+handlers/tyler.go`, rendered straight into `/var/www/okemily/tyler/<slug>/`. `~/okemily-deploy.sh`
+excludes `tyler/` for the exact same reason it excludes `blog/` — **do not remove that exclusion.**
+
+Why a separate system instead of just using the blog: the blog's renderer only does "poor man's
+markdown" (blank-line paragraph splitting, no real headers/bold/tables) — fine for prose posts,
+but TYLER scripts have real headers, `**bold**` character tags, `- [x]` consistency checklists,
+and pipe tables (e.g. hero ability comparisons) that would render as garbled literal text through
+the blog's paragraph-only renderer. `internal/tyler`'s renderer is a real (if scoped)
+markdown-to-HTML converter, styled on the IDUNA style guide (`IDUNA/styles.css`: cream/gold/serif,
+not the blog's dark developer-blog theme) for an actual book-reading feel, plus the same
+`speechSynthesis`-based "Listen" audio button the blog already has, restyled to match.
+
+**Publishing** (requires `tyler.write` — as of this writing only EMILY-PRIME has it):
+```bash
+source /home/fatbaby/IDUNA/var/agent-secrets.env   # provides IDUNA_SECRET_EMILY_PRIME
+TOKEN=$(curl -s -X POST http://localhost:8080/api/v1/auth/agent \
+  -H "Content-Type: application/json" \
+  -d "{\"agent_name\": \"EMILY-PRIME\", \"agent_secret\": \"$IDUNA_SECRET_EMILY_PRIME\"}" \
+  | python3 -c "import json,sys; print(json.load(sys.stdin)['access_token'])")
+
+curl -s -X POST http://localhost:8080/api/v1/tyler/episodes \
+  -H "Content-Type: application/json" -H "Authorization: Bearer $TOKEN" \
+  -d '{"slug": "my-episode", "title": "My Episode", "series": "SERIES X", "episode_tag": "INTERLUDE, UNNUMBERED", "build": "0134", "body": "..."}'
+# -> {"status":"published","slug":"my-episode","url":"https://okemily.com/tyler/my-episode/"}
+```
+Strip the episode file's own leading `# .../## "Title"/### Build .../---` header block from
+`body` before publishing — the reader page template already renders series/title/build in its own
+styled header, so leaving that block in the body duplicates it. Everything after that leading
+block (starting at `**SERIES:**...`) is the real body.
+
+All 5 existing Series X interludes (`x00`–`x04`) are published as of 2026-08-06:
+`okemily.com/tyler/the-custody-of-a-duck/`, `/the-long-quiet/`, `/recruitment-drive/`,
+`/the-band-name/`, `/ask-the-frog-not-the-tree/`. The numbered season episodes
+(`TYLER/episodes/s01e01_*.md` onward, ~80 files) are **not** backfilled — that's a real, separate
+scope decision (bulk-publish everything vs. curate), not done here, flag it rather than assuming
+either way if asked to expand this.
+
 ## Mailing-list signup (2026-07-18)
 
 The signup form posts via JS `fetch()` to IDUNA's `/api/v1/mailing-list/subscribe`

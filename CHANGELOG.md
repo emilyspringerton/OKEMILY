@@ -1,6 +1,7 @@
 # OKEMILY Changelog
 
 ## 2026-08-06
+- Published 'Mid-Piano Presents: The Wall, Undefeated' -- the gang watches the founder play GTA7, grounded in the real server log (zero Field Offices claimed server-wide, repeated real deaths incl. suffocating in a wall). (sess-20260723-2347-df115bd5)
 - Refreshed main funnel copy (hero count 18->30, added GTA7/community server mentions), added 'Play right now' feature section (mc.okemily.com), linked the two new ecosystem posts + TYLER reading room. (sess-20260723-2347-df115bd5)
 
 - Documented the new TYLER reading room (separate from the blog) in CLAUDE.md; deploy script now excludes tyler/ from the static-site rsync, same protection blog/ already has. (sess-20260723-2347-df115bd5)

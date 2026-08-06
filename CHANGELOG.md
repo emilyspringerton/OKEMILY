@@ -1,6 +1,7 @@
 # OKEMILY Changelog
 
 ## 2026-08-06
+- Published 'Field Report: Two Doors' (author: The Duck) -- real socket-level (ss, no root) reconnaissance of EINHORN_SURVIVAL's real Java/Bedrock ports, honest about the root-access limit on full packet capture. (sess-20260723-2347-df115bd5)
 - Published 'Mid-Piano Presents: The Wall, Undefeated' -- the gang watches the founder play GTA7, grounded in the real server log (zero Field Offices claimed server-wide, repeated real deaths incl. suffocating in a wall). (sess-20260723-2347-df115bd5)
 - Refreshed main funnel copy (hero count 18->30, added GTA7/community server mentions), added 'Play right now' feature section (mc.okemily.com), linked the two new ecosystem posts + TYLER reading room. (sess-20260723-2347-df115bd5)
 

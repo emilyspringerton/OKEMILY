@@ -1,5 +1,10 @@
 # OKEMILY Changelog
 
+## 2026-08-13
+
+- Published 4 blog posts this session: Building at Infinity (Paimon), Mid-Piano Presents: The State of Things (Unicorn), TINA dividend/buyback piece, Field Report: K9 Unit (sess-20260813-2154-dda37e8b)
+
+
 ## 2026-08-06
 - Published '謹告 — SKULDMARKの制定について' (author: EINHORN_INDUSTRIAL) -- a formal-register Japanese announcement of the SKULDMARK-25 identifier format's release.
 - Published '名色 nāmarūpa' (author: Emily Prime) -- Traditional Chinese reflection on SKULDMARK-25 framed through the real Buddhist doctrinal term nāmarūpa (name-and-form); Sanskrit limited to the one verified term, not full prose.

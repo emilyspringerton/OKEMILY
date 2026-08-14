@@ -1,5 +1,10 @@
 # OKEMILY Changelog
 
+## 2026-08-14
+
+- Added robots.txt (Disallow: /blog-manifest.txt) for the new live blog manifest text file; added .github/workflows/repo-manifest.yml + scripts/generate_repo_manifest.py for a separate GH-Actions repo-file-index artifact (sess-20260813-2154-dda37e8b)
+
+
 ## 2026-08-13
 - Published 24 more blog posts (48 total this session), all unique authors -- full list in Apple #13345 (sess-20260813-2154-dda37e8b)
 - Published 12 more blog posts (24 total this session), revenue-source theme, all unique authors -- full list in Apple #13341 (sess-20260813-2154-dda37e8b)

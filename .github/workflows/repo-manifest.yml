@@ -1,0 +1,51 @@
+name: Repo Manifest
+
+# Founder real-time (2026-08-14): "i need a manifest file that concatinates
+# all repos files into one file as artifacts for the blog posts for okemily"
+# -> clarified via AskUserQuestion to an INDEX (repo + file paths, not full
+# content) -> "into github action artifacts".
+#
+# Requires a MANIFEST_PAT repo secret: a GitHub Personal Access Token with
+# read access to every repo in scripts/generate_repo_manifest.py's own
+# REPOS list. The default GITHUB_TOKEN this workflow runs with only has
+# access to THIS repo (OKEMILY) -- it cannot clone sibling repos, private
+# or public, under GitHub's own cross-repo token scoping. Set it at:
+# OKEMILY repo -> Settings -> Secrets and variables -> Actions -> New
+# repository secret -> name MANIFEST_PAT.
+#
+# Output is an index/listing (repo name + tracked file paths + counts), NOT
+# a full-content concatenation -- that alternative was surfaced and
+# explicitly declined: ~30 repos, several of them large codebases, would
+# likely produce a hundreds-of-MB-to-GB+ file, impractical to generate or
+# host. If this manifest is ever surfaced as a public page on okemily.com
+# rather than just a downloadable Actions artifact, that page needs
+# <meta name="robots" content="noindex"> -- founder flagged the duplicate-
+# content SEO risk explicitly; not yet built as a public page, noted here
+# for whoever builds it next.
+
+on:
+  workflow_dispatch: {}
+
+jobs:
+  build-manifest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Generate manifest
+        env:
+          GITHUB_TOKEN: ${{ secrets.MANIFEST_PAT }}
+        run: |
+          set -e
+          if [ -z "$GITHUB_TOKEN" ]; then
+            echo "::error::MANIFEST_PAT secret is not set -- see this workflow's own header comment for setup." >&2
+            exit 1
+          fi
+          python3 scripts/generate_repo_manifest.py --out manifest.json
+      - uses: actions/upload-artifact@v4
+        with:
+          name: repo-manifest
+          path: manifest.json
+          retention-days: 90

@@ -20,6 +20,8 @@
     background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
     padding: 1rem 1.25rem; margin-bottom: 0.75rem;
   }
+  .service { flex-direction: column; align-items: stretch; }
+  .service-top { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
   .service-name { font-weight: 600; }
   .service-meta { color: var(--fg-dim); font-size: 0.85rem; margin-top: 0.2rem; }
   .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; margin-right: 0.5rem; }
@@ -29,6 +31,12 @@
   .status-label.up { color: var(--up); }
   .status-label.down { color: var(--down); }
   .loading { color: var(--fg-dim); }
+  .timeline { display: flex; gap: 2px; margin-top: 0.85rem; height: 22px; align-items: stretch; }
+  .timeline-bar { flex: 1 1 0; min-width: 2px; border-radius: 2px; background: var(--border); }
+  .timeline-bar.up { background: var(--up); opacity: 0.85; }
+  .timeline-bar.down { background: var(--down); }
+  .timeline-caption { display: flex; justify-content: space-between; color: var(--fg-dim); font-size: 0.72rem; margin-top: 0.35rem; }
+  .timeline-empty { color: var(--fg-dim); font-size: 0.78rem; margin-top: 0.6rem; }
   footer { margin-top: 3rem; color: var(--fg-dim); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
   a { color: var(--accent); }
 </style>
@@ -44,8 +52,8 @@
   <footer>
     This is a self-report from the same host running these services, not independent
     third-party monitoring — it can't report an outage of the box it runs on itself.
-    History shown is a real, live-computed uptime percentage over the last 24 hours of
-    actual checks, not a placeholder. A fuller incident timeline is planned.
+    Uptime percentages and the timeline bars below are computed live from real recorded
+    checks, not placeholders — hover a bar for its exact time, status, and latency.
   </footer>
 </div>
 
@@ -66,17 +74,57 @@
           ? svc.uptime_24h_percent.toFixed(1) + '% uptime (24h, ' + svc.uptime_24h_samples + ' checks)'
           : 'No history yet';
         div.innerHTML =
-          '<div>' +
-            '<div class="service-name"><span class="dot ' + (up ? 'up' : 'down') + '"></span>' + svc.label + '</div>' +
-            '<div class="service-meta">' + uptimeText + '</div>' +
+          '<div class="service-top">' +
+            '<div>' +
+              '<div class="service-name"><span class="dot ' + (up ? 'up' : 'down') + '"></span>' + svc.label + '</div>' +
+              '<div class="service-meta">' + uptimeText + '</div>' +
+            '</div>' +
+            '<div class="status-label ' + (up ? 'up' : 'down') + '">' + (svc.checked ? (up ? 'Operational' : 'Down') : 'Pending first check') + '</div>' +
           '</div>' +
-          '<div class="status-label ' + (up ? 'up' : 'down') + '">' + (svc.checked ? (up ? 'Operational' : 'Down') : 'Pending first check') + '</div>';
+          '<div class="timeline" id="timeline-' + svc.name + '"><span class="timeline-empty">Loading history&hellip;</span></div>';
         container.appendChild(div);
+        loadTimeline(svc.name);
       });
     })
     .catch(function () {
       document.getElementById('services').innerHTML = '<p class="loading">Could not load status right now.</p>';
     });
+
+  // Incident timeline: one bar per recorded check over the last 24h, most
+  // recent on the right. Real data from GET /api/v1/status/history, the
+  // same checks table every uptime percentage above is already computed
+  // from — this just renders the raw rows instead of only a rollup.
+  function loadTimeline(name) {
+    fetch('/api/v1/status/history?target=' + encodeURIComponent(name) + '&hours=24')
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        var el = document.getElementById('timeline-' + name);
+        if (!el) return;
+        if (!data.checks || data.checks.length === 0) {
+          el.innerHTML = '<span class="timeline-empty">No checks recorded yet</span>';
+          return;
+        }
+        el.innerHTML = '';
+        data.checks.forEach(function (c) {
+          var bar = document.createElement('div');
+          bar.className = 'timeline-bar ' + (c.up ? 'up' : 'down');
+          var when = new Date(c.checked_at).toLocaleString();
+          bar.title = when + ' — ' + (c.up ? 'up' : 'down') + ' — ' + c.latency_ms + 'ms';
+          el.appendChild(bar);
+        });
+        var caption = el.parentElement.querySelector('.timeline-caption');
+        if (!caption) {
+          caption = document.createElement('div');
+          caption.className = 'timeline-caption';
+          el.insertAdjacentElement('afterend', caption);
+        }
+        caption.innerHTML = '<span>' + data.checks.length + ' checks, last 24h</span><span>now</span>';
+      })
+      .catch(function () {
+        var el = document.getElementById('timeline-' + name);
+        if (el) el.innerHTML = '<span class="timeline-empty">Could not load history</span>';
+      });
+  }
 </script>
 </body>
 </html>

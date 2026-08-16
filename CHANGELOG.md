@@ -1,5 +1,13 @@
 # OKEMILY Changelog
 
+## 2026-08-16
+
+- feat(S153-11 partial): status.html renders a real per-service incident timeline (colored bar
+  per recorded check, most recent on the right, hover for exact time/status/latency) fetched from
+  IDUNA's new `GET /api/v1/status/history`. Footer note updated — no longer says a fuller timeline
+  is "planned." Deployed via `~/okemily-deploy.sh`, live-verified through `okemily.com`'s public
+  proxy. (sess-20260813-2154-dda37e8b)
+
 ## 2026-08-14
 
 - Added robots.txt (Disallow: /blog-manifest.txt) for the new live blog manifest text file; added .github/workflows/repo-manifest.yml + scripts/generate_repo_manifest.py for a separate GH-Actions repo-file-index artifact (sess-20260813-2154-dda37e8b)

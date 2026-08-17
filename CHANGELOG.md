@@ -1,5 +1,17 @@
 # OKEMILY Changelog
 
+## 2026-08-17
+
+- feat(S162-02): expanded the triple-click TYLER easter egg from one fixed quote to a rotation of
+  three, all genuinely sourced (not invented for this box): the original s00e00 line, plus "clean
+  builds first. not a rule anymore — physics." from the "Clean Builds First" guest post and "The
+  log stays open." from "Activation #114" — both already-published OKEMILY blog posts that
+  reference TYLER, per this item's own suggested direction. First reveal still shows the original
+  line unchanged (backward compatible); each subsequent triple-click cycles to the next real quote
+  and wraps around. Traced the extracted click-handler logic through a full cycle with a small
+  Node/DOM-stub harness before deploying — first/second/third/fourth reveals all verified correct.
+  Deployed via `~/okemily-deploy.sh`, live-verified on okemily.com. (sess-20260813-2154-dda37e8b)
+
 ## 2026-08-16
 
 - feat(S153-11 partial): status.html renders a real per-service incident timeline (colored bar

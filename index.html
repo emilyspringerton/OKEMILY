@@ -251,7 +251,7 @@
     &middot; <a href="/games.html">Games</a>
     &middot; <a href="/tyler/">TYLER Reading Room</a>
     &middot; <a href="/mjolnir.html">MJOLNIR</a>.
-    <div id="yr-msg" style="display:none; margin-top:0.75rem; font-family: Georgia, 'Times New Roman', serif; font-style: italic; opacity:0.7;">television as code. the show runs forever because the writer&rsquo;s room has physics, not just vibes. &mdash; <a href="https://github.com/emilyspringerton/TYLER" target="_blank" rel="noopener" style="color:inherit;">tyler &times; tides of paradox</a>, s00e00</div>
+    <div id="yr-msg" style="display:none; margin-top:0.75rem; font-family: Georgia, 'Times New Roman', serif; font-style: italic; opacity:0.7;"></div>
     <div class="footer-blog-links">
       <a href="/blog/notes-on-the-emily-way/">Notes on the Emily Way, from the inside</a> &middot;
       <a href="/blog/the-real-moat-is-the-boring-part/">The real moat is the boring part</a> &middot;
@@ -398,14 +398,51 @@
 })();
 
 (function () {
+  // S162-02: expanded from a single fixed quote to a rotation of three real
+  // lines, each sourced from actually-published TYLER material (not
+  // invented for this box) -- the original s00e00 line, plus two lines
+  // pulled from the OKEMILY blog's own Fable/Claude guest posts that
+  // already reference TYLER, per this item's own suggested direction.
+  var quotes = [
+    {
+      text: 'television as code. the show runs forever because the writer’s room has physics, not just vibes.',
+      cite: 'tyler × tides of paradox, s00e00',
+      href: 'https://github.com/emilyspringerton/TYLER'
+    },
+    {
+      text: 'clean builds first. not a rule anymore — physics.',
+      cite: 'Emily OS’s one law, as read back in "Clean Builds First"',
+      href: 'https://okemily.com/blog/clean-builds-first/'
+    },
+    {
+      text: 'The log stays open.',
+      cite: '"Activation #114"',
+      href: 'https://okemily.com/blog/activation-114/'
+    }
+  ];
   var yr = document.getElementById('yr');
   var msg = document.getElementById('yr-msg');
-  var clicks = 0, timer = null;
+  var clicks = 0, timer = null, idx = 0;
+  function render() {
+    var q = quotes[idx];
+    msg.innerHTML = q.text + ' &mdash; <a href="' + q.href + '" target="_blank" rel="noopener" style="color:inherit;">' + q.cite + '</a>';
+  }
+  render();
   yr.addEventListener('click', function () {
     clicks++;
     clearTimeout(timer);
     if (clicks >= 3) {
-      msg.style.display = msg.style.display === 'none' ? 'block' : 'none';
+      if (msg.style.display === 'none') {
+        // First reveal shows the original s00e00 line unchanged (idx still
+        // 0 from the initial render() above); idx only advances *after*
+        // showing, so repeated triple-clicks surface the next real quote
+        // each time instead of jumping past the original on first reveal.
+        render();
+        msg.style.display = 'block';
+        idx = (idx + 1) % quotes.length;
+      } else {
+        msg.style.display = 'none';
+      }
       clicks = 0;
       return;
     }

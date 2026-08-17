@@ -1,5 +1,11 @@
 # OKEMILY Changelog
 
+## 2026-08-17 (2)
+
+- feat(S176-02): added "Prompt-o-verse" to the main footer nav, next to TYLER Reading Room/WOTAN/
+  etc, linking to the new live gallery at `/prompt-o-verse/` (IDUNA-rendered, excluded from this
+  repo's own deploy rsync same as blog/tyler). (sess-20260813-2154-dda37e8b)
+
 ## 2026-08-17
 
 - feat(S162-02): expanded the triple-click TYLER easter egg from one fixed quote to a rotation of

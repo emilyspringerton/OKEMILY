@@ -1,5 +1,10 @@
 # OKEMILY Changelog
 
+## 2026-08-18
+
+- feat: Prompt-o-verse Discovery page (style registry + GPT-2 candidate tags + content-policy dead-letter dataset), live-updating via IDUNA's new discovery API, linked from the footer (sess-20260813-2154-dda37e8b)
+
+
 ## 2026-08-17 (2)
 
 - feat(S176-02): added "Prompt-o-verse" to the main footer nav, next to TYLER Reading Room/WOTAN/

@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Prompt-o-verse Discovery &mdash; A Gallery</title>
+<meta name="description" content="The Prompt-o-verse style registry, GPT-2-harvested candidate tags awaiting promotion, and the content-policy dead-letter dataset.">
+<style>
+  :root {
+    --bg: #101014; --panel-bg: #17171d; --accent: #7c8cff;
+    --text-main: #eef0f4; --text-soft: #a8adb8; --text-whisper: #6f7480;
+    --rule: #23262f; --warn: #e8b34a; --ok: #58c97a;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #fafafa; --panel-bg: #ffffff; --accent: #4451c7;
+      --text-main: #14161c; --text-soft: #4a4f5c; --text-whisper: #8a8f9c;
+      --rule: #e4e4e8; --warn: #96690f; --ok: #1e7a3f;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text-main);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 2.5rem 1.5rem 5rem; }
+  nav.wordmark a { font-size: 0.72rem; letter-spacing: 0.28em; text-transform: uppercase; color: var(--text-whisper); text-decoration: none; }
+  h1 { font-weight: 700; font-size: clamp(1.9rem, 5vw, 2.6rem); margin: 1.1rem 0 0.4rem; }
+  .tagline { color: var(--text-soft); font-size: 1.02rem; margin-bottom: 2rem; max-width: 680px; }
+  section.panel { margin-bottom: 2.6rem; }
+  section.panel h2 {
+    font-size: 1.15rem; font-weight: 700; margin: 0 0 0.3rem; padding-bottom: 0.6rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  section.panel .panel-note { font-size: 0.85rem; color: var(--text-whisper); margin: 0.5rem 0 1rem; }
+  table.data { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+  table.data th, table.data td {
+    text-align: left; padding: 0.5rem 0.7rem; border-bottom: 1px solid var(--rule);
+    vertical-align: top;
+  }
+  table.data th { color: var(--text-whisper); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; }
+  .tbl-wrap { overflow-x: auto; }
+  .tag-rare { display: inline-block; font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--warn); border: 1px solid var(--warn); border-radius: 999px; padding: 0.1rem 0.5rem; margin-left: 0.4rem; }
+  .tag-discovered { display: inline-block; font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent); border-radius: 999px; padding: 0.1rem 0.5rem; margin-left: 0.4rem; }
+  .tag-promoted { display: inline-block; font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ok); border: 1px solid var(--ok); border-radius: 999px; padding: 0.1rem 0.5rem; }
+  .tag-pending { display: inline-block; font-size: 0.66rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-whisper); border: 1px solid var(--text-whisper); border-radius: 999px; padding: 0.1rem 0.5rem; }
+  code.cmd { font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 0.82rem; background: var(--panel-bg); border: 1px solid var(--rule); border-radius: 4px; padding: 0.08rem 0.4rem; }
+  .empty-note { color: var(--text-whisper); font-size: 0.88rem; font-style: italic; }
+  nav.back { margin-top: 3rem; }
+  nav.back a { font-size: 0.85rem; color: var(--text-whisper); text-decoration: none; }
+  nav.back a:hover { color: var(--accent); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav class="wordmark"><a href="/prompt-o-verse/">Prompt-o-verse &middot; A Gallery</a></nav>
+  <h1>Discovery</h1>
+  <p class="tagline">The full style registry (hardcoded + Vertex AI-discovered), candidate tags
+  GPT-2 has harvested and not yet promoted, and the content-policy dead-letter dataset &mdash;
+  which (subject, style) pairs Vertex AI's own IP/safety filters have permanently blocked, kept
+  as data, never retried. Promotion itself happens on the box: <code class="cmd">emily
+  promptoverse promote &lt;label&gt; [--rare]</code>.</p>
+
+  <section class="panel" aria-labelledby="styles-heading">
+    <h2 id="styles-heading">Style Registry <span id="styles-count"></span></h2>
+    <p class="panel-note">Every style <code class="cmd">emily promptoverse add</code> can draw from &mdash; hardcoded at build time, or discovered/promoted since. <span class="tag-rare">rare</span> styles are excluded from selection most of the time, on purpose.</p>
+    <div class="tbl-wrap" id="styles-root"><p class="empty-note">Loading&hellip;</p></div>
+  </section>
+
+  <section class="panel" aria-labelledby="candidates-heading">
+    <h2 id="candidates-heading">Candidate Tags <span id="candidates-count"></span></h2>
+    <p class="panel-note">Parsed from <code class="cmd">emily promptoverse brainstorm</code> completions, not yet promoted into a real style unless marked.</p>
+    <div class="tbl-wrap" id="candidates-root"><p class="empty-note">Loading&hellip;</p></div>
+  </section>
+
+  <section class="panel" aria-labelledby="deadletters-heading">
+    <h2 id="deadletters-heading">Content-Policy Dead Letters <span id="deadletters-count"></span></h2>
+    <p class="panel-note">(subject, style) pairs Vertex AI permanently declined to generate &mdash; never retried, kept only to spot patterns (e.g. which subjects carry IP sensitivity across which styles).</p>
+    <div class="tbl-wrap" id="deadletters-root"><p class="empty-note">Loading&hellip;</p></div>
+  </section>
+
+  <nav class="back"><a href="/prompt-o-verse/">&larr; Back to the gallery</a></nav>
+</div>
+<script>
+  // Same idiom as /prompt-o-verse/'s own live-update script and
+  // OKEMILY/tournaments.html's hero leaderboard: fetch() + setInterval,
+  // full innerHTML re-render each tick. 15s poll -- this data changes on
+  // the order of minutes (a brainstorm run, a promotion, an occasional
+  // content block), not several-times-a-second.
+  (function () {
+    var POLL_MS = 15000;
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"']/g, function (c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+      });
+    }
+
+    function fmtDate(iso) {
+      if (!iso) return '';
+      var d = new Date(iso);
+      if (isNaN(d.getTime())) return '';
+      return d.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
+    }
+
+    function renderStyles(styles) {
+      var root = document.getElementById('styles-root');
+      document.getElementById('styles-count').textContent = '(' + styles.length + ')';
+      if (styles.length === 0) {
+        root.innerHTML = '<p class="empty-note">No styles loaded.</p>';
+        return;
+      }
+      var rows = styles.slice().sort(function (a, b) {
+        return a.label.localeCompare(b.label);
+      }).map(function (s) {
+        var badges = '';
+        if (s.rare) badges += '<span class="tag-rare">rare</span>';
+        if (s.discovered) badges += '<span class="tag-discovered">discovered</span>';
+        var origin = s.discovered
+          ? 'for &ldquo;' + escapeHtml(s.discovered_for || '?') + '&rdquo; on ' + fmtDate(s.discovered_at)
+          : 'hardcoded';
+        return '<tr><td>' + escapeHtml(s.label) + badges + '</td><td>' + escapeHtml(s.kind) + '</td><td>' + origin + '</td></tr>';
+      }).join('');
+      root.innerHTML = '<table class="data"><thead><tr><th>Label</th><th>Kind</th><th>Origin</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    }
+
+    function renderCandidates(candidates) {
+      var root = document.getElementById('candidates-root');
+      document.getElementById('candidates-count').textContent = '(' + candidates.length + ')';
+      if (candidates.length === 0) {
+        root.innerHTML = '<p class="empty-note">No candidates harvested yet &mdash; run <code class="cmd">emily promptoverse brainstorm</code>.</p>';
+        return;
+      }
+      var rows = candidates.slice().reverse().map(function (c) {
+        var status = c.promoted ? '<span class="tag-promoted">promoted</span>' : '<span class="tag-pending">pending</span>';
+        return '<tr><td>' + escapeHtml(c.label) + '</td><td>' + status + '</td><td>' + fmtDate(c.harvested_at) + '</td><td>' + escapeHtml(c.seed) + '</td></tr>';
+      }).join('');
+      root.innerHTML = '<table class="data"><thead><tr><th>Label</th><th>Status</th><th>Harvested</th><th>Seed</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    }
+
+    function renderDeadLetters(entries) {
+      var root = document.getElementById('deadletters-root');
+      document.getElementById('deadletters-count').textContent = '(' + entries.length + ')';
+      if (entries.length === 0) {
+        root.innerHTML = '<p class="empty-note">None recorded yet.</p>';
+        return;
+      }
+      var rows = entries.slice().reverse().map(function (e) {
+        return '<tr><td>' + escapeHtml(e.subject) + '</td><td>' + escapeHtml(e.style_label) + '</td><td>' + escapeHtml(e.reason) + '</td><td>' + fmtDate(e.blocked_at) + '</td></tr>';
+      }).join('');
+      root.innerHTML = '<table class="data"><thead><tr><th>Subject</th><th>Style</th><th>Reason</th><th>Blocked</th></tr></thead><tbody>' + rows + '</tbody></table>';
+    }
+
+    function poll() {
+      fetch('/api/v1/promptoverse/discovery')
+        .then(function (res) { return res.json(); })
+        .then(function (data) {
+          renderStyles(data.styles || []);
+          renderCandidates(data.candidates || []);
+          renderDeadLetters(data.dead_letters || []);
+        })
+        .catch(function () {
+          // Silent -- whatever rendered last tick (or the "Loading..."
+          // placeholder on first load) stays up rather than being
+          // replaced with an error state on a single failed poll.
+        });
+    }
+
+    poll();
+    setInterval(poll, POLL_MS);
+  })();
+</script>
+</body>
+</html>

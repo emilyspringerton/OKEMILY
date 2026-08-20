@@ -1,5 +1,10 @@
 # OKEMILY Changelog
 
+## 2026-08-20
+
+- Linked the live GFD Battlegrounds WASM web client from WOTAN (tournaments.html) + added the /gfd-ws/ nginx wss proxy config (queued in sudo-queue, needs founder sudo). (sess-20260820-0649-a3f19d93)
+
+
 ## 2026-08-18
 
 - feat: Prompt-o-verse Discovery page (style registry + GPT-2 candidate tags + content-policy dead-letter dataset), live-updating via IDUNA's new discovery API, linked from the footer (sess-20260813-2154-dda37e8b)

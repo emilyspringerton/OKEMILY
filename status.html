@@ -37,6 +37,10 @@
   .timeline-bar.down { background: var(--down); }
   .timeline-caption { display: flex; justify-content: space-between; color: var(--fg-dim); font-size: 0.72rem; margin-top: 0.35rem; }
   .timeline-empty { color: var(--fg-dim); font-size: 0.78rem; margin-top: 0.6rem; }
+  .latency { display: flex; gap: 2px; margin-top: 0.6rem; height: 36px; align-items: flex-end; }
+  .latency-bar { flex: 1 1 0; min-width: 2px; min-height: 2px; border-radius: 1px 1px 0 0; background: var(--accent); opacity: 0.55; }
+  .latency-bar.down { background: var(--down); opacity: 0.85; }
+  .latency-caption { display: flex; justify-content: space-between; color: var(--fg-dim); font-size: 0.72rem; margin-top: 0.3rem; }
   footer { margin-top: 3rem; color: var(--fg-dim); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
   a { color: var(--accent); }
 </style>
@@ -81,7 +85,8 @@
             '</div>' +
             '<div class="status-label ' + (up ? 'up' : 'down') + '">' + (svc.checked ? (up ? 'Operational' : 'Down') : 'Pending first check') + '</div>' +
           '</div>' +
-          '<div class="timeline" id="timeline-' + svc.name + '"><span class="timeline-empty">Loading history&hellip;</span></div>';
+          '<div class="timeline" id="timeline-' + svc.name + '"><span class="timeline-empty">Loading history&hellip;</span></div>' +
+          '<div class="latency" id="latency-' + svc.name + '"></div>';
         container.appendChild(div);
         loadTimeline(svc.name);
       });
@@ -119,11 +124,60 @@
           el.insertAdjacentElement('afterend', caption);
         }
         caption.innerHTML = '<span>' + data.checks.length + ' checks, last 24h</span><span>now</span>';
+
+        renderLatencyChart(name, data.checks);
       })
       .catch(function () {
         var el = document.getElementById('timeline-' + name);
         if (el) el.innerHTML = '<span class="timeline-empty">Could not load history</span>';
       });
+  }
+
+  // Per-target latency graph (S153-11 follow-up): the checks table has
+  // always recorded latency_ms and it was already coming back on every
+  // /api/v1/status/history response — the timeline above only ever put it
+  // in a hover tooltip. This renders it as a real bar chart, reusing the
+  // same fetched checks instead of a second request. Bar height is scaled
+  // relative to the max latency in the current window, not an absolute
+  // scale, since "fast" varies a lot by target (a local IDUNA check and a
+  // cross-process one are both "healthy" at very different ms).
+  function renderLatencyChart(name, checks) {
+    var el = document.getElementById('latency-' + name);
+    if (!el) return;
+    if (!checks || checks.length === 0) {
+      el.innerHTML = '';
+      return;
+    }
+
+    var samples = checks.map(function (c) { return c.latency_ms; });
+    var max = Math.max.apply(null, samples);
+    var min = Math.min.apply(null, samples);
+    var sum = samples.reduce(function (a, b) { return a + b; }, 0);
+    var avg = Math.round(sum / samples.length);
+    // Guard div-by-zero when every recorded latency is identical (e.g. a
+    // target that's only ever failed instantly at 0ms).
+    var range = max - min || 1;
+
+    el.innerHTML = '';
+    checks.forEach(function (c) {
+      var bar = document.createElement('div');
+      bar.className = 'latency-bar' + (c.up ? '' : ' down');
+      // 12%-100% of the row height, floor kept non-zero so every bar stays
+      // visible/hoverable even in a near-flat-latency window.
+      var pct = 12 + ((c.latency_ms - min) / range) * 88;
+      bar.style.height = pct + '%';
+      var when = new Date(c.checked_at).toLocaleString();
+      bar.title = when + ' — ' + c.latency_ms + 'ms' + (c.up ? '' : ' (down)');
+      el.appendChild(bar);
+    });
+
+    var caption = el.parentElement.querySelector('.latency-caption');
+    if (!caption) {
+      caption = document.createElement('div');
+      caption.className = 'latency-caption';
+      el.insertAdjacentElement('afterend', caption);
+    }
+    caption.innerHTML = '<span>latency: min ' + min + 'ms &middot; avg ' + avg + 'ms &middot; max ' + max + 'ms</span>';
   }
 </script>
 </body>

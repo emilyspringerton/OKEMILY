@@ -1,5 +1,10 @@
 # OKEMILY Changelog
 
+## 2026-08-25
+
+- S153-11 follow-up: per-target latency chart on status.html -- bar chart under each service's incident timeline, reusing the already-fetched history response (latency_ms was already in the API, just not charted). Apple #15887. (sess-20260825-0828-cc32a704)
+
+
 ## 2026-08-20
 
 - Linked the live GFD Battlegrounds WASM web client from WOTAN (tournaments.html) + added the /gfd-ws/ nginx wss proxy config (queued in sudo-queue, needs founder sudo). (sess-20260820-0649-a3f19d93)

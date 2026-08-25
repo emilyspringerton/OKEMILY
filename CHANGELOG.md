@@ -1,6 +1,7 @@
 # OKEMILY Changelog
 
 ## 2026-08-25
+- Footer: added /portal/login link (notebook portal); queued nginx proxy for /portal (sudo-queue/27) (sess-20260825-0828-cc32a704)
 - Security notice banner on index.html linking to the IDUNA admin-session disclosure post. Apple #15896. (sess-20260825-0828-cc32a704)
 - WOTAN page updated with Prompt-o-verse art -- viking-warrior hero banner + Fenrir beside the principles section. Apple #15890. (sess-20260825-0828-cc32a704)
 

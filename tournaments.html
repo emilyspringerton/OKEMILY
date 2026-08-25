@@ -137,6 +137,18 @@
   table.leaderboard td.rank { color: var(--fg-dim); width: 2.5em; }
   table.leaderboard td.wl { color: var(--accent); font-variant-numeric: tabular-nums; }
   .leaderboard-note { font-size: 0.85rem; margin-top: 0.6rem; }
+
+  /* Prompt-o-verse art placements — same card language as .game-card
+     (var(--bg-card) fill, var(--border) hairline, 10px radius) so the
+     art reads as part of this design system, not a pasted-in banner. */
+  .hero-art { border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--bg-card); }
+  .hero-art img { display: block; width: 100%; height: 320px; object-fit: cover; object-position: 50% 22%; }
+  .art-caption { font-size: 0.78rem; color: var(--fg-dim); padding: 0.6rem 0.9rem; border-top: 1px solid var(--border); }
+  .split { display: flex; flex-direction: column-reverse; gap: 1.25rem; }
+  .split-art { flex: none; width: 100%; max-width: 220px; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--bg-card); align-self: flex-start; }
+  .split-art img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
+  .split-body { flex: 1 1 auto; }
+  @media (min-width: 640px) { .split { flex-direction: row; align-items: flex-start; } }
 </style>
 </head>
 <body>
@@ -147,6 +159,11 @@
     <h1>WOTAN</h1>
     <p class="tagline">A social tournaments platform &mdash; structured competition, permanent public standings, no gambling vocabulary.</p>
   </header>
+
+  <div class="hero-art">
+    <img src="/images/wotan-viking-warrior.jpg" alt="A weathered Norse warrior in furs and rune-marked steel, axe over one shoulder, standing in a snowbound pine forest at dusk.">
+    <div class="art-caption">Generated via Prompt-o-verse &mdash; "viking warrior," Unreal Engine style.</div>
+  </div>
 
   <section>
     <h2>What this is</h2>
@@ -207,12 +224,20 @@
 
   <section class="principles">
     <h2>How it's built</h2>
-    <ul>
-      <li><strong>Closed, non-redeemable economy.</strong> No deposits, no withdrawals, no secondary markets. Chips and stacks exist only inside a tournament.</li>
-      <li><strong>One identity, one seat.</strong> Real accounts, not anonymous tables &mdash; your record follows you.</li>
-      <li><strong>Server authority.</strong> Rules, RNG, and outcomes are decided server-side and are auditable; clients render and submit input, nothing else.</li>
-      <li><strong>Standings as a shared object.</strong> Results are public and permanent, not deleted or reset.</li>
-    </ul>
+    <div class="split">
+      <div class="split-body">
+        <ul>
+          <li><strong>Closed, non-redeemable economy.</strong> No deposits, no withdrawals, no secondary markets. Chips and stacks exist only inside a tournament.</li>
+          <li><strong>One identity, one seat.</strong> Real accounts, not anonymous tables &mdash; your record follows you.</li>
+          <li><strong>Server authority.</strong> Rules, RNG, and outcomes are decided server-side and are auditable; clients render and submit input, nothing else.</li>
+          <li><strong>Standings as a shared object.</strong> Results are public and permanent, not deleted or reset.</li>
+        </ul>
+      </div>
+      <div class="split-art">
+        <img src="/images/wotan-fenrir.jpg" alt="Fenrir, a massive rune-marked wolf, bound in chains atop a cracked, glowing volcanic rock under a lightning storm.">
+        <div class="art-caption">"Fenrir," Prompt-o-verse.</div>
+      </div>
+    </div>
   </section>
 
   <section>

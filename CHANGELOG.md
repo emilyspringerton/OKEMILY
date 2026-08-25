@@ -1,6 +1,7 @@
 # OKEMILY Changelog
 
 ## 2026-08-25
+- WOTAN page updated with Prompt-o-verse art -- viking-warrior hero banner + Fenrir beside the principles section. Apple #15890. (sess-20260825-0828-cc32a704)
 
 - S153-11 follow-up: per-target latency chart on status.html -- bar chart under each service's incident timeline, reusing the already-fetched history response (latency_ms was already in the API, just not charted). Apple #15887. (sess-20260825-0828-cc32a704)
 

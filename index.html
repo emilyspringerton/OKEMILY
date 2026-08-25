@@ -16,6 +16,9 @@
     /* Lightest grey that still clears WCAG AA (4.5:1) against --bg —
        computed, not eyeballed: #7a7a7a on #0b0c10 = 4.554:1. */
     --subfooter: #7a7a7a;
+    /* Amber, distinct from --accent on purpose (a notice isn't a link) —
+       #e0a836 on --bg-card #14161c = 8.459:1. */
+    --notice: #e0a836;
   }
   @media (prefers-color-scheme: light) {
     :root {
@@ -28,6 +31,8 @@
       /* Lightest grey that still clears WCAG AA (4.5:1) against --bg —
          #737373 on #fafafa = 4.543:1. */
       --subfooter: #737373;
+      /* #8a6008 on --bg-card #ffffff = 5.589:1. */
+      --notice: #8a6008;
     }
   }
   * { box-sizing: border-box; }
@@ -126,10 +131,28 @@
     color: var(--accent); border: 1px solid var(--accent); border-radius: 4px;
     padding: 0.1rem 0.4rem; margin-right: 0.6rem; vertical-align: middle;
   }
+  .security-notice {
+    display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap;
+    background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--notice);
+    border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 2.5rem; font-size: 0.9rem;
+  }
+  .security-notice .tag {
+    display: inline-block; font-size: 0.68rem; letter-spacing: 0.08em; font-weight: 700;
+    color: var(--notice); border: 1px solid var(--notice); border-radius: 4px;
+    padding: 0.1rem 0.4rem; flex: none;
+  }
+  .security-notice a { color: var(--fg); font-weight: 600; }
+  .security-notice a:hover { color: var(--accent); }
 </style>
 </head>
 <body>
 <div class="wrap">
+  <div class="security-notice">
+    <span class="tag">Security</span>
+    <span>We found and disclosed an IDUNA admin-session gap before shipping the fix &mdash;
+    <a href="/blog/mid-piano-presents-the-memory-ceremony/">read the write-up</a>.</span>
+  </div>
+
   <header>
     <div class="wordmark">EINHORN_INDUSTRIAL</div>
     <h1>Emily</h1>

@@ -1,6 +1,7 @@
 # OKEMILY Changelog
 
 ## 2026-08-26
+- fixed /jewel/ nginx location to proxy the fatbaby-broker instead of nginx auth_basic/JupyterLab directly (sess-20260825-1938-f6bd411e)
 
 - wired /jewel/ nginx proxy (Basic Auth, websocket-upgrade) to the real JEWEL backend in both server stanzas; deploy queued at sudo-queue/31-jewel-nginx-basic-auth.sh (sess-20260825-1938-f6bd411e)
 

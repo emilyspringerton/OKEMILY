@@ -1,5 +1,10 @@
 # OKEMILY Changelog
 
+## 2026-08-26
+
+- wired /jewel/ nginx proxy (Basic Auth, websocket-upgrade) to the real JEWEL backend in both server stanzas; deploy queued at sudo-queue/31-jewel-nginx-basic-auth.sh (sess-20260825-1938-f6bd411e)
+
+
 ## 2026-08-25
 - restyled redgarden.html to IDUNA's cream/gold ceremony design system, matching the login/portal pages; real Prompt-o-verse art (wotan-viking-warrior, wotan-fenrir) (sess-20260825-1938-f6bd411e)
 - Footer: added /portal/login link (notebook portal); queued nginx proxy for /portal (sudo-queue/27) (sess-20260825-0828-cc32a704)

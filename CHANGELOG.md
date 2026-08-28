@@ -1,5 +1,10 @@
 # OKEMILY Changelog
 
+## 2026-08-28
+
+- Added /sarena/ nginx location (queued, rides the pending /jewel/ deploy) for SARENA_NOTEBOOK. commit 94855dd. (sess-20260825-1938-f6bd411e)
+
+
 ## 2026-08-26
 - fixed /jewel/ nginx location to proxy the fatbaby-broker instead of nginx auth_basic/JupyterLab directly (sess-20260825-1938-f6bd411e)
 

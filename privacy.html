@@ -24,45 +24,87 @@
 <body>
 <div class="wrap">
   <h1>Privacy Policy</h1>
-  <p class="version">Version: okemily-v1-2026-07-17</p>
+  <p class="version">Version: okemily-v2-2026-09-02 (previous: okemily-v1-2026-07-17)</p>
 
-  <p>This page describes what happens when you subscribe to updates at okemily.com. We collect the
-  minimum needed to do that, and nothing else on this page.</p>
+  <p>This page describes what EINHORN_INDUSTRIAL collects across okemily.com and the services
+  linked from it &mdash; the mailing list signup, the developer portal (Google sign-in and local
+  accounts), and the operational security logs that keep those systems safe. Version 1 of this
+  policy only covered the mailing list; this version widens the scope to the rest of what's live
+  today, without changing how the mailing-list section itself works.</p>
 
-  <h2>What we collect</h2>
+  <h2>The marketing site itself</h2>
+  <p>The pages of okemily.com you can read without signing in (this page, the homepage, the blog,
+  the TYLER reading room, game/project pages) don't use tracking cookies or analytics scripts. We
+  don't know who's reading them beyond what's in ordinary web server access logs (IP address,
+  requested page, timestamp), which we keep only as long as needed for security and abuse
+  investigation, then discard.</p>
+
+  <h2>Mailing list signup</h2>
   <ul>
     <li>Your email address, only if you submit it via the signup form and check the consent box.</li>
     <li>The time you subscribed, and which version of this policy you agreed to.</li>
   </ul>
-  <p>We do not collect names, phone numbers, or any other personal data through this form. We do not
-  use tracking cookies or analytics scripts on this page.</p>
-
-  <h2>How it's stored</h2>
-  <p>Your email address is encrypted before it is ever written to disk, using a passphrase held only
-  by a human operator, never stored on the server itself. It is never held in plaintext at rest,
-  under any circumstance.</p>
-
-  <h2>Who processes it</h2>
-  <p>We use Mailchimp to send email updates. When you subscribe, Mailchimp sends you a confirmation
-  email — you are not actually subscribed to receive anything until you click that link
-  (double opt-in). Mailchimp acts as our data processor for the purpose of sending email;
-  they have their own privacy practices, available at
-  <a href="https://mailchimp.com/legal/privacy/" target="_blank" rel="noopener">mailchimp.com/legal/privacy</a>.</p>
-
-  <h2>How long we keep it</h2>
-  <p>We keep your email address for as long as you remain subscribed. If you unsubscribe via
+  <p>We do not collect names, phone numbers, or any other personal data through this form. Your
+  email address is encrypted before it is ever written to disk, using a passphrase held only by a
+  human operator, never stored on the server itself &mdash; it is never held in plaintext at rest,
+  under any circumstance. We use Mailchimp to send email updates. When you subscribe, Mailchimp
+  sends you a confirmation email &mdash; you are not actually subscribed to receive anything until
+  you click that link (double opt-in). Mailchimp acts as our data processor for the purpose of
+  sending email; their own privacy practices are at
+  <a href="https://mailchimp.com/legal/privacy/" target="_blank" rel="noopener">mailchimp.com/legal/privacy</a>.
+  We keep your email address for as long as you remain subscribed. If you unsubscribe via
   Mailchimp's link (in any email we send) or ask us directly, we remove it from both Mailchimp and
   our own records.</p>
+
+  <h2>Developer portal accounts</h2>
+  <p>Signing in to the developer portal (<code>/portal/login</code>) works one of two ways:</p>
+  <ul>
+    <li><strong>Google sign-in</strong> &mdash; we receive your Google account's email address and
+    name from Google, to identify your account. We don't receive your Google password, and we
+    don't get any other access to your Google account beyond that identification.</li>
+    <li><strong>Local email/password account</strong> &mdash; we store your email address and a
+    salted, hashed form of your password (never the password itself in a form anyone, including
+    us, can read back out).</li>
+  </ul>
+  <p>Either way, we use this only to run the portal itself: knowing who's signed in, and what
+  they're allowed to do there.</p>
+
+  <h2>Security &amp; operational logs</h2>
+  <p>To keep the developer portal, admin tools, and API safe, we log security-relevant events:
+  sign-in attempts (success or failure), account suspensions, and similar administrative actions.
+  These records include an event type, a timestamp, and identifying information relevant to that
+  event (such as the email or account name involved) &mdash; never a password or a secret
+  credential value. These logs exist to detect and investigate abuse, unauthorized access, and
+  operational problems; they aren't used for marketing, and they aren't sold or shared with anyone
+  outside EINHORN_INDUSTRIAL.</p>
+
+  <h2>Community game servers</h2>
+  <p>Our community Minecraft server and other game services process the account identifiers those
+  platforms provide (for example, a Minecraft username/UUID) and normal gameplay/chat data needed
+  to run the server, consistent with that platform's own terms. We don't link this to your email
+  address unless you've separately given us both (for example, by also signing up for the mailing
+  list).</p>
+
+  <h2>Who processes your data</h2>
+  <p>Beyond what's already named above (Mailchimp for email delivery, Google for sign-in), we don't
+  sell your personal data or share it with third parties for their own marketing purposes.</p>
 
   <h2>Your rights</h2>
   <p>You can ask us to access, correct, or delete your data at any time by emailing
   <a href="mailto:emilyspringerton@gmail.com">emilyspringerton@gmail.com</a>. We'll act on deletion
-  requests promptly.</p>
+  requests promptly, other than security logs we're required to keep briefly for abuse
+  investigation, which age out on their own.</p>
+
+  <h2>Children's privacy</h2>
+  <p>Our services aren't directed at children under 13, and we don't knowingly collect personal
+  data from them. If you believe a child has given us data, contact us and we'll delete it.</p>
 
   <h2>Changes to this policy</h2>
   <p>If we materially change what we collect or how we use it, we'll update the version number at
   the top of this page and note the change. Your consent record always reflects the exact version
   you agreed to at signup, not whatever's current later.</p>
+
+  <p>See also our <a href="/terms.html">Terms of Service</a>.</p>
 
   <p><a href="/">&larr; Back to okemily.com</a></p>
 </div>

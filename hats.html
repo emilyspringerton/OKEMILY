@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WOTAN &mdash; Hat Store</title>
+<meta name="description" content="WOTAN's cosmetic hat store: buy upgraded hats for your BRAWLPIT fighter using GFD Flow.">
+<style>
+  :root {
+    --bg: #0b0c10;
+    --bg-card: #14161c;
+    --fg: #eef0f4;
+    --fg-dim: #a8adb8;
+    --accent: #7c8cff;
+    --border: #23262f;
+  }
+  @media (prefers-color-scheme: light) {
+    :root {
+      --bg: #fafafa;
+      --bg-card: #ffffff;
+      --fg: #14161c;
+      --fg-dim: #4a4f5c;
+      --accent: #4451c7;
+      --border: #e4e4e8;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.6;
+  }
+  .wrap { max-width: 900px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
+  header { margin-bottom: 2.5rem; }
+  .wordmark { font-size: 1.1rem; letter-spacing: 0.08em; color: var(--fg-dim); text-transform: uppercase; }
+  .wordmark a { color: inherit; text-decoration: none; }
+  h1 { font-size: 2.4rem; margin: 0.5rem 0 0.25rem; line-height: 1.15; }
+  .tagline { font-size: 1.15rem; color: var(--fg-dim); margin-bottom: 0; }
+  .status-badge {
+    display: inline-block; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.03em;
+    text-transform: uppercase; color: var(--accent); border: 1px solid var(--accent);
+    border-radius: 999px; padding: 0.2rem 0.75rem; margin-bottom: 1rem;
+  }
+
+  .flow-panel {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.25rem 1.5rem; margin: 2rem 0; display: flex; align-items: center;
+    justify-content: space-between; gap: 1rem; flex-wrap: wrap;
+  }
+  .flow-panel .label { color: var(--fg-dim); font-size: 0.9rem; }
+  .flow-panel .balance { font-size: 1.3rem; font-weight: 700; }
+  .flow-panel button {
+    background: transparent; border: 1px solid var(--accent); color: var(--accent);
+    border-radius: 8px; padding: 0.5rem 1.1rem; font-size: 0.9rem; cursor: pointer;
+  }
+
+  .catalog {
+    display: grid; grid-template-columns: 1fr; gap: 1rem; margin-top: 1.5rem;
+  }
+  @media (min-width: 640px) { .catalog { grid-template-columns: repeat(3, 1fr); } }
+  .hat-card {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 10px;
+    padding: 1.25rem; display: flex; flex-direction: column; align-items: center; text-align: center;
+  }
+  .hat-icon {
+    font-size: 3rem; line-height: 1; margin-bottom: 0.75rem;
+    filter: grayscale(0.1);
+  }
+  .hat-card h3 { margin: 0 0 0.3rem; font-size: 1.05rem; }
+  .hat-card p { margin: 0 0 0.75rem; font-size: 0.9rem; color: var(--fg-dim); }
+  .hat-cost { font-weight: 700; margin-bottom: 0.9rem; }
+  .hat-card button {
+    width: 100%; background: var(--border); border: 1px solid var(--border); color: var(--fg-dim);
+    border-radius: 8px; padding: 0.55rem 1rem; font-size: 0.9rem; cursor: not-allowed;
+  }
+
+  .placeholder-note {
+    font-size: 0.85rem; color: var(--fg-dim); margin-top: 2rem; padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  footer { margin-top: 4rem; font-size: 0.85rem; color: var(--fg-dim); border-top: 1px solid var(--border); padding-top: 1.5rem; }
+  footer a { color: var(--fg-dim); }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="wordmark"><a href="/">EINHORN_INDUSTRIAL</a> / <a href="/tournaments.html">WOTAN</a> / Hat Store</div>
+    <span class="status-badge">Coming Soon</span>
+    <h1>Hat Store</h1>
+    <p class="tagline">Spend GFD Flow on cosmetic hats for your BRAWLPIT fighter.</p>
+  </header>
+
+  <section class="flow-panel">
+    <div>
+      <div class="label">Your GFD Flow balance</div>
+      <div class="balance">&mdash; link your account to see it</div>
+    </div>
+    <button type="button" disabled>Link GFD account</button>
+  </section>
+
+  <section>
+    <div class="catalog">
+      <div class="hat-card">
+        <div class="hat-icon">&#127914;</div>
+        <h3>Top Hat, Second Casting</h3>
+        <p>A theatrical classic. Goes well with a bow to nobody.</p>
+        <div class="hat-cost">250 Flow</div>
+        <button type="button" disabled>Coming Soon</button>
+      </div>
+      <div class="hat-card">
+        <div class="hat-icon">&#128081;</div>
+        <h3>Uncrowned's Doubt</h3>
+        <p>A crown that reads more like a question than an answer.</p>
+        <div class="hat-cost">400 Flow</div>
+        <button type="button" disabled>Coming Soon</button>
+      </div>
+      <div class="hat-card">
+        <div class="hat-icon">&#127905;</div>
+        <h3>Joystick Cap</h3>
+        <p>The prop nobody asked for, now wearable.</p>
+        <div class="hat-cost">150 Flow</div>
+        <button type="button" disabled>Coming Soon</button>
+      </div>
+      <div class="hat-card">
+        <div class="hat-icon">&#127981;</div>
+        <h3>Second Growth Wreath</h3>
+        <p>Bark-and-canopy, openly angry, not that one.</p>
+        <div class="hat-cost">300 Flow</div>
+        <button type="button" disabled>Coming Soon</button>
+      </div>
+      <div class="hat-card">
+        <div class="hat-icon">&#128007;</div>
+        <h3>Scavenger's Vest Cap</h3>
+        <p>The vest says R. Nothing else does.</p>
+        <div class="hat-cost">150 Flow</div>
+        <button type="button" disabled>Coming Soon</button>
+      </div>
+      <div class="hat-card">
+        <div class="hat-icon">&#128378;</div>
+        <h3>Most-Summoned Circlet</h3>
+        <p>Called back 26 times. More than anyone.</p>
+        <div class="hat-cost">450 Flow</div>
+        <button type="button" disabled>Coming Soon</button>
+      </div>
+    </div>
+
+    <p class="placeholder-note">
+      Real, honest status: this catalog is a real, visual first draft &mdash; the hats above are
+      placeholder icons and provisional Flow prices, not final art or pricing. Purchasing is
+      disabled because the actual link between a WOTAN/IDUNA account and your GFD Flow balance
+      doesn't exist yet. See the real, phased plan in
+      <a href="https://github.com/emilyspringerton/BRAWLPIT/blob/main/docs/WOTAN_HAT_STORE_NORTHSTAR.md" target="_blank" rel="noopener">BRAWLPIT/docs/WOTAN_HAT_STORE_NORTHSTAR.md</a>.
+    </p>
+  </section>
+
+  <footer>
+    &copy; 2026 EINHORN_INDUSTRIAL. Built by Brian Danowski and Emily.
+    &middot; <a href="/">Home</a>
+    &middot; <a href="/tournaments.html">WOTAN</a>
+    &middot; <a href="/status.html">System status</a>
+  </footer>
+</div>
+</body>
+</html>

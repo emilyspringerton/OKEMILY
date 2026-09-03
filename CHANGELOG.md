@@ -1,5 +1,9 @@
 # OKEMILY Changelog
 
+## 2026-09-03
+
+- New `hats.html` — kanban priority-queue card WOTAN-999 ("IMPLEMENT vs0 GO WOTAN... store interface make it nice"). A real, polished, honest visual first draft of the WOTAN hat store (cosmetic hats for BRAWLPIT, paid in GFD Flow, per `BRAWLPIT/docs/WOTAN_HAT_STORE_NORTHSTAR.md`'s own Phase 1-2 plan). Matches this site's own existing dark/light CSS design system (`tournaments.html`'s own `:root` variables, wordmark, footer convention) exactly. Real, honest scope: 6 placeholder hats (real, generic emoji icons, no Prompt-o-verse art commissioned yet), a Flow-balance panel showing "link your account" rather than fake data, and every "Buy"/"Link GFD account" control real and clearly disabled ("Coming Soon"), not a fake-functional purchase flow — the real backend (a Flow-balance API bridging GFD to WOTAN, per the NORTHSTAR doc's own Phase 0) doesn't exist yet. `tournaments.html` gets a new real section linking to it. (sess-20260902-2008-ed50169e)
+
 ## 2026-09-02
 
 - 新增 `terms.html`(全新服務條款,涵蓋網站/開發者入口/社群遊戲伺服器,聲明程式碼多數公開於 GitHub 並含公共領域釋出部分,含免責聲明與責任限制)。`privacy.html` 升版為 v2(okemily-v1-2026-07-17 → okemily-v2-2026-09-02),新增涵蓋開發者入口帳號(Google 登入/本機帳號)、統一安全日誌(登入事件、管理員停權/復權,絕不含密碼或密鑰)、社群 Minecraft 伺服器資料處理、兒童隱私等章節,原信件訂閱章節內容不變。首頁 footer 與電子報同意勾選文字新增 Terms/Privacy 連結。S229-01。(sess-20260830-1207-cc0ba7da)

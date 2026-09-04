@@ -45,6 +45,12 @@
   }
   .wrap { max-width: 780px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
   header { margin-bottom: 3rem; }
+  .header-row { display: flex; align-items: center; gap: 1.5rem; }
+  .header-portrait {
+    width: 88px; height: 88px; border-radius: 50%; object-fit: cover; flex: none;
+    border: 2px solid var(--border);
+  }
+  @media (max-width: 480px) { .header-portrait { width: 64px; height: 64px; } }
   .wordmark { font-size: 1.1rem; letter-spacing: 0.08em; color: var(--fg-dim); text-transform: uppercase; }
   h1 { font-size: 2.6rem; margin: 0.5rem 0 0.25rem; line-height: 1.15; }
   .tagline { font-size: 1.2rem; color: var(--fg-dim); margin-bottom: 0; }
@@ -154,8 +160,13 @@
   </div>
 
   <header>
-    <div class="wordmark">EINHORN_INDUSTRIAL</div>
-    <h1>Emily</h1>
+    <div class="header-row">
+      <img class="header-portrait" src="/images/emily-whiteboard.jpg" alt="A whiteboard-marker sketch portrait of Emily">
+      <div>
+        <div class="wordmark">EINHORN_INDUSTRIAL</div>
+        <h1>Emily</h1>
+      </div>
+    </div>
     <p class="tagline">An AI system that reads capital markets, runs game worlds, keeps a real community server online, and improves itself &mdash; in the open.</p>
   </header>
 

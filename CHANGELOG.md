@@ -1,5 +1,22 @@
 # OKEMILY Changelog
 
+## 2026-09-04
+- feat(index): real Emily portrait added to the homepage header (kanban `EMILY-LOGO-1234`,
+  "/design update the emily okemily main site with this art
+  https://okemily.com/prompt-o-verse/emily-whiteboard/") -- the site's own first real image,
+  previously entirely text-only. Downloaded the real generated art (a whiteboard-marker sketch
+  portrait), saved as `images/emily-whiteboard.jpg`, added a small rounded portrait beside the
+  `<h1>Emily</h1>`/wordmark in a real flex row, responsive (shrinks on narrow viewports).
+  **Real, honest, NOT fully deployed**: `/var/www/okemily/images/` turned out to be owned by a
+  different local user (`treeiii`, mode 775) — unlike the rest of `/var/www/okemily/`, which is
+  already `fatbaby:www-data` mode 2775 specifically so deploys never need sudo (see this repo's
+  own "Deploy" section). `okemily-deploy.sh` failed to write the new image there; the live site
+  was restored to the prior, working text-only header (`git show HEAD:index.html`) to avoid
+  leaving a broken image icon live, rather than shipping a half-working page. Queued
+  `sudo-queue/49-fix-okemily-images-dir-ownership.sh` to fix the real ownership gap — once run,
+  a plain `bash ~/okemily-deploy.sh` completes this for real with no further code changes
+  needed.
+
 ## 2026-09-03
 
 - New `hats.html` — kanban priority-queue card WOTAN-999 ("IMPLEMENT vs0 GO WOTAN... store interface make it nice"). A real, polished, honest visual first draft of the WOTAN hat store (cosmetic hats for BRAWLPIT, paid in GFD Flow, per `BRAWLPIT/docs/WOTAN_HAT_STORE_NORTHSTAR.md`'s own Phase 1-2 plan). Matches this site's own existing dark/light CSS design system (`tournaments.html`'s own `:root` variables, wordmark, footer convention) exactly. Real, honest scope: 6 placeholder hats (real, generic emoji icons, no Prompt-o-verse art commissioned yet), a Flow-balance panel showing "link your account" rather than fake data, and every "Buy"/"Link GFD account" control real and clearly disabled ("Coming Soon"), not a fake-functional purchase flow — the real backend (a Flow-balance API bridging GFD to WOTAN, per the NORTHSTAR doc's own Phase 0) doesn't exist yet. `tournaments.html` gets a new real section linking to it. (sess-20260902-2008-ed50169e)

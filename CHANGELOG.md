@@ -1,5 +1,10 @@
 # OKEMILY Changelog
 
+## 2026-09-17
+
+- Fix 413 Request Entity Too Large on uploads: add client_max_body_size 64M to nginx config (matches IDUNA's own 64MB upload cap). Live deploy queued: sudo-queue/80-fix-okemily-413-upload-limit.sh (needs founder to run, requires sudo) (sess-20260905-0720-ec33e7c5)
+
+
 ## 2026-09-04
 - feat(index): real Emily portrait added to the homepage header (kanban `EMILY-LOGO-1234`,
   "/design update the emily okemily main site with this art

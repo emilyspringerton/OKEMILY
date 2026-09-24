@@ -149,6 +149,18 @@
   .split-art img { display: block; width: 100%; aspect-ratio: 1 / 1; object-fit: cover; }
   .split-body { flex: 1 1 auto; }
   @media (min-width: 640px) { .split { flex-direction: row; align-items: flex-start; } }
+
+  /* New-home banner -- wotan.okemily.com is now the front door (founder real-time, 2026-09-24);
+     this page keeps its own distinct live content (REDGARDEN leaderboard/hero stats, GFD
+     Battlegrounds demo, mailing list) and isn't going anywhere, it just isn't the entry point
+     anymore. */
+  .new-home-banner {
+    background: var(--bg-card); border: 1px solid var(--accent); border-radius: 10px;
+    padding: 1rem 1.25rem; margin-bottom: 2rem; display: flex; align-items: baseline;
+    gap: 0.5rem; flex-wrap: wrap;
+  }
+  .new-home-banner strong { color: var(--fg); }
+  .new-home-banner a { color: var(--accent); font-weight: 600; }
 </style>
 </head>
 <body>
@@ -159,6 +171,13 @@
     <h1>WOTAN</h1>
     <p class="tagline">A social tournaments platform &mdash; structured competition, permanent public standings, no gambling vocabulary.</p>
   </header>
+
+  <div class="new-home-banner">
+    <strong>WOTAN has a new home:</strong>
+    <a href="https://wotan.okemily.com/">wotan.okemily.com</a>
+    <span>&mdash; player profiles, friends, and friendly-challenge duels are live there now. The
+    leaderboards and demo below stay right here.</span>
+  </div>
 
   <div class="hero-art">
     <img src="/images/wotan-viking-warrior.jpg" alt="A weathered Norse warrior in furs and rune-marked steel, axe over one shoulder, standing in a snowbound pine forest at dusk.">

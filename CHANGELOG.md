@@ -1,5 +1,17 @@
 # OKEMILY Changelog
 
+## 2026-09-24
+
+- feat(tournaments): new-home banner pointing to `wotan.okemily.com` (S540, founder real-time:
+  "wotan.okemily.com should be the front door to the online social tournament site"). WOTAN's own
+  repo/subdomain now carries player profiles, friends, and friendly-challenge duels live -- this
+  page's own `index.html` used to tell visitors WOTAN was "growing into its own home" and pointed
+  them back here; that direction is now reversed. `tournaments.html` keeps everything unique to
+  it (REDGARDEN bot leaderboard/hero stats, the in-browser GFD Battlegrounds demo, the mailing-list
+  signup) and isn't going away, it's just no longer the entry point. Deployed via
+  `~/okemily-deploy.sh`, live-verified (`curl https://okemily.com/tournaments.html` shows the
+  banner). (sess-20260923-1030-4a526255)
+
 ## 2026-09-17
 
 - Fix 413 Request Entity Too Large on uploads: add client_max_body_size 64M to nginx config (matches IDUNA's own 64MB upload cap). Live deploy queued: sudo-queue/80-fix-okemily-413-upload-limit.sh (needs founder to run, requires sudo) (sess-20260905-0720-ec33e7c5)

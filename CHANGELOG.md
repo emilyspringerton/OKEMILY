@@ -1,5 +1,16 @@
 # OKEMILY Changelog
 
+## 2026-09-28
+
+- feat(nav): footer menu on index.html gets direct MIXFORGE (`mixforge.okemily.com`) and
+  DEADWEIGHT (`wotan.okemily.com/DEADWEIGHT/`) product links, next to the existing WOTAN link.
+  Founder real-time: "update the menu on okemily.com wotan goes to the old site add MIXFORGE and
+  DEADWEIGHT links right to those products" -- checked first: WOTAN already pointed at
+  `/tournaments.html` (the old page, S540's own "new-home banner" already sends visitors onward to
+  `wotan.okemily.com` from there), so no change needed on that half of the ask. Both new URLs
+  live-verified (200) before adding. Deployed via `okemily-deploy.sh`, live-verified on
+  `https://okemily.com/`. (sess-20260923-1030-4a526255)
+
 ## 2026-09-24
 
 - feat(tournaments): new-home banner pointing to `wotan.okemily.com` (S540, founder real-time:

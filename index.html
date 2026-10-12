@@ -7,33 +7,21 @@
 <meta name="description" content="OkEmily / WOTAN: an open, bare-metal gaming infrastructure layer compiled with PARENA. Cryptographically verified ladder stats, multiplayer BaaS, and agent training sandboxes.">
 <style>
   :root {
-    --bg: #0b0c10;
-    --bg-card: #14161c;
-    --fg: #eef0f4;
-    --fg-dim: #a8adb8;
-    --accent: #7c8cff;
-    --border: #23262f;
-    /* Lightest grey that still clears WCAG AA (4.5:1) against --bg —
-       computed, not eyeballed: #7a7a7a on #0b0c10 = 4.554:1. */
-    --subfooter: #7a7a7a;
-    /* Amber, distinct from --accent on purpose (a notice isn't a link) —
-       #e0a836 on --bg-card #14161c = 8.459:1. */
+    /* Emily game-sprite palette: hoodie blue, slate/charcoal, cargo brown, cream, sneaker red. */
+    --bg: #1b1f24;
+    --bg-card: #2b323b;
+    --bg-cargo: #3f3128;
+    --fg: #f1e9d6;
+    --fg-dim: #cfc6b2;
+    --accent: #6aa9f2;
+    --brand: #1f6fcf;
+    --hoodie: #257fe6;
+    --border: #3a4350;
+    --border-cargo: #5a4636;
+    --alert: #d8382f;
+    --subfooter: #8f9aa8;
     --notice: #e0a836;
-  }
-  @media (prefers-color-scheme: light) {
-    :root {
-      --bg: #fafafa;
-      --bg-card: #ffffff;
-      --fg: #14161c;
-      --fg-dim: #4a4f5c;
-      --accent: #4451c7;
-      --border: #e4e4e8;
-      /* Lightest grey that still clears WCAG AA (4.5:1) against --bg —
-         #737373 on #fafafa = 4.543:1. */
-      --subfooter: #737373;
-      /* #8a6008 on --bg-card #ffffff = 5.589:1. */
-      --notice: #8a6008;
-    }
+    color-scheme: dark;
   }
   * { box-sizing: border-box; }
   body {
@@ -93,8 +81,8 @@
     padding: 0.65rem 1.4rem;
     border-radius: 6px;
     border: none;
-    background: var(--accent);
-    color: white;
+    background: var(--brand);
+    color: #fff;
     font-size: 1rem;
     font-weight: 600;
     cursor: pointer;
@@ -119,7 +107,7 @@
     display: inline-block; padding: 0.7rem 1.4rem; border-radius: 8px; font-weight: 600;
     text-decoration: none; border: 1px solid var(--accent); transition: filter 0.15s, border-color 0.15s;
   }
-  .btn.primary { background: var(--accent); color: #fff; }
+  .btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
   .btn.primary:hover { filter: brightness(1.1); }
   .btn.secondary { color: var(--accent); background: transparent; }
   .btn.secondary:hover { filter: brightness(1.2); }
@@ -154,30 +142,103 @@
   .results a:hover { color: var(--accent); }
   .results small { display: block; color: var(--fg-dim); }
   .footer-links a { white-space: nowrap; }
+
+  /* ---- design pass: sprite palette, hero stage, gallery ---- */
+  .wrap { max-width: 1100px; }
+  h1, h2, h3, .wordmark, .btn { font-family: "Chakra Petch", "Segoe UI", system-ui, sans-serif; }
+  h2 { font-size: 1.9rem; }
+  header .hero { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
+  @media (min-width: 860px) { header .hero { grid-template-columns: 1.5fr 1fr; } }
+  .wordmark { color: #c9a27a; font-weight: 600; letter-spacing: 0.18em; }
+  h1 { font-size: 2.9rem; }
+  .tagline { color: var(--fg); }
+  .pillar { background: var(--bg-card); }
+  .values li { padding: 0.75rem 0; }
+  .moat-grid .pillar, .sandbox .pillar { background: var(--bg-cargo); border-color: var(--border-cargo); }
+  .stage {
+    position: relative; background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.25rem 1.25rem 1rem; text-align: center; user-select: none;
+    background-image: linear-gradient(#343c47 1px, transparent 1px), linear-gradient(90deg, #343c47 1px, transparent 1px);
+    background-size: 20px 20px;
+  }
+  .stage-btn { display: block; width: 100%; background: none; border: 0; padding: 0; cursor: pointer; color: inherit; font: inherit; }
+  .stage-btn:focus-visible { outline: 3px solid var(--hoodie); outline-offset: 4px; border-radius: 8px; }
+  .stage-view { height: 300px; display: flex; align-items: flex-end; justify-content: center; }
+  .stage-view svg, .stage-view img { max-height: 100%; max-width: 100%; display: block; }
+  .stage-view img { border-radius: 6px; border: 1px solid var(--border-cargo); }
+  .stage-view .hop { animation: hop 0.45s ease-out; }
+  @keyframes hop { 0% { transform: translateY(0) } 40% { transform: translateY(-28px) } 100% { transform: translateY(0) } }
+  @media (prefers-reduced-motion: reduce) { .stage-view .hop { animation: none; } }
+  .stage-say { min-height: 2.6em; margin: 0.75rem 0 0.25rem; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.85rem; color: var(--fg); }
+  .stage-meta { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.72rem; color: var(--subfooter); }
+  .stage-meta a { color: var(--accent); }
+  .gallery-head p { max-width: 640px; }
+  .po-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.75rem; margin-top: 1.25rem; }
+  .po-card { display: block; background: var(--bg-cargo); border: 1px solid var(--border-cargo); border-radius: 8px; padding: 0.5rem; text-decoration: none; color: var(--fg); transition: transform 0.15s; }
+  .po-card:hover, .po-card:focus-visible { transform: translateY(-3px); border-color: var(--hoodie); }
+  .po-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; display: block; background: var(--bg); }
+  .po-card span { display: block; font-size: 0.8rem; margin-top: 0.4rem; text-align: center; }
+  .gallery-more { margin-top: 1.25rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
+  .btn.void { background: #14171b; border-color: #c9a27a; box-shadow: none; display: inline-flex; align-items: center; gap: 0.6rem; letter-spacing: 0.06em; }
+  .btn.void:hover { box-shadow: 0 0 0 2px var(--hoodie); }
+  .void-dot { width: 16px; height: 16px; border-radius: 50%; background: radial-gradient(circle, var(--hoodie) 0 30%, #000 32%); border: 2px solid #c9a27a; }
+  .matrix, form.signup { background: var(--bg-card); }
+  .telemetry { text-align: left; }
+  .telemetry form.signup { justify-content: flex-start; }
+  .telemetry .signup-note { text-align: left; }
+  .matrix-actions { justify-content: flex-start; }
 </style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
 <div class="wrap">
   <header>
     <div class="status">[ NET: ONLINE &bull; ARCH: AGENT-NATIVE &bull; COMPILED: PARENA ]</div>
-    <div class="header-row">
-      <img class="header-portrait" src="/images/emily-whiteboard.jpg" alt="A whiteboard-marker sketch portrait of Emily">
+    <div class="hero">
       <div>
         <div class="wordmark">OKEMILY / WOTAN</div>
         <h1>The Sovereign Multi-Agent Network Stack</h1>
+        <p class="tagline"><strong>We built our own compiler because the industry's network stacks are broken.</strong></p>
+        <p>
+          OkEmily is an open, bare-metal gaming infrastructure layer. Track your competitive ladder
+          stats with 100% cryptographic data integrity&mdash;or utilize the WOTAN Backend-as-a-Service
+          (BaaS) to instantly deploy cross-play multiplayer, social lobbies, and autonomous agent
+          training sandboxes.
+        </p>
+        <div class="cta-row">
+          <a class="btn primary" href="https://wotan.okemily.com/hearthstone/tracker.html">Download Privacy-First Tracker</a>
+          <a class="btn secondary" href="https://github.com/emilyspringerton/PARENA">Read the PARENA Compiler Spec</a>
+          <p class="btn-note">Free &bull; Zero Tracking Cookies</p>
+        </div>
       </div>
-    </div>
-    <p class="tagline"><strong>We built our own compiler because the industry's network stacks are broken.</strong></p>
-    <p>
-      OkEmily is an open, bare-metal gaming infrastructure layer. Track your competitive ladder
-      stats with 100% cryptographic data integrity&mdash;or utilize the WOTAN Backend-as-a-Service
-      (BaaS) to instantly deploy cross-play multiplayer, social lobbies, and autonomous agent
-      training sandboxes.
-    </p>
-    <div class="cta-row">
-      <a class="btn primary" href="https://wotan.okemily.com/hearthstone/tracker.html">Download Privacy-First Tracker</a>
-      <a class="btn secondary" href="https://github.com/emilyspringerton/PARENA">Read the PARENA Compiler Spec</a>
-      <p class="btn-note">Free &bull; Zero Tracking Cookies</p>
+      <div class="stage" id="stage">
+        <button class="stage-btn" id="stage-btn" type="button" aria-label="Poke Emily: she hops and says something, then changes style">
+          <div class="stage-view" id="stage-view">
+            <svg id="sprite" viewBox="0 0 160 300" width="160" height="300" role="img" aria-label="Emily, game sprite: auburn bob, blue hoodie jacket, grey tee, brown cargo pants, white and red sneakers">
+              <g stroke="#14171b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M52 38 Q50 6 82 6 Q114 8 110 40 L112 60 L48 60Z" fill="#b5502a"/>
+                <rect x="60" y="22" width="40" height="46" rx="14" fill="#f1c9a5"/>
+                <path d="M58 30 Q80 14 104 30 L100 40 Q80 26 62 40Z" fill="#b5502a"/>
+                <path d="M26 82 L52 72 L108 72 L134 82 L142 150 L122 156 L116 112 L112 168 L48 168 L44 112 L38 156 L18 150Z" fill="#257fe6"/>
+                <path d="M58 72 L102 72 L100 168 L60 168Z" fill="#7b8591"/>
+                <path d="M48 168 L112 168 L116 230 L96 230 L80 190 L64 230 L44 230Z" fill="#4a3a2e"/>
+                <rect x="34" y="188" width="14" height="22" rx="3" fill="#3a2d23"/>
+                <rect x="112" y="188" width="14" height="22" rx="3" fill="#3a2d23"/>
+                <path d="M40 230 L66 230 L68 262 L30 270 Q28 262 40 258Z" fill="#f4f1ea"/>
+                <path d="M94 230 L120 230 L120 258 Q132 262 130 270 L92 262Z" fill="#f4f1ea"/>
+                <path d="M36 262 L66 256 L68 264 L32 270Z" fill="#d8382f"/>
+                <path d="M94 256 L124 262 L128 270 L92 264Z" fill="#d8382f"/>
+              </g>
+              <circle cx="70" cy="46" r="3" fill="#14171b"/><circle cx="92" cy="46" r="3" fill="#14171b"/>
+              <path d="M66 40 L76 43 M96 40 L86 43" stroke="#14171b" stroke-width="3" stroke-linecap="round"/>
+            </svg>
+            <img id="stage-img" alt="" hidden>
+          </div>
+        </button>
+        <div class="stage-say" id="stage-say" role="status">Poke her.</div>
+        <div class="stage-meta" id="stage-meta">EMILY &middot; game sprite &middot; <a href="/prompt-o-verse/subject/emily/">26 styles</a></div>
+      </div>
     </div>
   </header>
 
@@ -251,6 +312,45 @@
     </div>
   </section>
 
+  <section class="gallery" id="gallery">
+    <div class="gallery-head">
+      <div class="sect-tag">Prompt-o-verse</div>
+      <h2>One character. Every style.</h2>
+      <p>The same Emily, re-rendered across the Prompt-o-verse style registry by our own prompt engine. Every image below is a real generation from the live gallery.</p>
+    </div>
+    <div class="po-grid">
+      <a class="po-card" href="/prompt-o-verse/emily-game-sprite/"><img src="/prompt-o-verse/emily-game-sprite/emily-game-sprite-thumb.jpg" alt="Game sprite &mdash; Emily" loading="lazy" width="256" height="256"><span>Game sprite</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-8-bit-pixel-art/"><img src="/prompt-o-verse/emily-8-bit-pixel-art/emily-8-bit-pixel-art-thumb.jpg" alt="8-bit pixel art &mdash; Emily" loading="lazy" width="256" height="256"><span>8-bit pixel art</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-watercolor-sketchbook/"><img src="/prompt-o-verse/emily-watercolor-sketchbook/emily-watercolor-sketchbook-thumb.jpg" alt="Watercolor sketchbook &mdash; Emily" loading="lazy" width="256" height="256"><span>Watercolor sketchbook</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-ukiyo-e-woodblock/"><img src="/prompt-o-verse/emily-ukiyo-e-woodblock/emily-ukiyo-e-woodblock-thumb.jpg" alt="Ukiyo-e woodblock &mdash; Emily" loading="lazy" width="256" height="256"><span>Ukiyo-e woodblock</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-woodcut-block-print/"><img src="/prompt-o-verse/emily-woodcut-block-print/emily-woodcut-block-print-thumb.jpg" alt="Woodcut block print &mdash; Emily" loading="lazy" width="256" height="256"><span>Woodcut block print</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-robot/"><img src="/prompt-o-verse/emily-robot/emily-robot-thumb.jpg" alt="Robot &mdash; Emily" loading="lazy" width="256" height="256"><span>Robot</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-lego-minifigure/"><img src="/prompt-o-verse/emily-lego-minifigure/emily-lego-minifigure-thumb.jpg" alt="LEGO minifigure &mdash; Emily" loading="lazy" width="256" height="256"><span>LEGO minifigure</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-renaissance-oil-painting/"><img src="/prompt-o-verse/emily-renaissance-oil-painting/emily-renaissance-oil-painting-thumb.jpg" alt="Renaissance oil painting &mdash; Emily" loading="lazy" width="256" height="256"><span>Renaissance oil painting</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-norse-runic-carving/"><img src="/prompt-o-verse/emily-norse-runic-carving/emily-norse-runic-carving-thumb.jpg" alt="Norse runic carving &mdash; Emily" loading="lazy" width="256" height="256"><span>Norse runic carving</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-steampunk/"><img src="/prompt-o-verse/emily-steampunk/emily-steampunk-thumb.jpg" alt="Steampunk &mdash; Emily" loading="lazy" width="256" height="256"><span>Steampunk</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-anime/"><img src="/prompt-o-verse/emily-anime/emily-anime-thumb.jpg" alt="Anime &mdash; Emily" loading="lazy" width="256" height="256"><span>Anime</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-kawaii/"><img src="/prompt-o-verse/emily-kawaii/emily-kawaii-thumb.jpg" alt="Kawaii &mdash; Emily" loading="lazy" width="256" height="256"><span>Kawaii</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-paper-craft/"><img src="/prompt-o-verse/emily-paper-craft/emily-paper-craft-thumb.jpg" alt="Paper craft &mdash; Emily" loading="lazy" width="256" height="256"><span>Paper craft</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-whiteboard/"><img src="/prompt-o-verse/emily-whiteboard/emily-whiteboard-thumb.jpg" alt="Whiteboard &mdash; Emily" loading="lazy" width="256" height="256"><span>Whiteboard</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-minecraft/"><img src="/prompt-o-verse/emily-minecraft/emily-minecraft-thumb.jpg" alt="Minecraft &mdash; Emily" loading="lazy" width="256" height="256"><span>Minecraft</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-tinfoil/"><img src="/prompt-o-verse/emily-tinfoil/emily-tinfoil-thumb.jpg" alt="Tinfoil &mdash; Emily" loading="lazy" width="256" height="256"><span>Tinfoil</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-promptoverse-hat/"><img src="/prompt-o-verse/emily-promptoverse-hat/emily-promptoverse-hat-thumb.jpg" alt="Promptoverse hat &mdash; Emily" loading="lazy" width="256" height="256"><span>Promptoverse hat</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-ffxi/"><img src="/prompt-o-verse/emily-ffxi/emily-ffxi-thumb.jpg" alt="FFXI &mdash; Emily" loading="lazy" width="256" height="256"><span>FFXI</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-kawaii-ffxi/"><img src="/prompt-o-verse/emily-kawaii-ffxi/emily-kawaii-ffxi-thumb.jpg" alt="Kawaii &times; FFXI &mdash; Emily" loading="lazy" width="256" height="256"><span>Kawaii &times; FFXI</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-petrified/"><img src="/prompt-o-verse/emily-petrified/emily-petrified-thumb.jpg" alt="Petrified &mdash; Emily" loading="lazy" width="256" height="256"><span>Petrified</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-source-engine/"><img src="/prompt-o-verse/emily-source-engine/emily-source-engine-thumb.jpg" alt="Source Engine &mdash; Emily" loading="lazy" width="256" height="256"><span>Source Engine</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-emoji/"><img src="/prompt-o-verse/emily-emoji/emily-emoji-thumb.jpg" alt="Emoji &mdash; Emily" loading="lazy" width="256" height="256"><span>Emoji</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-kitsune/"><img src="/prompt-o-verse/emily-kitsune/emily-kitsune-thumb.jpg" alt="Kitsune &mdash; Emily" loading="lazy" width="256" height="256"><span>Kitsune</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-ice-cream-novelty/"><img src="/prompt-o-verse/emily-ice-cream-novelty/emily-ice-cream-novelty-thumb.jpg" alt="Ice cream novelty &mdash; Emily" loading="lazy" width="256" height="256"><span>Ice cream novelty</span></a>
+      <a class="po-card" href="/prompt-o-verse/emily-china/"><img src="/prompt-o-verse/emily-china/emily-china-thumb.jpg" alt="China &mdash; Emily" loading="lazy" width="256" height="256"><span>China</span></a>
+    </div>
+    <div class="gallery-more">
+      <a class="btn secondary" href="/prompt-o-verse/subject/emily/">All Emily styles</a>
+      <a class="btn secondary" href="/prompt-o-verse/">Browse the full Prompt-o-verse</a>
+    </div>
+  </section>
+
   <section class="telemetry">
     <div class="sect-tag">Platform Telemetry</div>
     <h2>Follow the Build.</h2>
@@ -271,7 +371,7 @@
       <input type="search" id="search-q" placeholder="Search..." aria-label="Search" autocomplete="off">
       <div class="matrix-actions">
         <button type="submit" class="btn secondary">Search</button>
-        <a class="btn void" href="https://wotan.okemily.com/DEADWEIGHT/">Enter the Void &#128371;&#65039;</a>
+        <a class="btn void" href="https://wotan.okemily.com/DEADWEIGHT/"><span class="void-dot" aria-hidden="true"></span>Enter the Void</a>
       </div>
       <ul class="results" id="search-results" aria-live="polite"></ul>
     </form>
@@ -489,6 +589,41 @@
     var pick = cur[sel >= 0 ? sel : 0];
     if (pick) location.href = '/blog/' + pick.slug + '/';
     else if (!norm(input.value)) location.href = '/blog/';
+  });
+})();
+</script>
+<script>
+(function () {
+  var btn = document.getElementById('stage-btn');
+  if (!btn) return;
+  var svg = document.getElementById('sprite'), img = document.getElementById('stage-img');
+  var say = document.getElementById('stage-say'), meta = document.getElementById('stage-meta');
+  var view = document.getElementById('stage-view');
+  var styles = [
+    ['emily-8-bit-pixel-art', '8-bit pixel art'], ['emily-watercolor-sketchbook', 'Watercolor sketchbook'],
+    ['emily-ukiyo-e-woodblock', 'Ukiyo-e woodblock'], ['emily-robot', 'Robot'],
+    ['emily-lego-minifigure', 'LEGO minifigure'], ['emily-renaissance-oil-painting', 'Renaissance oil painting'],
+    ['emily-steampunk', 'Steampunk'], ['emily-anime', 'Anime'], ['emily-norse-runic-carving', 'Norse runic carving'],
+    ['emily-woodcut-block-print', 'Woodcut block print']
+  ];
+  var lines = ['Compiling...', 'Zero cookies. Zero excuses.', 'Account ID mismatch? Trashed.', 'Clean builds first.',
+    'Deterministic or it did not happen.', 'Built in public.', 'Still not a slide deck.'];
+  var i = -1, n = 0;
+  function hop(el) { el.classList.remove('hop'); void el.offsetWidth; el.classList.add('hop'); }
+  btn.addEventListener('click', function () {
+    n++; i = (i + 1) % (styles.length + 1);
+    say.textContent = lines[n % lines.length];
+    if (i === 0) {
+      img.hidden = true; svg.style.display = '';
+      meta.innerHTML = 'EMILY &middot; game sprite &middot; <a href="/prompt-o-verse/subject/emily/">26 styles</a>';
+      hop(svg);
+    } else {
+      var st = styles[i - 1];
+      img.onload = function () { img.hidden = false; svg.style.display = 'none'; hop(img); };
+      img.src = '/prompt-o-verse/' + st[0] + '/' + st[0] + '-thumb.jpg';
+      img.alt = st[1] + ' \u2014 Emily';
+      meta.innerHTML = 'EMILY &middot; ' + st[1] + ' &middot; <a href="/prompt-o-verse/' + st[0] + '/">open</a>';
+    }
   });
 })();
 </script>

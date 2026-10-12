@@ -2,6 +2,10 @@
 
 ## 2026-10-12
 
+- feat(index): front-page design pass. Emily game-sprite palette (hoodie blue, charcoal/slate, cargo
+  brown, cream; sneaker red reserved for alerts), interactive hero sprite (click: hop, line, cycles
+  through real Prompt-o-verse Emily styles), and a real Prompt-o-verse gallery (25 Emily styles linked
+  to their live pages) between Manifesto and Follow the Build. Founder real-time: "SHIP IT".
 - ci(gitops): OKEMILY now deploys through the PARENA gitops loop like WOTAN. New `okemily-web` image
   (git-tracked static files baked in, IDUNA-rendered paths fall back to the PVC), `scripts/build-image.sh`,
   `.github/workflows/deploy.yml`; EMILY/gitops gains `OKEMILY_TAG` (tags.env, watch-tags.sh, iduna.pod, render.sh).

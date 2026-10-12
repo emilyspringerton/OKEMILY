@@ -2,6 +2,8 @@
 
 ## 2026-10-12
 
+- feat(index): Prompt-o-verse gallery is now a single-row, scroll-snap carousel (Netflix style) with prev/next
+  buttons; 2/3/4/5 cards per view by width, touch-swipe works, buttons disable at the ends.
 - feat(index): front-page design pass. Emily game-sprite palette (hoodie blue, charcoal/slate, cargo
   brown, cream; sneaker red reserved for alerts), interactive hero sprite (click: hop, line, cycles
   through real Prompt-o-verse Emily styles), and a real Prompt-o-verse gallery (25 Emily styles linked

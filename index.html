@@ -173,8 +173,28 @@
   .stage-meta { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.72rem; color: var(--subfooter); }
   .stage-meta a { color: var(--accent); }
   .gallery-head p { max-width: 640px; }
-  .po-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 0.75rem; margin-top: 1.25rem; }
-  .po-card { display: block; background: var(--bg-cargo); border: 1px solid var(--border-cargo); border-radius: 8px; padding: 0.5rem; text-decoration: none; color: var(--fg); transition: transform 0.15s; }
+  .po-rail { position: relative; margin-top: 1.25rem; }
+  .po-row {
+    --per: 2; --gap: 0.75rem;
+    display: flex; gap: var(--gap); overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
+    scrollbar-width: none; -ms-overflow-style: none; padding: 4px 2px 8px; overscroll-behavior-x: contain;
+  }
+  .po-row::-webkit-scrollbar { display: none; }
+  .po-row .po-card { flex: 0 0 calc((100% - (var(--per) - 1) * var(--gap)) / var(--per)); scroll-snap-align: start; min-width: 0; }
+  @media (min-width: 560px) { .po-row { --per: 3; } }
+  @media (min-width: 860px) { .po-row { --per: 4; } }
+  @media (min-width: 1060px) { .po-row { --per: 5; } }
+  .po-nav {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
+    width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-cargo);
+    background: rgba(20, 23, 27, 0.88); color: var(--fg); font-size: 1.4rem; line-height: 1; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: background 0.15s, opacity 0.15s;
+  }
+  .po-nav:hover, .po-nav:focus-visible { background: var(--brand); border-color: var(--hoodie); }
+  .po-nav[disabled] { opacity: 0; pointer-events: none; }
+  .po-prev { left: -6px; } .po-next { right: -6px; }
+  @media (min-width: 1200px) { .po-prev { left: -22px; } .po-next { right: -22px; } }
+  .po-card { display: block; background: var(--bg-cargo); border: 1px solid var(--border-cargo); border-radius: 8px; padding: 0.5rem; text-decoration: none; color: var(--fg); transition: transform 0.15s, border-color 0.15s; }
   .po-card:hover, .po-card:focus-visible { transform: translateY(-3px); border-color: var(--hoodie); }
   .po-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; display: block; background: var(--bg); }
   .po-card span { display: block; font-size: 0.8rem; margin-top: 0.4rem; text-align: center; }
@@ -318,7 +338,9 @@
       <h2>One character. Every style.</h2>
       <p>The same Emily, re-rendered across the Prompt-o-verse style registry by our own prompt engine. Every image below is a real generation from the live gallery.</p>
     </div>
-    <div class="po-grid">
+    <div class="po-rail">
+      <button class="po-nav po-prev" id="po-prev" type="button" aria-label="Previous styles">&#8249;</button>
+      <div class="po-row" id="po-row" role="group" aria-label="Emily in the Prompt-o-verse styles">
       <a class="po-card" href="/prompt-o-verse/emily-game-sprite/"><img src="/prompt-o-verse/emily-game-sprite/emily-game-sprite-thumb.jpg" alt="Game sprite &mdash; Emily" loading="lazy" width="256" height="256"><span>Game sprite</span></a>
       <a class="po-card" href="/prompt-o-verse/emily-8-bit-pixel-art/"><img src="/prompt-o-verse/emily-8-bit-pixel-art/emily-8-bit-pixel-art-thumb.jpg" alt="8-bit pixel art &mdash; Emily" loading="lazy" width="256" height="256"><span>8-bit pixel art</span></a>
       <a class="po-card" href="/prompt-o-verse/emily-watercolor-sketchbook/"><img src="/prompt-o-verse/emily-watercolor-sketchbook/emily-watercolor-sketchbook-thumb.jpg" alt="Watercolor sketchbook &mdash; Emily" loading="lazy" width="256" height="256"><span>Watercolor sketchbook</span></a>
@@ -344,6 +366,8 @@
       <a class="po-card" href="/prompt-o-verse/emily-kitsune/"><img src="/prompt-o-verse/emily-kitsune/emily-kitsune-thumb.jpg" alt="Kitsune &mdash; Emily" loading="lazy" width="256" height="256"><span>Kitsune</span></a>
       <a class="po-card" href="/prompt-o-verse/emily-ice-cream-novelty/"><img src="/prompt-o-verse/emily-ice-cream-novelty/emily-ice-cream-novelty-thumb.jpg" alt="Ice cream novelty &mdash; Emily" loading="lazy" width="256" height="256"><span>Ice cream novelty</span></a>
       <a class="po-card" href="/prompt-o-verse/emily-china/"><img src="/prompt-o-verse/emily-china/emily-china-thumb.jpg" alt="China &mdash; Emily" loading="lazy" width="256" height="256"><span>China</span></a>
+      </div>
+      <button class="po-nav po-next" id="po-next" type="button" aria-label="Next styles">&#8250;</button>
     </div>
     <div class="gallery-more">
       <a class="btn secondary" href="/prompt-o-verse/subject/emily/">All Emily styles</a>
@@ -625,6 +649,23 @@
       meta.innerHTML = 'EMILY &middot; ' + st[1] + ' &middot; <a href="/prompt-o-verse/' + st[0] + '/">open</a>';
     }
   });
+})();
+</script>
+<script>
+(function () {
+  var row = document.getElementById('po-row'), prev = document.getElementById('po-prev'), next = document.getElementById('po-next');
+  if (!row) return;
+  function update() {
+    var max = row.scrollWidth - row.clientWidth - 2;
+    prev.disabled = row.scrollLeft <= 2;
+    next.disabled = row.scrollLeft >= max;
+  }
+  function go(dir) { row.scrollBy({ left: dir * row.clientWidth, behavior: 'smooth' }); }
+  prev.addEventListener('click', function () { go(-1); });
+  next.addEventListener('click', function () { go(1); });
+  row.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  update();
 })();
 </script>
 </body>

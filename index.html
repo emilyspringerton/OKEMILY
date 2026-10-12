@@ -173,27 +173,27 @@
   .stage-meta { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.72rem; color: var(--subfooter); }
   .stage-meta a { color: var(--accent); }
   .gallery-head p { max-width: 640px; }
-  .po-rail { position: relative; margin-top: 1.25rem; }
+  /* rail = [prev][row][next]; cw = (R - (per+1)gap) / (per + 2/phi); button width = cw / phi (golden ratio), height = card height */
+  .po-rail { --per: 2; --gap: 0.75rem; --phi: 1.618034; display: flex; align-items: stretch; gap: var(--gap); margin-top: 1.25rem; }
+  @media (min-width: 560px) { .po-rail { --per: 3; } }
+  @media (min-width: 860px) { .po-rail { --per: 4; } }
+  @media (min-width: 1060px) { .po-rail { --per: 5; } }
   .po-row {
-    --per: 2; --gap: 0.75rem;
+    flex: 1 1 0; min-width: 0;
     display: flex; gap: var(--gap); overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
-    scrollbar-width: none; -ms-overflow-style: none; padding: 4px 2px 8px; overscroll-behavior-x: contain;
+    scrollbar-width: none; -ms-overflow-style: none; padding: 4px 0 8px; overscroll-behavior-x: contain; transition: opacity 0.18s;
   }
+  .po-row.wrapping { opacity: 0; }
   .po-row::-webkit-scrollbar { display: none; }
   .po-row .po-card { flex: 0 0 calc((100% - (var(--per) - 1) * var(--gap)) / var(--per)); scroll-snap-align: start; min-width: 0; }
-  @media (min-width: 560px) { .po-row { --per: 3; } }
-  @media (min-width: 860px) { .po-row { --per: 4; } }
-  @media (min-width: 1060px) { .po-row { --per: 5; } }
   .po-nav {
-    position: absolute; top: 50%; transform: translateY(-50%); z-index: 2;
-    width: 44px; height: 44px; border-radius: 50%; border: 1px solid var(--border-cargo);
-    background: rgba(20, 23, 27, 0.88); color: var(--fg); font-size: 1.4rem; line-height: 1; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; transition: background 0.15s, opacity 0.15s;
+    flex: 0 0 calc((100% - (var(--per) + 1) * var(--gap)) / (var(--per) + 2 / var(--phi)) / var(--phi));
+    margin: 4px 0 8px; padding: 0; border-radius: 8px; border: 1px solid var(--border-cargo);
+    background: var(--bg-cargo); color: var(--fg); font-size: 2.4rem; font-weight: 700; line-height: 1; cursor: pointer;
+    display: flex; align-items: center; justify-content: center; transition: background 0.15s, border-color 0.15s, transform 0.1s;
   }
   .po-nav:hover, .po-nav:focus-visible { background: var(--brand); border-color: var(--hoodie); }
-  .po-nav[disabled] { opacity: 0; pointer-events: none; }
-  .po-prev { left: -6px; } .po-next { right: -6px; }
-  @media (min-width: 1200px) { .po-prev { left: -22px; } .po-next { right: -22px; } }
+  .po-nav:active { transform: scale(0.97); }
   .po-card { display: block; background: var(--bg-cargo); border: 1px solid var(--border-cargo); border-radius: 8px; padding: 0.5rem; text-decoration: none; color: var(--fg); transition: transform 0.15s, border-color 0.15s; }
   .po-card:hover, .po-card:focus-visible { transform: translateY(-3px); border-color: var(--hoodie); }
   .po-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; display: block; background: var(--bg); }
@@ -655,17 +655,34 @@
 (function () {
   var row = document.getElementById('po-row'), prev = document.getElementById('po-prev'), next = document.getElementById('po-next');
   if (!row) return;
-  function update() {
-    var max = row.scrollWidth - row.clientWidth - 2;
-    prev.disabled = row.scrollLeft <= 2;
-    next.disabled = row.scrollLeft >= max;
+  var busy = false;
+  function metrics() {
+    var c = row.querySelector('.po-card'), gap = parseFloat(getComputedStyle(row).columnGap) || 0;
+    var step = c.getBoundingClientRect().width + gap;
+    var n = Math.max(1, Math.floor((row.clientWidth + gap) / step + 0.01));
+    return { page: n * step, max: row.scrollWidth - row.clientWidth };
   }
-  function go(dir) { row.scrollBy({ left: dir * row.clientWidth, behavior: 'smooth' }); }
+  function wrapTo(pos) {
+    if (busy) return;
+    busy = true;
+    row.classList.add('wrapping');
+    setTimeout(function () {
+      row.style.scrollBehavior = 'auto';
+      row.scrollLeft = pos;
+      row.style.scrollBehavior = '';
+      row.classList.remove('wrapping');
+      setTimeout(function () { busy = false; }, 200);
+    }, 190);
+  }
+  function go(dir) {
+    if (busy) return;
+    var m = metrics(), x = row.scrollLeft;
+    if (dir > 0 && x >= m.max - 2) return wrapTo(0);
+    if (dir < 0 && x <= 2) return wrapTo(m.max);
+    row.scrollTo({ left: Math.max(0, Math.min(m.max, x + dir * m.page)), behavior: 'smooth' });
+  }
   prev.addEventListener('click', function () { go(-1); });
   next.addEventListener('click', function () { go(1); });
-  row.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  update();
 })();
 </script>
 </body>

@@ -2,6 +2,9 @@
 
 ## 2026-10-12
 
+- feat(index): gallery buttons are now chunky side panels, same height as a gallery card and 1/phi (~0.618)
+  of a card's width (sized in CSS from the rail width); the carousel wraps around Netflix-style (next at
+  the end fades back to the start, prev at the start fades to the end). Founder real-time.
 - feat(index): Prompt-o-verse gallery is now a single-row, scroll-snap carousel (Netflix style) with prev/next
   buttons; 2/3/4/5 cards per view by width, touch-swipe works, buttons disable at the ends.
 - feat(index): front-page design pass. Emily game-sprite palette (hoodie blue, charcoal/slate, cargo

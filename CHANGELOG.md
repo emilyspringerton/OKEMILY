@@ -2,6 +2,10 @@
 
 ## 2026-10-12
 
+- ci(gitops): OKEMILY now deploys through the PARENA gitops loop like WOTAN. New `okemily-web` image
+  (git-tracked static files baked in, IDUNA-rendered paths fall back to the PVC), `scripts/build-image.sh`,
+  `.github/workflows/deploy.yml`; EMILY/gitops gains `OKEMILY_TAG` (tags.env, watch-tags.sh, iduna.pod, render.sh).
+  Manifests render byte-identical at `OKEMILY_TAG=v1`, so nothing changes live until the first CI image is pushed.
 - feat(index): search now suggests blog posts as you type (inline 182-post title index, typo-tolerant
   fuzzy ranking, arrow-key/Enter navigation). Founder real-time: "have the search search blog posts
   for now ... functionality will change as we are allowed more engineering budget".

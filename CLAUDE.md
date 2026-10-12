@@ -11,7 +11,28 @@ product front-end and is a separate, later effort — see `EDIS/CLAUDE.md`. This
 the immediate need (credibility for a Google Cloud for Startups application) is much narrower than
 that: a real, on-brand page, not a full app.
 
-## Deploy
+## Deploy (PARENA gitops, K8S-MV-02 -- current; the rsync section below is legacy box-only)
+
+okemily.com runs on GKE now, through the same pull-based PARENA gitops loop as WOTAN/IDUNA/etc.
+(`EMILY/gitops`). **Push to `main` and you are done -- there is no manual deploy step:**
+
+1. `.github/workflows/deploy.yml` builds `scripts/build-image.sh` -> Cloud Build -> pushes
+   `okemily-web:<short-sha>` to Artifact Registry (Workload Identity, no stored key).
+2. The in-cluster `gitops-autodeploy` CronJob (`EMILY/gitops/watch-tags.sh`, row
+   `OKEMILY_TAG okemily-web`) sees the newer tag, bumps `OKEMILY_TAG` in `tags.env`, re-renders
+   `40-iduna.yaml` through `parena-pod-render`, commits + pushes EMILY.
+3. `gitops-sync` applies it (<= 3 min). The `web` sidecar in the `iduna` pod rolls to the new image.
+
+What's in the image: only git-tracked files (`ops/`, `scripts/`, `*.md`, `.github/` excluded). What is
+NOT: `blog/`, `tyler/`, `prompt-o-verse/`, `battlegrounds/`, `blog-manifest.txt`, `design/` -- IDUNA
+renders those onto its PVC (`/app/var/www`), and `ops/docker/okemily-web.conf` falls back to the PVC
+for any path the image doesn't have. Image files win over stale PVC copies. Because that sidecar
+shares IDUNA's pod, rolling the site restarts the IDUNA pod too (same pod, one Deployment).
+
+Not wired yet: new `battlegrounds/` WASM builds still need to be copied onto the PVC by hand
+(`kubectl cp` into the `web`/`iduna` container's `/app/var/www/battlegrounds/`).
+
+## Deploy (legacy box-only rsync -- superseded above)
 
 Serving root is `/var/www/okemily/` (nginx reads it there, not this repo directory directly —
 `/home/fatbaby` is `750` and nginx's `www-data` user can't traverse it). **Update, 2026-07-19:**

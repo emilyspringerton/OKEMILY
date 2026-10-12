@@ -1,5 +1,16 @@
 # OKEMILY Changelog
 
+## 2026-10-12
+
+- feat(index): okemily.com front page rewritten to the OkEmily / WOTAN sovereign-network-stack copy
+  (hero, data-integrity moat, Twitch identity tiers, multiverse sandbox, developer PaaS, manifesto).
+  Founder real-time: "update ... the main okemily front page ... focus on core copy and
+  functionality, additional design pass next". News list, security banner and the footer blog-post
+  list removed from the design; a single `/blog/` link kept. Mailing list reworked as "Follow the
+  Build" (same IDUNA subscribe endpoint, consent box kept). New unified search block + "Enter the
+  Void" button now linking to wotan.okemily.com/DEADWEIGHT/. Search matches a small static index
+  (no server-side search exists yet). Not deployed from this sandbox (no /var/www/okemily).
+
 ## 2026-09-28
 
 - feat(nav): footer menu on index.html gets direct MIXFORGE (`mixforge.okemily.com`) and

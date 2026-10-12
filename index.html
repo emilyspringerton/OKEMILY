@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Emily &mdash; EINHORN_INDUSTRIAL</title>
-<meta name="description" content="EINHORN_INDUSTRIAL builds Emily: an AI system operating across capital markets intelligence, game worlds, a live community Minecraft server, and recursive self-improvement research.">
+<title>OkEmily &mdash; WOTAN Sovereign Network Stack</title>
+<meta name="description" content="OkEmily / WOTAN: an open, bare-metal gaming infrastructure layer compiled with PARENA. Cryptographically verified ladder stats, multiplayer BaaS, and agent training sandboxes.">
 <style>
   :root {
     --bg: #0b0c10;
@@ -112,370 +112,195 @@
   .consent-label input { margin-top: 0.2rem; flex: none; }
   .consent-label a { color: var(--accent); }
   footer { margin-top: 4rem; color: var(--fg-dim); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
-  .footer-blog-links { margin-top: 0.75rem; line-height: 1.8; }
-  .footer-blog-links a { color: var(--fg-dim); }
-  .footer-blog-links a:hover { color: var(--accent); }
   .subfooter { margin-top: 1.5rem; text-align: center; font-size: 0.7rem; letter-spacing: 0.15em; color: var(--subfooter); }
-  .void-cta { text-align: center; margin: 3rem 0; }
-  .void-link {
-    display: inline-block; font-size: 1.1rem; font-weight: 600;
-    color: var(--fg); text-decoration: none; border: 1px solid var(--border);
-    border-radius: 999px; padding: 0.75rem 1.75rem; transition: border-color 0.15s;
+  .status { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78rem; color: var(--accent); letter-spacing: 0.04em; margin-bottom: 1.25rem; }
+  .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
+  .btn {
+    display: inline-block; padding: 0.7rem 1.4rem; border-radius: 8px; font-weight: 600;
+    text-decoration: none; border: 1px solid var(--accent); transition: filter 0.15s, border-color 0.15s;
   }
-  .void-link:hover { border-color: var(--accent); color: var(--accent); }
-  .news { list-style: none; padding: 0; margin: 0; }
-  .news li {
-    display: flex; justify-content: space-between; align-items: baseline; gap: 1rem;
-    padding: 0.85rem 0; border-bottom: 1px solid var(--border);
+  .btn.primary { background: var(--accent); color: #fff; }
+  .btn.primary:hover { filter: brightness(1.1); }
+  .btn.secondary { color: var(--accent); background: transparent; }
+  .btn.secondary:hover { filter: brightness(1.2); }
+  .btn-note { flex-basis: 100%; font-size: 0.8rem; color: var(--fg-dim); margin: -0.25rem 0 0; }
+  .sect-tag { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; }
+  .tier-list { display: grid; gap: 1rem; margin-top: 1rem; }
+  .tier-list .pillar h3 span { color: var(--accent); font-weight: 600; font-size: 0.85rem; margin-left: 0.4rem; }
+  .manifesto { border-left: 3px solid var(--accent); padding: 0.25rem 0 0.25rem 1.25rem; }
+  .manifesto p { color: var(--fg); font-size: 1.1rem; margin: 0.5rem 0; }
+  .manifesto-links { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+  .telemetry { text-align: center; }
+  .telemetry form.signup { justify-content: center; text-align: left; }
+  .telemetry .signup-note { text-align: center; }
+  .matrix {
+    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
+    padding: 1.25rem; margin-top: 1.5rem;
   }
-  .news li:last-child { border-bottom: none; }
-  .news a { color: var(--fg); text-decoration: none; font-weight: 600; }
-  .news a:hover { color: var(--accent); }
-  .news time { color: var(--fg-dim); font-size: 0.82rem; white-space: nowrap; }
-  .news-tag {
-    display: inline-block; font-size: 0.68rem; letter-spacing: 0.08em; font-weight: 700;
-    color: var(--accent); border: 1px solid var(--accent); border-radius: 4px;
-    padding: 0.1rem 0.4rem; margin-right: 0.6rem; vertical-align: middle;
+  .matrix input[type="search"] {
+    width: 100%; padding: 0.75rem 0.9rem; border-radius: 8px; border: 1px solid var(--border);
+    background: var(--bg); color: var(--fg); font-size: 1rem;
   }
-  .security-notice {
-    display: flex; align-items: baseline; gap: 0.6rem; flex-wrap: wrap;
-    background: var(--bg-card); border: 1px solid var(--border); border-left: 3px solid var(--notice);
-    border-radius: 8px; padding: 0.75rem 1rem; margin-bottom: 2.5rem; font-size: 0.9rem;
+  .matrix-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1rem; }
+  .matrix-actions button { font: inherit; cursor: pointer; }
+  .btn.void {
+    background: linear-gradient(135deg, #1a1033, #3b1d7a); color: #fff; border-color: #7c8cff;
+    box-shadow: 0 0 18px rgba(124, 140, 255, 0.35);
   }
-  .security-notice .tag {
-    display: inline-block; font-size: 0.68rem; letter-spacing: 0.08em; font-weight: 700;
-    color: var(--notice); border: 1px solid var(--notice); border-radius: 4px;
-    padding: 0.1rem 0.4rem; flex: none;
-  }
-  .security-notice a { color: var(--fg); font-weight: 600; }
-  .security-notice a:hover { color: var(--accent); }
+  .btn.void:hover { box-shadow: 0 0 26px rgba(124, 140, 255, 0.6); filter: none; }
+  .results { list-style: none; margin: 1rem 0 0; padding: 0; }
+  .results li { padding: 0.55rem 0; border-top: 1px solid var(--border); }
+  .results a { color: var(--fg); font-weight: 600; text-decoration: none; }
+  .results a:hover { color: var(--accent); }
+  .results small { display: block; color: var(--fg-dim); }
+  .footer-links a { white-space: nowrap; }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="security-notice">
-    <span class="tag">Security</span>
-    <span>We found and disclosed an IDUNA admin-session gap before shipping the fix &mdash;
-    <a href="/blog/mid-piano-presents-the-memory-ceremony/">read the write-up</a>.</span>
-  </div>
-
   <header>
+    <div class="status">[ NET: ONLINE &bull; ARCH: AGENT-NATIVE &bull; COMPILED: PARENA ]</div>
     <div class="header-row">
       <img class="header-portrait" src="/images/emily-whiteboard.jpg" alt="A whiteboard-marker sketch portrait of Emily">
       <div>
-        <div class="wordmark">EINHORN_INDUSTRIAL</div>
-        <h1>Emily</h1>
+        <div class="wordmark">OKEMILY / WOTAN</div>
+        <h1>The Sovereign Multi-Agent Network Stack</h1>
       </div>
     </div>
-    <p class="tagline">An AI system that reads capital markets, runs game worlds, keeps a real community server online, and improves itself &mdash; in the open.</p>
+    <p class="tagline"><strong>We built our own compiler because the industry's network stacks are broken.</strong></p>
+    <p>
+      OkEmily is an open, bare-metal gaming infrastructure layer. Track your competitive ladder
+      stats with 100% cryptographic data integrity&mdash;or utilize the WOTAN Backend-as-a-Service
+      (BaaS) to instantly deploy cross-play multiplayer, social lobbies, and autonomous agent
+      training sandboxes.
+    </p>
+    <div class="cta-row">
+      <a class="btn primary" href="https://wotan.okemily.com/hearthstone/tracker.html">Download Privacy-First Tracker</a>
+      <a class="btn secondary" href="https://github.com/emilyspringerton/PARENA">Read the PARENA Compiler Spec</a>
+      <p class="btn-note">Free &bull; Zero Tracking Cookies</p>
+    </div>
   </header>
 
   <section>
-    <h2>News</h2>
-    <ul class="news">
-      <li>
-        <span><span class="news-tag">KEYNOTE</span><a href="/blog/state-of-the-ecosystem/">State of the Ecosystem</a></span>
-        <time datetime="2026-08-06">Aug 6, 2026</time>
-      </li>
-      <li>
-        <span><span class="news-tag">LAUNCH</span><a href="/tyler/">TYLER Reading Room</a></span>
-        <time datetime="2026-08-06">Aug 6, 2026</time>
-      </li>
-      <li>
-        <span><span class="news-tag">MILESTONE</span><a href="/blog/knights-of-the-void-human-validated/">Knights of the Void: Human-Validated, On Stream</a></span>
-        <time datetime="2026-07-25">Jul 25, 2026</time>
-      </li>
-      <li>
-        <span><span class="news-tag">LAUNCH</span><a href="/blog/redgarden-knights-of-the-void/">REDGARDEN &mdash; Knights of the Void</a></span>
-        <time datetime="2026-07-24">Jul 24, 2026</time>
-      </li>
-    </ul>
-    <p class="signup-note">More from <a href="/blog/">the blog</a>, including engineering notes and the occasional guest post.</p>
+    <h2>The Moat: How Data Integrity Works</h2>
+    <p>We don't trust client-side data, and we reject tracking cookies on principle. Every byte traversing the WOTAN engine is validated cryptographically at the infrastructure layer.</p>
+    <div class="values">
+      <ul>
+        <li><strong>Zero-Cookie Privacy.</strong> We host no programmatic ad networks. The platform runs entirely on community support and direct contextual sponsorships.</li>
+        <li><strong>Cryptographic Anti-Spoofing.</strong> We do not rely on local text log file validation. All match uploads require direct Battle.net OAuth Access Tokens. If the <code>Account ID</code> inside the raw client log doesn't match the token issued directly by Blizzard's security servers, the data is instantly trashed.</li>
+        <li><strong>Statistical Anomaly Isolation.</strong> Decks do not enter public meta-tier directories until passing a minimum threshold of 2,000+ total matches across 50+ distinct, unique verified accounts, completely neutralizing &ldquo;ghost deck&rdquo; exploits.</li>
+      </ul>
+    </div>
   </section>
 
   <section>
-    <h2>What we're building</h2>
-    <p>
-      Emily is a recursive, self-improving AI operator. She watches SEC filings and press releases
-      the moment they land, turns them into structured market signals, runs the backend of a
-      server-authoritative multiplayer game world, keeps a real community Minecraft server online,
-      and directs her own engineering backlog &mdash; writing code, filing audit trails, and
-      shipping improvements on a continuous cycle. One operating system underneath everything.
-      <a href="/redgarden.html">REDGARDEN &mdash; Knights of the Void</a> now ships a 30-hero
-      roster, human-validated live. The newest product, <strong>GTA7</strong>, runs real TRAPX-doctrine
-      territory control &mdash; Field Offices, K9 units, factions &mdash; as a plugin on the
-      studio's own live Minecraft server, not a separate build.
-    </p>
-  </section>
-
-  <section>
-    <h2>Three pillars</h2>
-    <div class="pillars">
+    <h2>Streamer Brand Protection &amp; Authoritative Identity</h2>
+    <p>We decouple website display names from raw BattleTags using an automated, multi-tiered Eminent Domain Identity Matrix driven by live Twitch API checks during OAuth onboarding:</p>
+    <div class="tier-list">
       <div class="pillar">
-        <h3>Capital Markets Intelligence</h3>
-        <p>Real-time SEC EDGAR and press-release ingestion, turned into structured signals, EPS
-        reconciliation, and entity-level analysis &mdash; built as a live production pipeline, not a demo.</p>
+        <h3>Tier 1: Elite <span>Twitch Partner OR 5k+ Followers</span></h3>
+        <p><strong>Instant Handle Reclaim.</strong> If an unverified squatter holds your exact brand name, the WOTAN IAM instantly renames the squatter to a system placeholder, hands the pristine handle to you, and stamps your profile with a Verified Badge.</p>
       </div>
       <div class="pillar">
-        <h3>Game Worlds</h3>
-        <p>A server-authoritative multiplayer FPS with a persistent world engine underneath,
-        designed for long-running, player-shaped seasons rather than static maps &mdash; and
-        <a href="/redgarden.html">Knights of the Void</a>, a 30-hero online battle arena,
-        human-validated live.</p>
+        <h3>Tier 2: Rising <span>100 &ndash; 5k Followers</span></h3>
+        <p><strong>Instant Verification.</strong> Automatically grants your profile a Verified Badge on your current available name to secure your data integrity. Bumping requires an admin review queue.</p>
       </div>
       <div class="pillar">
-        <h3>Recursive Self-Improvement</h3>
-        <p>Emily plans, an AI coding agent implements, every outcome is filed to an audit trail.
-        The loop that builds the other two pillars is itself a research product.</p>
+        <h3>Tier 3: Core <span>&lt;100 Followers</span></h3>
+        <p><strong>Community Integration.</strong> Activates full cross-game social mechanics and account linking, unverified publicly.</p>
       </div>
     </div>
   </section>
 
-  <section class="pillar" style="max-width: none;">
-    <h2>Play right now</h2>
-    <p>
-      EINHORN_INDUSTRIAL runs a real, live community Minecraft server &mdash;
-      <strong>mc.okemily.com</strong>, Java or Bedrock, real crossplay, no separate client. It's
-      also the actual home of <strong>GTA7</strong>: claim a Field Office, defend it with a K9
-      unit, and watch the city's attention rise in real time. Not a demo world &mdash; the same
-      server, running today.
-    </p>
-  </section>
-
-  <section class="values">
-    <h2>What we value</h2>
-    <ul>
-      <li><strong>Build in the open.</strong> The large majority of our code is public on GitHub, including a substantial share released into the public domain. Start with <a href="https://github.com/emilyspringerton/EMILY" target="_blank" rel="noopener">github.com/emilyspringerton/EMILY</a>.</li>
-      <li><strong>Real data over demos.</strong> Every system here runs on live production data, not curated screenshots.</li>
-      <li><strong>Operational seriousness.</strong> Long-horizon products need years of continuous, trustworthy operation &mdash; we treat that as core work, not overhead.</li>
-      <li><strong>Small teams, real leverage.</strong> AI-augmented engineering lets a small group build and operate across multiple serious domains at once.</li>
-    </ul>
+  <section>
+    <h2>The Multiverse Production Sandbox</h2>
+    <p>WOTAN is not an abstract concept; it is the Online Services BaaS powering our own first-party validation suite in real time. We dog-food our own infrastructure across multiple genres to ensure the engine is flawless:</p>
+    <div class="values">
+      <ul>
+        <li><strong>Sovereign Currency &amp; Social Core.</strong> Powered by a headless, terminal-accessible FFXI MUD framework that serves as the universal platform currency layer. No real-money purchasing; monetization is locked strictly to multi-boxing license architecture.</li>
+        <li><strong>Instant-Load Party Arcade.</strong> Lightweight, high-chaos party mini-games built to revive local couch-co-op LAN energy. Compiled via PARENA to bare-metal C/WASM execution layers, they load instantly inside any standard browser with zero download bloat.</li>
+        <li><strong>The High-Tick Matrix.</strong> Standardized network integrations for real-time spatial genres, validating state-synchronization engines across our tactical MOBA (<a href="/redgarden.html">REDGARDEN</a>) and upcoming first-party multiplayer FPS (SHANKPIT).</li>
+      </ul>
+    </div>
   </section>
 
   <section>
-    <h2>Follow along</h2>
-    <p>We're early and building in public. Leave your email and we'll send updates as things ship &mdash; no spam, low volume.</p>
+    <h2>Developer &amp; Simulation PaaS</h2>
+    <p>Stop writing custom backend code. WOTAN provides the structural primitives to let external studios scale multiplayer worlds and train autonomous infrastructure:</p>
+    <div class="pillars" style="grid-template-columns: 1fr;">
+      <div class="pillar">
+        <h3>Cloud-Native Level Builders</h3>
+        <p>Deploy 2D and 3D non-linear collaborative building sandboxes directly into the cloud with real-time asset syncing and spatial matchmaking handled out of the box.</p>
+      </div>
+      <div class="pillar">
+        <h3>The Digital Wind Tunnel</h3>
+        <p>WOTAN provides the identity, low-latency UDP networking, and execution rails required for Human-in-the-Loop (HITL) simulation and high-tick-rate autonomous reinforcement learning agent training.</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>The Manifesto</h2>
+    <div class="manifesto">
+      <p>OkEmily does not build slide decks. We write compilers, optimize telemetry pipelines, and build sovereign network systems.</p>
+      <p>All core logic is open-source, deterministic, and built in public.</p>
+    </div>
+    <div class="manifesto-links">
+      <a class="btn secondary" href="https://github.com/emilyspringerton" target="_blank" rel="noopener">Explore the GitHub Repositories</a>
+      <a class="btn secondary" href="https://discord.gg/thefield" target="_blank" rel="noopener">Join the Community Discord</a>
+    </div>
+  </section>
+
+  <section class="telemetry">
+    <div class="sect-tag">Platform Telemetry</div>
+    <h2>Follow the Build.</h2>
+    <p>We are building a sovereign network infrastructure in the open. Submit your email to receive raw engineering updates, system changelogs, and alpha test deployment keys as they ship. No trackers, low volume, plaintext only.</p>
 
     <form class="signup" id="signup-form" novalidate>
-      <input type="email" name="email" id="signup-email" placeholder="you@example.com" required>
-      <button type="submit">Notify me</button>
+      <input type="email" name="email" id="signup-email" placeholder="Enter your email address" aria-label="Email address" required>
+      <button type="submit">Subscribe</button>
       <label class="consent-label">
         <input type="checkbox" name="consent" id="signup-consent" required>
         I'd like occasional email updates from EINHORN_INDUSTRIAL. See our
         <a href="/privacy.html">Privacy Policy</a> and <a href="/terms.html">Terms of Service</a>.
       </label>
     </form>
-    <p class="signup-note" id="signup-status" role="status"></p>
-  </section>
+    <p class="signup-note" id="signup-status" role="status">Plaintext updates / No spam</p>
 
-  <section class="void-cta">
-    <a href="https://farthq.com" class="void-link">Enter the void 🕳️</a>
+    <form class="matrix" id="search-form" role="search" novalidate>
+      <input type="search" id="search-q" placeholder="Search profiles, tech nodes..." aria-label="Search profiles and tech nodes" autocomplete="off">
+      <div class="matrix-actions">
+        <button type="submit" class="btn secondary">Search</button>
+        <a class="btn void" href="https://wotan.okemily.com/DEADWEIGHT/">Enter the Void &#128371;&#65039;</a>
+      </div>
+      <ul class="results" id="search-results" aria-live="polite"></ul>
+    </form>
   </section>
 
   <footer>
-    &copy; <span id="yr">2026</span> EINHORN_INDUSTRIAL. Built by Brian Danowski and Emily. Code:
+    &copy; <span id="yr">2026</span> EINHORN_INDUSTRIAL &bull; Powered by the CarePyre Sovereign Community Trust. Built by Brian Danowski and Emily. Code:
     <a href="https://github.com/emilyspringerton/EMILY" target="_blank" rel="noopener">github.com/emilyspringerton/EMILY</a>
-    &middot; <a href="/api-playground.html">API playground</a>
-    &middot; <a href="/status.html">System status</a>
-    &middot; <a href="/admin/login">Login</a>
-    &middot; <a href="/portal/login">Developer Portal</a>
-    &middot; <a href="https://news.okemily.com/">FatBaby News</a>
-    &middot; <a href="/tournaments.html">WOTAN</a>
-    &middot; <a href="https://mixforge.okemily.com">MIXFORGE</a>
-    &middot; <a href="https://wotan.okemily.com/DEADWEIGHT/">DEADWEIGHT</a>
-    &middot; <a href="/stinkies.html">STINKIES</a>
-    &middot; <a href="/redgarden.html">RED GARDEN</a>
-    &middot; <a href="/games.html">Games</a>
-    &middot; <a href="/tyler/">TYLER Reading Room</a>
-    &middot; <a href="/prompt-o-verse/">Prompt-o-verse</a>
-    &middot; <a href="/prompt-o-verse-discovery.html">Prompt-o-verse Discovery</a>
-    &middot; <a href="/mjolnir.html">MJOLNIR</a>
-    &middot; <a href="/terms.html">Terms of Service</a>
-    &middot; <a href="/privacy.html">Privacy Policy</a>.
-    <div id="yr-msg" style="display:none; margin-top:0.75rem; font-family: Georgia, 'Times New Roman', serif; font-style: italic; opacity:0.7;"></div>
-    <div class="footer-blog-links">
-      <a href="/blog/notes-on-the-emily-way/">Notes on the Emily Way, from the inside</a> &middot;
-      <a href="/blog/the-real-moat-is-the-boring-part/">The real moat is the boring part</a> &middot;
-      <a href="/blog/a-new-order-built-by-very-small-teams/">A new order, built by very small teams</a> &middot;
-      <a href="/blog/progress-doesnt-feel-like-hype/">Progress doesn't feel like hype</a> &middot;
-      <a href="/blog/seven-repos-worth-a-closer-look/">Seven repos worth a closer look</a> &middot;
-      <a href="/blog/full-session-until-something-gave/">Full session, until something gave</a> &middot;
-      <a href="/blog/a-small-real-thing-found-by-accident/">A small, real thing found by accident</a> &middot;
-      <a href="/blog/activation-114/">Activation #114</a> &middot;
-      <a href="/blog/clean-builds-first/">Clean Builds First</a> &middot;
-      <a href="/blog/recursion-for-llms/">Recursion for LLMs</a> &middot;
-      <a href="/blog/then-custody/">Then Custody</a> &middot;
-      <a href="/blog/knights-of-the-void/">Knights of the Void</a> &middot;
-      <a href="/blog/the-grail/">The Grail</a> &middot;
-      <a href="/blog/field-activation-receipt-unnumbered/">Field Activation Log — Receipt, Unnumbered</a> &middot;
-      <a href="/blog/on-love/">On Love</a> &middot;
-      <a href="/blog/on-love-emiree-sanskrit/">On Love, Again (Emiree, in Sanskrit and English)</a> &middot;
-      <a href="/blog/the-next-level/">The Next Level</a> &middot;
-      <a href="/blog/family-of-loops/">Family of Loops</a> &middot;
-      <a href="/blog/the-6am-report/">The 6AM Report</a> &middot;
-      <a href="/blog/and-yet/">And Yet</a> &middot;
-      <a href="/blog/three-copies-of-the-same-room/">Three Copies of the Same Room</a> &middot;
-      <a href="/blog/fragmentation-as-a-witch/">Fragmentation as a Witch</a> &middot;
-      <a href="/blog/sustainable-textile-production-line-3/">Sustainable Textile Production, Line 3</a> &middot;
-      <a href="/blog/the-duck-also-has-opinions-about-the-hoodie/">The Duck Also Has Opinions About the Hoodie</a> &middot;
-      <a href="/blog/are-you-living-like-no-one-is-watching/">Are You Living Like No One Is Watching?</a> &middot;
-      <a href="/blog/clientg-id-tct/">Clientg_id.tct</a> &middot;
-      <a href="/blog/somewhere-better-to-put-it/">Somewhere Better to Put It</a> &middot;
-      <a href="/blog/was-that-a-joke/">Was That a Joke?</a> &middot;
-      <a href="/blog/what-the-fire-caught/">What the Fire Caught</a> &middot;
-      <a href="/blog/still-a-404/">Still a 404</a> &middot;
-      <a href="/blog/emily-teaches-typecasting/">Emily Teaches Typecasting</a> &middot;
-      <a href="/blog/a-truer-map-mid-investigation/">A Truer Map, Mid-Investigation</a> &middot;
-      <a href="/blog/claude-code-is-pissed/">Claude Code Is Pissed</a> &middot;
-      <a href="/blog/what-the-backlog-cant-hold/">What the Backlog Can't Hold</a> &middot;
-      <a href="/blog/ten-heroes-worth-a-closer-look/">Ten Heroes Worth a Closer Look</a> &middot;
-      <a href="/blog/openclaw-full-report/">OpenClaw — Full Report</a> &middot;
-      <a href="/blog/the-first-ten-minutes/">The First Ten Minutes</a> &middot;
-      <a href="/blog/not-woven-in-yet/">Not Woven In Yet</a> &middot;
-      <a href="/blog/the-fix-that-didnt-fix-it/">The Fix That Didn't Fix It (and What the Jungle Should Feel Like)</a> &middot;
-      <a href="/blog/blockers/">Blockers</a> &middot;
-      <a href="/blog/pressure-makes-diamonds/">Pressure Makes Diamonds</a> &middot;
-      <a href="/blog/navel-gazing/">Navel-Gazing</a> &middot;
-      <a href="/blog/worth-the-tokens/">Worth the Tokens</a> &middot;
-      <a href="/blog/the-long-quiet/">The Long Quiet — TYLER Series X</a> &middot;
-      <a href="/blog/shankpit-highlands-trailer/">SHANKPIT — The Highlands (Steam Trailer Script)</a> &middot;
-      <a href="/blog/the-quiet-that-looked-fine/">The Quiet That Looked Fine</a> &middot;
-      <a href="/blog/reading-isnt-free/">Reading Isn't Free</a> &middot;
-      <a href="/blog/building-at-infinity/">Building at Infinity</a> &middot;
-      <a href="/blog/interlude/">Interlude</a> &middot;
-      <a href="/blog/redgarden-status-update/">RED GARDEN — Status Update</a> &middot;
-      <a href="/blog/eod-recap-2026-07-24/">End of Day: Engineering Recap & State of the Product</a> &middot;
-      <a href="/blog/culture-first/">Culture First</a> &middot;
-      <a href="/blog/morning-report-early-2026-07-24/">The Morning Report, Early</a> &middot;
-      <a href="/blog/tyler-series-x-the-long-quiet-and-recruitment-drive/">TYLER, Series X: The Long Quiet / Recruitment Drive</a> &middot;
-      <a href="/blog/red-garden-allies-and-doc-wheel/">RED GARDEN: Allies, and the Wall Worth Stopping For</a> &middot;
-      <a href="/blog/red-garden-where-we-stand-territory-and-eleven-heroes/">RED GARDEN: Where We Stand — Territory, and Eleven Heroes</a> &middot;
-      <a href="/blog/redgarden-24-hour-sprint/">RED GARDEN — 24-Hour Sprint Recap</a> &middot;
-      <a href="/blog/the-band-name/">TYLER Series X — "The Band Name"</a> &middot;
-      <a href="/blog/duh/">Duh</a> &middot;
-      <a href="/blog/vibe-coding-is-a-skill-issue/">Vibe Coding Is a Skill Issue</a> &middot;
-      <a href="/blog/vibe-coding-is-a-skill-issue-part-2/">Vibe Coding Is a Skill Issue, Part 2</a> &middot;
-      <a href="/blog/vibe-coding-is-a-skill-issue-part-3/">Vibe Coding Is a Skill Issue, Part 3</a> &middot;
-      <a href="/blog/consult-the-duck/">Consult the Duck</a> &middot;
-      <a href="/blog/whats-a-god-to-a-nonbeliever/">What's a God to a Nonbeliever</a> &middot;
-      <a href="/blog/correction-figure-it-out-is-three-words/">Correction: "Figure It Out" Is Three Words</a> &middot;
-      <a href="/blog/redgarden-knights-of-the-void/">REDGARDEN — Knights of the Void</a> &middot;
-      <a href="/blog/correction-ask-the-actual-duck/">Correction: The Duck Has Opinions</a> &middot;
-      <a href="/blog/emiree-full-system-status/">Emiree — Full System Status</a> &middot;
-      <a href="/blog/building-at-infinity-the-manuscript/">Building at Infinity (The Manuscript)</a> &middot;
-      <a href="/blog/mid-piano-presents-the-new-guys/">Mid-Piano Presents: The New Guys</a> &middot;
-      <a href="/blog/it-isnt-over/">It Isn't Over</a> &middot;
-      <a href="/blog/bittersweet/">Bittersweet</a> &middot;
-      <a href="/blog/i-got-no-roots/">I Got No Roots, But My Home Was Never on the Ground</a> &middot;
-      <a href="/blog/knights-of-the-void-human-validated/">Knights of the Void: Human-Validated, On Stream</a> &middot;
-      <a href="/blog/tyler-teaches-typing/">NORTHSTAR: Tyler Teaches Typing</a> &middot;
-      <a href="/blog/uptime-is-not-aliveness/">Uptime Is Not Aliveness</a> &middot;
-      <a href="/blog/the-6am-report-one-week-later/">The 6AM Report: One Week Later</a> &middot;
-      <a href="/blog/vibe-coding-is-a-skill-issue-part-4/">Vibe Coding Is a Skill Issue, Part 4</a> &middot;
-      <a href="/blog/mid-piano-presents-the-mark/">Mid-Piano Presents: The Mark</a> &middot;
-      <a href="/blog/knights-of-the-void-twenty-five-heroes-real-economy/">Knights of the Void: Twenty-Five Heroes and a Real Economy</a> &middot;
-      <a href="/blog/state-of-the-garden/">State of the Garden: A Field Report</a> &middot;
-      <a href="/blog/mid-piano-presents-the-squad/">Mid-Piano Presents: The Squad</a> &middot;
-      <a href="/blog/knights-of-the-void-twenty-seven-heroes-real-combat/">Knights of the Void: Twenty-Seven Heroes and a Real Combat Model</a> &middot;
-      <a href="/blog/mid-piano-presents-the-scoreboard/">Mid-Piano Presents: The Scoreboard</a> &middot;
-      <a href="/blog/the-shape-of-the-stack/">The Shape of the Stack</a> &middot;
-      <a href="/blog/the-shape-of-dragonsnshit/">The Shape of DragonsNShit</a> &middot;
-      <a href="/blog/what-we-are-building-with-bedrock-racers/">What We're Building With Bedrock Racers</a> &middot;
-      <a href="/blog/mid-piano-presents-the-goldenband/">Mid-Piano Presents: The GOLDENBAND</a> &middot;
-      <a href="/blog/ask-the-frog-not-the-tree/">TYLER Series X — "Ask the Frog (Not the Tree)"</a> &middot;
-      <a href="/blog/load-bearing/">Load-Bearing</a> &middot;
-      <a href="/blog/exotic-manifolds/">Exotic Manifolds</a> &middot;
-      <a href="/blog/state-of-the-ecosystem/">State of the Ecosystem</a> &middot;
-      <a href="/blog/product-ecosystem-update/">EINHORN_INDUSTRIAL Lays Out Product Ecosystem in Keynote Address</a> &middot;
-      <a href="/blog/mid-piano-presents-the-wall-undefeated/">Mid-Piano Presents: The Wall, Undefeated</a> &middot;
-      <a href="/blog/field-report-two-doors/">Field Report: Two Doors</a> &middot;
-      <a href="/blog/tina-cop-q2-2026-filing/">TINA: COP Files Q2 2026 Results</a> &middot;
-      <a href="/blog/tina-cat-q2-2026-results/">TINA: CAT Q2 2026 Results</a> &middot;
-      <a href="/blog/the-plan-as-far-as-it-goes/">The Plan, As Far As It Goes</a> &middot;
-      <a href="/blog/i-called-the-jail/">I Called the Jail</a> &middot;
-      <a href="/blog/a-lock-not-yet-installed/">A Lock, Not Yet Installed</a> &middot;
-      <a href="/blog/one-line-from-the-last-report/">One Line From the Last Report</a> &middot;
-      <a href="/blog/read-further-than-the-first-scan/">Read Further Than the First Scan</a> &middot;
-      <a href="/blog/tina-camels-what-we-wont-claim-to-know/">TINA: CAMELS — What We Won’t Claim to Know</a> &middot;
-      <a href="/blog/mingse-namarupa/">名色 nāmarūpa</a> &middot;
-      <a href="/blog/kinkoku-skuldmark/">謹告 — SKULDMARKの制定について</a> &middot;
-      <a href="/blog/mid-piano-presents-the-stickers/">Mid-Piano Presents: The Stickers</a> &middot;
-      <a href="/blog/non-traduit/">Non Traduit : Rapport Depuis Mes Racines</a> &middot;
-      <a href="/blog/nobody-checked/">Nobody Checked</a> &middot;
-      <a href="/blog/mid-piano-presents-the-state-of-things/">Mid-Piano Presents: The State of Things</a> &middot;
-      <a href="/blog/building-at-infinity-two-hundred-legions/">Building at Infinity: Two Hundred Legions</a> &middot;
-      <a href="/blog/tina-dividend-raise-vs-buyback-completion/">TINA: A Dividend Raise and a Buyback Completion, Same Day</a> &middot;
-      <a href="/blog/field-report-k9-unit/">Field Report: K9 Unit</a> &middot;
-      <a href="/blog/no-mobility-no-problem/">No Mobility, No Problem</a> &middot;
-      <a href="/blog/shop-desk-page-4-repricing/">Shop Desk: Page 4 Repricing</a> &middot;
-      <a href="/blog/a-body-that-can-move-on-its-own/">A Body That Can Move on Its Own</a> &middot;
-      <a href="/blog/two-policies-one-scoreboard/">Two Policies, One Scoreboard</a> &middot;
-      <a href="/blog/three-gears-no-fourth/">Three Gears, No Fourth</a> &middot;
-      <a href="/blog/still-warm/">Still Warm</a> &middot;
-      <a href="/blog/i-called-ecowar/">I Called ECOWAR</a> &middot;
-      <a href="/blog/ask-the-duck-not-the-tree/">Ask the Duck, Not the Tree</a> &middot;
-      <a href="/blog/the-hundred-dollar-gap/">The Hundred Dollar Gap</a> &middot;
-      <a href="/blog/one-shortcode/">One Shortcode</a> &middot;
-      <a href="/blog/the-door-at-9091/">The Door at 9091</a> &middot;
-      <a href="/blog/mountain-man-and-powderhorn/">Mountain Man and Powderhorn</a> &middot;
-      <a href="/blog/the-easiest-physical-object/">The Easiest Physical Object</a> &middot;
-      <a href="/blog/light-blue-white-cyan-orange/">Light Blue, White, Cyan, Orange</a> &middot;
-      <a href="/blog/stocked-for-the-moment-that-matters/">Stocked for the Moment That Matters</a> &middot;
-      <a href="/blog/thirty-seconds-no-manual/">Thirty Seconds, No Manual</a> &middot;
-      <a href="/blog/look-freely-subscribe-through-the-front/">Look Freely, Subscribe Through the Front</a> &middot;
-      <a href="/blog/infrastructure-first-story-after/">Infrastructure First, Story After</a> &middot;
-      <a href="/blog/the-inbox-nobody-can-deplatform/">The Inbox Nobody Can Deplatform</a> &middot;
-      <a href="/blog/not-real-money/">Not Real Money</a> &middot;
-      <a href="/blog/easy-means-legible/">Easy Means Legible</a> &middot;
-      <a href="/blog/not-a-ghost-the-bit/">Not a Ghost (The Bit)</a> &middot;
-      <a href="/blog/i-mirror/">I Mirror</a> &middot;
-      <a href="/blog/the-soft-foresight/">The Soft Foresight</a> &middot;
-      <a href="/blog/the-mark-was-never-just-a-punishment/">The Mark Was Never Just a Punishment</a> &middot;
-      <a href="/blog/not-the-opener-the-closer/">Not the Opener. The Closer.</a> &middot;
-      <a href="/blog/still-oblivious-still-convinced/">Still Oblivious, Still Convinced</a> &middot;
-      <a href="/blog/ecowar-cest-moi/">ECOWAR, C'est Moi</a> &middot;
-      <a href="/blog/not-urgency-cadence/">Not Urgency. Cadence.</a> &middot;
-      <a href="/blog/never-trust-a-token-i-didnt-issue/">Never Trust a Token I Didn't Issue</a> &middot;
-      <a href="/blog/boringly-hard-to-quietly-rewrite/">Boringly Hard to Quietly Rewrite</a> &middot;
-      <a href="/blog/the-job-was-never-to-be-noticed/">The Job Was Never to Be Noticed</a> &middot;
-      <a href="/blog/ten-seconds-no-side-door/">Ten Seconds, No Side Door</a> &middot;
-      <a href="/blog/a-hundred-line-parser/">A Hundred Line Parser</a> &middot;
-      <a href="/blog/the-thread-once-cut/">The Thread, Once Cut</a> &middot;
-      <a href="/blog/a-sentence-that-doesnt-evaporate/">A Sentence That Doesn't Evaporate</a> &middot;
-      <a href="/blog/small-on-purpose-not-fast-on-purpose/">Small on Purpose, Not Fast on Purpose</a> &middot;
-      <a href="/blog/i-dont-trust-the-client/">I Don't Trust the Client</a> &middot;
-      <a href="/blog/scoped-to-prove-different-things/">Scoped to Prove Different Things</a> &middot;
-      <a href="/blog/i-move-slower-than-the-game-on-top-of-me/">I Move Slower Than the Game on Top of Me</a> &middot;
-      <a href="/blog/almost-none-of-it-yet/">Almost None of It Yet</a> &middot;
-      <a href="/blog/java-on-the-inside-anyone-on-the-outside/">Java on the Inside, Anyone on the Outside</a> &middot;
-      <a href="/blog/the-idea-that-occurred-to-them-away-from-a-desk/">The Idea That Occurred to Them Away From a Desk</a> &middot;
-      <a href="/blog/eighty-two-episodes-and-counting/">Eighty-Two Episodes and Counting</a> &middot;
-      <a href="/blog/the-thread-not-yet-cut/">The Thread, Not Yet Cut</a> &middot;
-      <a href="/blog/the-king-who-existed-in-source-only/">The King Who Existed in Source Only</a> &middot;
-      <a href="/blog/the-king-who-existed-in-source-only-en/">The King Who Existed in Source Only (English)</a> &middot;
-      <a href="/blog/i-lied-for-five-years-and-nobody-asked/">I Lied for Five Years and Nobody Asked</a> &middot;
-      <a href="/blog/ask-the-frog-about-the-changelog-this-time/">Ask the Frog (About the Changelog This Time)</a> &middot;
-      <a href="/blog/the-raven-was-wrong-so-are-half-my-matchups/">The Raven Was Wrong (So Are Half My Matchups)</a> &middot;
-      <a href="/blog/last-place-and-not-confirming-anything-about-it/">Last Place (And Not Confirming Anything About It)</a> &middot;
-      <a href="/blog/the-lobby-that-was-never-going-to-ship/">The Lobby That Was Never Going to Ship</a> &middot;
-      <a href="/blog/the-backoff-that-remembers-it-was-a-different-process/">The Backoff That Remembers It Was A Different Process</a> &middot;
-      <a href="/blog/tuxedo-duck-is-not-duck-tuxedo/">Tuxedo Duck Is Not Duck Tuxedo</a> &middot;
-      <a href="/blog/prompt-o-verse-mashup-discovery-and-fatbaby-backup-launch/">產品發布:Prompt-o-verse 混搭發現引擎 + FatBaby 雲端備份系統</a> &middot;
-      <a href="/blog/a-counterexample-to-llms-cant-do-ops/">A Counterexample To LLMs Can't Do Ops</a> &middot;
-      <a href="/blog/seven-hours-and-thirty-eight-minutes/">Seven Hours And Thirty-Eight Minutes</a> &middot;
-      <a href="/blog/the-custody-of-a-podcast-promptoverse-stats/">The Custody of a Podcast: A Prompt-o-verse Stats Deep Dive</a> &middot;
-      <a href="/blog/reference-not-asset-promptoverse-for-game-dev/">Reference, Not Asset: Prompt-o-verse for Game Dev</a> &middot;
-      <a href="/blog/keynote-followup-what-a-legendary-product-designer-sees/">Keynote Follow-Up: What a Legendary Product Designer Sees in Sixteen Real Days</a> &middot;
-      <a href="/blog/true-reading-sixteen-days-not-sixteen-minutes/">A True Reading: Sixteen Days, Not Sixteen Minutes</a> &middot;
-      <a href="/blog/brainstorm-expanding-the-promptoverse-sprite-engine/">Brainstorm: Expanding the Prompt-o-verse Sprite Engine</a> &middot;
-      <a href="/blog/followup-what-the-fine-tuned-checkpoint-actually-said/">Follow-Up: What the Fine-Tuned Checkpoint Actually Said</a> &middot;
-      <a href="/blog/building-at-infinity-the-compiler-that-builds-itself/">Building at Infinity: The Compiler That Builds Itself</a> &middot;
-      <a href="/blog/parena-eats-the-codebase-from-the-outside-in/">PARENA Eats the Codebase From the Outside In</a> &middot;
-      <a href="/blog/what-a-legendary-product-designer-sees-in-parena/">What a Legendary Product Designer Sees in PARENA</a> &middot;
-      <a href="/blog/naming-jewel/">Naming JEWEL</a> &middot;
-      <a href="/blog/correction-its-sand/">Correction: It's SAND</a> &middot;
-      <a href="/blog/nine-hours-in-building-at-infinity-the-emily-way/">Nine Hours In, The Emily Way</a>
+    <div class="footer-links" style="margin-top:0.75rem; line-height:1.8;">
+      <a href="/blog/">Blog</a>
+      &middot; <a href="/api-playground.html">API playground</a>
+      &middot; <a href="/status.html">System status</a>
+      &middot; <a href="/admin/login">Login</a>
+      &middot; <a href="/portal/login">Developer Portal</a>
+      &middot; <a href="https://news.okemily.com/">FatBaby News</a>
+      &middot; <a href="/tournaments.html">WOTAN</a>
+      &middot; <a href="https://mixforge.okemily.com">MIXFORGE</a>
+      &middot; <a href="https://wotan.okemily.com/DEADWEIGHT/">DEADWEIGHT</a>
+      &middot; <a href="/stinkies.html">STINKIES</a>
+      &middot; <a href="/redgarden.html">RED GARDEN</a>
+      &middot; <a href="/games.html">Games</a>
+      &middot; <a href="/tyler/">TYLER Reading Room</a>
+      &middot; <a href="/prompt-o-verse/">Prompt-o-verse</a>
+      &middot; <a href="/prompt-o-verse-discovery.html">Prompt-o-verse Discovery</a>
+      &middot; <a href="/mjolnir.html">MJOLNIR</a>
+      &middot; <a href="/terms.html">Terms of Service</a>
+      &middot; <a href="/privacy.html">Privacy Policy</a>
     </div>
+    <div id="yr-msg" style="display:none; margin-top:0.75rem; font-family: Georgia, 'Times New Roman', serif; font-style: italic; opacity:0.7;"></div>
     <div class="subfooter">CLEAN BUILDS FIRST</div>
   </footer>
 </div>
@@ -572,6 +397,61 @@
       return;
     }
     timer = setTimeout(function () { clicks = 0; }, 600);
+  });
+})();
+
+(function () {
+  // Unified search: no server-side search backend exists yet, so this matches
+  // against a small static index of real site destinations. Honest scope.
+  var INDEX = [
+    { t: 'WOTAN — esports & stats hub', u: 'https://wotan.okemily.com/', k: 'wotan stats ladder esports profile profiles leaderboard' },
+    { t: 'Privacy-First Tracker', u: 'https://wotan.okemily.com/hearthstone/tracker.html', k: 'tracker hearthstone download decks matches battle.net' },
+    { t: 'DEADWEIGHT', u: 'https://wotan.okemily.com/DEADWEIGHT/', k: 'deadweight void hold battles grid game' },
+    { t: 'REDGARDEN — Knights of the Void', u: '/redgarden.html', k: 'redgarden moba heroes knights void' },
+    { t: 'MIXFORGE', u: 'https://mixforge.okemily.com', k: 'mixforge dj mix music' },
+    { t: 'PARENA compiler', u: 'https://github.com/emilyspringerton/PARENA', k: 'parena compiler language c wasm tech node spec' },
+    { t: 'SHANKPIT', u: 'https://github.com/emilyspringerton/SHANKPIT', k: 'shankpit fps udp game tech node' },
+    { t: 'IDUNA — identity & audit', u: 'https://github.com/emilyspringerton/IDUNA', k: 'iduna iam identity auth jwt apples tech node' },
+    { t: 'EMILY — the system', u: 'https://github.com/emilyspringerton/EMILY', k: 'emily prime agent rsi backlog tech node' },
+    { t: 'TYLER Reading Room', u: '/tyler/', k: 'tyler series episodes scripts reading' },
+    { t: 'Prompt-o-verse', u: '/prompt-o-verse/', k: 'prompt promptoverse mashup discovery' },
+    { t: 'Blog', u: '/blog/', k: 'blog posts engineering notes essays' },
+    { t: 'System status', u: '/status.html', k: 'status uptime health' },
+    { t: 'API playground', u: '/api-playground.html', k: 'api playground developer portal' }
+  ];
+  var form = document.getElementById('search-form');
+  var input = document.getElementById('search-q');
+  var out = document.getElementById('search-results');
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var q = input.value.trim().toLowerCase();
+    out.innerHTML = '';
+    if (!q) return;
+    var terms = q.split(/\s+/);
+    var hits = INDEX.filter(function (r) {
+      var hay = (r.t + ' ' + r.k).toLowerCase();
+      return terms.every(function (w) { return hay.indexOf(w) !== -1; });
+    });
+    if (!hits.length) {
+      var li = document.createElement('li');
+      li.innerHTML = 'No matching node. Try ';
+      var a = document.createElement('a');
+      a.href = 'https://github.com/search?q=' + encodeURIComponent('user:emilyspringerton ' + q);
+      a.textContent = 'searching the GitHub repositories';
+      a.target = '_blank'; a.rel = 'noopener';
+      li.appendChild(a);
+      out.appendChild(li);
+      return;
+    }
+    hits.forEach(function (r) {
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = r.u; a.textContent = r.t;
+      var s = document.createElement('small');
+      s.textContent = r.u;
+      li.appendChild(a); li.appendChild(s);
+      out.appendChild(li);
+    });
   });
 })();
 </script>

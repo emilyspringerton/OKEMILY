@@ -2,6 +2,9 @@
 
 ## 2026-10-12
 
+- feat(index): search now suggests blog posts as you type (inline 182-post title index, typo-tolerant
+  fuzzy ranking, arrow-key/Enter navigation). Founder real-time: "have the search search blog posts
+  for now ... functionality will change as we are allowed more engineering budget".
 - feat(index): okemily.com front page rewritten to the OkEmily / WOTAN sovereign-network-stack copy
   (hero, data-integrity moat, Twitch identity tiers, multiverse sandbox, developer PaaS, manifesto).
   Founder real-time: "update ... the main okemily front page ... focus on core copy and

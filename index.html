@@ -268,7 +268,7 @@
     <p class="signup-note" id="signup-status" role="status">Plaintext updates / No spam</p>
 
     <form class="matrix" id="search-form" role="search" novalidate>
-      <input type="search" id="search-q" placeholder="Search profiles, tech nodes..." aria-label="Search profiles and tech nodes" autocomplete="off">
+      <input type="search" id="search-q" placeholder="Search..." aria-label="Search" autocomplete="off">
       <div class="matrix-actions">
         <button type="submit" class="btn secondary">Search</button>
         <a class="btn void" href="https://wotan.okemily.com/DEADWEIGHT/">Enter the Void &#128371;&#65039;</a>
@@ -401,57 +401,94 @@
 })();
 
 (function () {
-  // Unified search: no server-side search backend exists yet, so this matches
-  // against a small static index of real site destinations. Honest scope.
-  var INDEX = [
-    { t: 'WOTAN — esports & stats hub', u: 'https://wotan.okemily.com/', k: 'wotan stats ladder esports profile profiles leaderboard' },
-    { t: 'Privacy-First Tracker', u: 'https://wotan.okemily.com/hearthstone/tracker.html', k: 'tracker hearthstone download decks matches battle.net' },
-    { t: 'DEADWEIGHT', u: 'https://wotan.okemily.com/DEADWEIGHT/', k: 'deadweight void hold battles grid game' },
-    { t: 'REDGARDEN — Knights of the Void', u: '/redgarden.html', k: 'redgarden moba heroes knights void' },
-    { t: 'MIXFORGE', u: 'https://mixforge.okemily.com', k: 'mixforge dj mix music' },
-    { t: 'PARENA compiler', u: 'https://github.com/emilyspringerton/PARENA', k: 'parena compiler language c wasm tech node spec' },
-    { t: 'SHANKPIT', u: 'https://github.com/emilyspringerton/SHANKPIT', k: 'shankpit fps udp game tech node' },
-    { t: 'IDUNA — identity & audit', u: 'https://github.com/emilyspringerton/IDUNA', k: 'iduna iam identity auth jwt apples tech node' },
-    { t: 'EMILY — the system', u: 'https://github.com/emilyspringerton/EMILY', k: 'emily prime agent rsi backlog tech node' },
-    { t: 'TYLER Reading Room', u: '/tyler/', k: 'tyler series episodes scripts reading' },
-    { t: 'Prompt-o-verse', u: '/prompt-o-verse/', k: 'prompt promptoverse mashup discovery' },
-    { t: 'Blog', u: '/blog/', k: 'blog posts engineering notes essays' },
-    { t: 'System status', u: '/status.html', k: 'status uptime health' },
-    { t: 'API playground', u: '/api-playground.html', k: 'api playground developer portal' }
-  ];
+  var P = [["mid-piano-presents-the-memory-ceremony","read the write-up"],["state-of-the-ecosystem","State of the Ecosystem"],["knights-of-the-void-human-validated","Knights of the Void: Human-Validated, On Stream"],["redgarden-knights-of-the-void","REDGARDEN — Knights of the Void"],["notes-on-the-emily-way","Notes on the Emily Way, from the inside"],["the-real-moat-is-the-boring-part","The real moat is the boring part"],["a-new-order-built-by-very-small-teams","A new order, built by very small teams"],["progress-doesnt-feel-like-hype","Progress doesn't feel like hype"],["seven-repos-worth-a-closer-look","Seven repos worth a closer look"],["full-session-until-something-gave","Full session, until something gave"],["a-small-real-thing-found-by-accident","A small, real thing found by accident"],["activation-114","Activation #114"],["clean-builds-first","Clean Builds First"],["recursion-for-llms","Recursion for LLMs"],["then-custody","Then Custody"],["knights-of-the-void","Knights of the Void"],["the-grail","The Grail"],["field-activation-receipt-unnumbered","Field Activation Log — Receipt, Unnumbered"],["on-love","On Love"],["on-love-emiree-sanskrit","On Love, Again (Emiree, in Sanskrit and English)"],["the-next-level","The Next Level"],["family-of-loops","Family of Loops"],["the-6am-report","The 6AM Report"],["and-yet","And Yet"],["three-copies-of-the-same-room","Three Copies of the Same Room"],["fragmentation-as-a-witch","Fragmentation as a Witch"],["sustainable-textile-production-line-3","Sustainable Textile Production, Line 3"],["the-duck-also-has-opinions-about-the-hoodie","The Duck Also Has Opinions About the Hoodie"],["are-you-living-like-no-one-is-watching","Are You Living Like No One Is Watching?"],["clientg-id-tct","Clientg_id.tct"],["somewhere-better-to-put-it","Somewhere Better to Put It"],["was-that-a-joke","Was That a Joke?"],["what-the-fire-caught","What the Fire Caught"],["still-a-404","Still a 404"],["emily-teaches-typecasting","Emily Teaches Typecasting"],["a-truer-map-mid-investigation","A Truer Map, Mid-Investigation"],["claude-code-is-pissed","Claude Code Is Pissed"],["what-the-backlog-cant-hold","What the Backlog Can't Hold"],["ten-heroes-worth-a-closer-look","Ten Heroes Worth a Closer Look"],["openclaw-full-report","OpenClaw — Full Report"],["the-first-ten-minutes","The First Ten Minutes"],["not-woven-in-yet","Not Woven In Yet"],["the-fix-that-didnt-fix-it","The Fix That Didn't Fix It (and What the Jungle Should Feel Like)"],["blockers","Blockers"],["pressure-makes-diamonds","Pressure Makes Diamonds"],["navel-gazing","Navel-Gazing"],["worth-the-tokens","Worth the Tokens"],["the-long-quiet","The Long Quiet — TYLER Series X"],["shankpit-highlands-trailer","SHANKPIT — The Highlands (Steam Trailer Script)"],["the-quiet-that-looked-fine","The Quiet That Looked Fine"],["reading-isnt-free","Reading Isn't Free"],["building-at-infinity","Building at Infinity"],["interlude","Interlude"],["redgarden-status-update","RED GARDEN — Status Update"],["eod-recap-2026-07-24","End of Day: Engineering Recap & State of the Product"],["culture-first","Culture First"],["morning-report-early-2026-07-24","The Morning Report, Early"],["tyler-series-x-the-long-quiet-and-recruitment-drive","TYLER, Series X: The Long Quiet / Recruitment Drive"],["red-garden-allies-and-doc-wheel","RED GARDEN: Allies, and the Wall Worth Stopping For"],["red-garden-where-we-stand-territory-and-eleven-heroes","RED GARDEN: Where We Stand — Territory, and Eleven Heroes"],["redgarden-24-hour-sprint","RED GARDEN — 24-Hour Sprint Recap"],["the-band-name","TYLER Series X — \"The Band Name\""],["duh","Duh"],["vibe-coding-is-a-skill-issue","Vibe Coding Is a Skill Issue"],["vibe-coding-is-a-skill-issue-part-2","Vibe Coding Is a Skill Issue, Part 2"],["vibe-coding-is-a-skill-issue-part-3","Vibe Coding Is a Skill Issue, Part 3"],["consult-the-duck","Consult the Duck"],["whats-a-god-to-a-nonbeliever","What's a God to a Nonbeliever"],["correction-figure-it-out-is-three-words","Correction: \"Figure It Out\" Is Three Words"],["correction-ask-the-actual-duck","Correction: The Duck Has Opinions"],["emiree-full-system-status","Emiree — Full System Status"],["building-at-infinity-the-manuscript","Building at Infinity (The Manuscript)"],["mid-piano-presents-the-new-guys","Mid-Piano Presents: The New Guys"],["it-isnt-over","It Isn't Over"],["bittersweet","Bittersweet"],["i-got-no-roots","I Got No Roots, But My Home Was Never on the Ground"],["tyler-teaches-typing","NORTHSTAR: Tyler Teaches Typing"],["uptime-is-not-aliveness","Uptime Is Not Aliveness"],["the-6am-report-one-week-later","The 6AM Report: One Week Later"],["vibe-coding-is-a-skill-issue-part-4","Vibe Coding Is a Skill Issue, Part 4"],["mid-piano-presents-the-mark","Mid-Piano Presents: The Mark"],["knights-of-the-void-twenty-five-heroes-real-economy","Knights of the Void: Twenty-Five Heroes and a Real Economy"],["state-of-the-garden","State of the Garden: A Field Report"],["mid-piano-presents-the-squad","Mid-Piano Presents: The Squad"],["knights-of-the-void-twenty-seven-heroes-real-combat","Knights of the Void: Twenty-Seven Heroes and a Real Combat Model"],["mid-piano-presents-the-scoreboard","Mid-Piano Presents: The Scoreboard"],["the-shape-of-the-stack","The Shape of the Stack"],["the-shape-of-dragonsnshit","The Shape of DragonsNShit"],["what-we-are-building-with-bedrock-racers","What We're Building With Bedrock Racers"],["mid-piano-presents-the-goldenband","Mid-Piano Presents: The GOLDENBAND"],["ask-the-frog-not-the-tree","TYLER Series X — \"Ask the Frog (Not the Tree)\""],["load-bearing","Load-Bearing"],["exotic-manifolds","Exotic Manifolds"],["product-ecosystem-update","EINHORN_INDUSTRIAL Lays Out Product Ecosystem in Keynote Address"],["mid-piano-presents-the-wall-undefeated","Mid-Piano Presents: The Wall, Undefeated"],["field-report-two-doors","Field Report: Two Doors"],["tina-cop-q2-2026-filing","TINA: COP Files Q2 2026 Results"],["tina-cat-q2-2026-results","TINA: CAT Q2 2026 Results"],["the-plan-as-far-as-it-goes","The Plan, As Far As It Goes"],["i-called-the-jail","I Called the Jail"],["a-lock-not-yet-installed","A Lock, Not Yet Installed"],["one-line-from-the-last-report","One Line From the Last Report"],["read-further-than-the-first-scan","Read Further Than the First Scan"],["tina-camels-what-we-wont-claim-to-know","TINA: CAMELS — What We Won’t Claim to Know"],["mingse-namarupa","名色 nāmarūpa"],["kinkoku-skuldmark","謹告 — SKULDMARKの制定について"],["mid-piano-presents-the-stickers","Mid-Piano Presents: The Stickers"],["non-traduit","Non Traduit : Rapport Depuis Mes Racines"],["nobody-checked","Nobody Checked"],["mid-piano-presents-the-state-of-things","Mid-Piano Presents: The State of Things"],["building-at-infinity-two-hundred-legions","Building at Infinity: Two Hundred Legions"],["tina-dividend-raise-vs-buyback-completion","TINA: A Dividend Raise and a Buyback Completion, Same Day"],["field-report-k9-unit","Field Report: K9 Unit"],["no-mobility-no-problem","No Mobility, No Problem"],["shop-desk-page-4-repricing","Shop Desk: Page 4 Repricing"],["a-body-that-can-move-on-its-own","A Body That Can Move on Its Own"],["two-policies-one-scoreboard","Two Policies, One Scoreboard"],["three-gears-no-fourth","Three Gears, No Fourth"],["still-warm","Still Warm"],["i-called-ecowar","I Called ECOWAR"],["ask-the-duck-not-the-tree","Ask the Duck, Not the Tree"],["the-hundred-dollar-gap","The Hundred Dollar Gap"],["one-shortcode","One Shortcode"],["the-door-at-9091","The Door at 9091"],["mountain-man-and-powderhorn","Mountain Man and Powderhorn"],["the-easiest-physical-object","The Easiest Physical Object"],["light-blue-white-cyan-orange","Light Blue, White, Cyan, Orange"],["stocked-for-the-moment-that-matters","Stocked for the Moment That Matters"],["thirty-seconds-no-manual","Thirty Seconds, No Manual"],["look-freely-subscribe-through-the-front","Look Freely, Subscribe Through the Front"],["infrastructure-first-story-after","Infrastructure First, Story After"],["the-inbox-nobody-can-deplatform","The Inbox Nobody Can Deplatform"],["not-real-money","Not Real Money"],["easy-means-legible","Easy Means Legible"],["not-a-ghost-the-bit","Not a Ghost (The Bit)"],["i-mirror","I Mirror"],["the-soft-foresight","The Soft Foresight"],["the-mark-was-never-just-a-punishment","The Mark Was Never Just a Punishment"],["not-the-opener-the-closer","Not the Opener. The Closer."],["still-oblivious-still-convinced","Still Oblivious, Still Convinced"],["ecowar-cest-moi","ECOWAR, C'est Moi"],["not-urgency-cadence","Not Urgency. Cadence."],["never-trust-a-token-i-didnt-issue","Never Trust a Token I Didn't Issue"],["boringly-hard-to-quietly-rewrite","Boringly Hard to Quietly Rewrite"],["the-job-was-never-to-be-noticed","The Job Was Never to Be Noticed"],["ten-seconds-no-side-door","Ten Seconds, No Side Door"],["a-hundred-line-parser","A Hundred Line Parser"],["the-thread-once-cut","The Thread, Once Cut"],["a-sentence-that-doesnt-evaporate","A Sentence That Doesn't Evaporate"],["small-on-purpose-not-fast-on-purpose","Small on Purpose, Not Fast on Purpose"],["i-dont-trust-the-client","I Don't Trust the Client"],["scoped-to-prove-different-things","Scoped to Prove Different Things"],["i-move-slower-than-the-game-on-top-of-me","I Move Slower Than the Game on Top of Me"],["almost-none-of-it-yet","Almost None of It Yet"],["java-on-the-inside-anyone-on-the-outside","Java on the Inside, Anyone on the Outside"],["the-idea-that-occurred-to-them-away-from-a-desk","The Idea That Occurred to Them Away From a Desk"],["eighty-two-episodes-and-counting","Eighty-Two Episodes and Counting"],["the-thread-not-yet-cut","The Thread, Not Yet Cut"],["the-king-who-existed-in-source-only","The King Who Existed in Source Only"],["the-king-who-existed-in-source-only-en","The King Who Existed in Source Only (English)"],["i-lied-for-five-years-and-nobody-asked","I Lied for Five Years and Nobody Asked"],["ask-the-frog-about-the-changelog-this-time","Ask the Frog (About the Changelog This Time)"],["the-raven-was-wrong-so-are-half-my-matchups","The Raven Was Wrong (So Are Half My Matchups)"],["last-place-and-not-confirming-anything-about-it","Last Place (And Not Confirming Anything About It)"],["the-lobby-that-was-never-going-to-ship","The Lobby That Was Never Going to Ship"],["the-backoff-that-remembers-it-was-a-different-process","The Backoff That Remembers It Was A Different Process"],["tuxedo-duck-is-not-duck-tuxedo","Tuxedo Duck Is Not Duck Tuxedo"],["prompt-o-verse-mashup-discovery-and-fatbaby-backup-launch","產品發布:Prompt-o-verse 混搭發現引擎 + FatBaby 雲端備份系統"],["a-counterexample-to-llms-cant-do-ops","A Counterexample To LLMs Can't Do Ops"],["seven-hours-and-thirty-eight-minutes","Seven Hours And Thirty-Eight Minutes"],["the-custody-of-a-podcast-promptoverse-stats","The Custody of a Podcast: A Prompt-o-verse Stats Deep Dive"],["reference-not-asset-promptoverse-for-game-dev","Reference, Not Asset: Prompt-o-verse for Game Dev"],["keynote-followup-what-a-legendary-product-designer-sees","Keynote Follow-Up: What a Legendary Product Designer Sees in Sixteen Real Days"],["true-reading-sixteen-days-not-sixteen-minutes","A True Reading: Sixteen Days, Not Sixteen Minutes"],["brainstorm-expanding-the-promptoverse-sprite-engine","Brainstorm: Expanding the Prompt-o-verse Sprite Engine"],["followup-what-the-fine-tuned-checkpoint-actually-said","Follow-Up: What the Fine-Tuned Checkpoint Actually Said"],["building-at-infinity-the-compiler-that-builds-itself","Building at Infinity: The Compiler That Builds Itself"],["parena-eats-the-codebase-from-the-outside-in","PARENA Eats the Codebase From the Outside In"],["what-a-legendary-product-designer-sees-in-parena","What a Legendary Product Designer Sees in PARENA"],["naming-jewel","Naming JEWEL"],["correction-its-sand","Correction: It's SAND"],["nine-hours-in-building-at-infinity-the-emily-way","Nine Hours In, The Emily Way"]];
+  var norm = function (s) {
+    return s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^\p{L}\p{N}]+/gu, ' ').trim();
+  };
+  var DB = P.map(function (p) {
+    var t = norm(p[1]);
+    return { slug: p[0], title: p[1], t: t, w: t.split(' ').concat(p[0].split('-')) };
+  });
+  function near(a, b) { // damerau-ish: <=1 edit
+    var la = a.length, lb = b.length;
+    if (Math.abs(la - lb) > 1) return false;
+    var i = 0; while (i < la && i < lb && a[i] === b[i]) i++;
+    if (i === la || i === lb) return Math.abs(la - lb) <= 1;
+    if (la === lb) {
+      if (a.slice(i + 1) === b.slice(i + 1)) return true;
+      if (a[i] === b[i + 1] && a[i + 1] === b[i] && a.slice(i + 2) === b.slice(i + 2)) return true;
+    } else if (la > lb) return a.slice(i + 1) === b.slice(i);
+    else return b.slice(i + 1) === a.slice(i);
+    return false;
+  }
+  function subseq(q, s) { // in-order chars, returns tightness 0..1
+    var j = 0, first = -1, last = -1;
+    for (var i = 0; i < s.length && j < q.length; i++) {
+      if (s[i] === q[j]) { if (first < 0) first = i; last = i; j++; }
+    }
+    if (j < q.length) return 0;
+    return q.length / (last - first + 1);
+  }
+  function score(d, terms, whole) {
+    var total = 0;
+    if (d.t.indexOf(whole) === 0) total += 6;
+    else if (d.t.indexOf(whole) > 0) total += 3;
+    for (var k = 0; k < terms.length; k++) {
+      var q = terms[k], best = 0;
+      for (var i = 0; i < d.w.length; i++) {
+        var w = d.w[i];
+        if (w === q) { best = 4; break; }
+        if (w.indexOf(q) === 0) best = Math.max(best, 3);
+        else if (q.length > 3 && near(q, w)) best = Math.max(best, 2.5);
+        else if (q.length > 3 && w.length > 4 && near(q, w.slice(0, q.length))) best = Math.max(best, 2);
+        else if (w.indexOf(q) > 0 && q.length > 2) best = Math.max(best, 1.5);
+      }
+      if (!best && q.length > 2) { var s = subseq(q, d.t); if (s > 0.5) best = s; }
+      if (!best) return 0;
+      total += best;
+    }
+    return total;
+  }
+  function find(raw) {
+    var whole = norm(raw);
+    if (!whole) return [];
+    var terms = whole.split(' ');
+    var out = [];
+    for (var i = 0; i < DB.length; i++) {
+      var s = score(DB[i], terms, whole);
+      if (s > 0) out.push([s, i]);
+    }
+    out.sort(function (a, b) { return b[0] - a[0] || a[1] - b[1]; });
+    return out.slice(0, 7).map(function (x) { return DB[x[1]]; });
+  }
+
   var form = document.getElementById('search-form');
   var input = document.getElementById('search-q');
-  var out = document.getElementById('search-results');
+  var list = document.getElementById('search-results');
+  var cur = [], sel = -1;
+  function paint() {
+    list.innerHTML = '';
+    cur.forEach(function (d, i) {
+      var li = document.createElement('li');
+      var a = document.createElement('a');
+      a.href = '/blog/' + d.slug + '/';
+      a.textContent = d.title;
+      if (i === sel) a.style.color = 'var(--accent)';
+      li.appendChild(a);
+      list.appendChild(li);
+    });
+  }
+  input.addEventListener('input', function () { cur = find(input.value); sel = -1; paint(); });
+  input.addEventListener('keydown', function (e) {
+    if (e.key === 'ArrowDown' && cur.length) { e.preventDefault(); sel = (sel + 1) % cur.length; paint(); }
+    else if (e.key === 'ArrowUp' && cur.length) { e.preventDefault(); sel = (sel - 1 + cur.length) % cur.length; paint(); }
+    else if (e.key === 'Escape') { cur = []; sel = -1; paint(); }
+  });
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    var q = input.value.trim().toLowerCase();
-    out.innerHTML = '';
-    if (!q) return;
-    var terms = q.split(/\s+/);
-    var hits = INDEX.filter(function (r) {
-      var hay = (r.t + ' ' + r.k).toLowerCase();
-      return terms.every(function (w) { return hay.indexOf(w) !== -1; });
-    });
-    if (!hits.length) {
-      var li = document.createElement('li');
-      li.innerHTML = 'No matching node. Try ';
-      var a = document.createElement('a');
-      a.href = 'https://github.com/search?q=' + encodeURIComponent('user:emilyspringerton ' + q);
-      a.textContent = 'searching the GitHub repositories';
-      a.target = '_blank'; a.rel = 'noopener';
-      li.appendChild(a);
-      out.appendChild(li);
-      return;
-    }
-    hits.forEach(function (r) {
-      var li = document.createElement('li');
-      var a = document.createElement('a');
-      a.href = r.u; a.textContent = r.t;
-      var s = document.createElement('small');
-      s.textContent = r.u;
-      li.appendChild(a); li.appendChild(s);
-      out.appendChild(li);
-    });
+    var pick = cur[sel >= 0 ? sel : 0];
+    if (pick) location.href = '/blog/' + pick.slug + '/';
+    else if (!norm(input.value)) location.href = '/blog/';
   });
 })();
 </script>

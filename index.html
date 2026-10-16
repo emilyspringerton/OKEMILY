@@ -5,430 +5,717 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>OkEmily &mdash; WOTAN Sovereign Network Stack</title>
 <meta name="description" content="OkEmily / WOTAN: an open, bare-metal gaming infrastructure layer compiled with PARENA. Cryptographically verified ladder stats, multiplayer BaaS, and agent training sandboxes.">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600&amp;family=Hanken+Grotesk:wght@400;500;600&amp;family=JetBrains+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
 <style>
-  :root {
-    /* Emily game-sprite palette: hoodie blue, slate/charcoal, cargo brown, cream, sneaker red. */
-    --bg: #1b1f24;
-    --bg-card: #2b323b;
-    --bg-cargo: #3f3128;
-    --fg: #f1e9d6;
-    --fg-dim: #cfc6b2;
-    --accent: #6aa9f2;
-    --brand: #1f6fcf;
-    --hoodie: #257fe6;
-    --border: #3a4350;
-    --border-cargo: #5a4636;
-    --alert: #d8382f;
-    --subfooter: #8f9aa8;
-    --notice: #e0a836;
-    color-scheme: dark;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-    background: var(--bg);
-    color: var(--fg);
-    line-height: 1.6;
-  }
-  .wrap { max-width: 780px; margin: 0 auto; padding: 4rem 1.5rem 6rem; }
-  header { margin-bottom: 3rem; }
-  .header-row { display: flex; align-items: center; gap: 1.5rem; }
-  .header-portrait {
-    width: 88px; height: 88px; border-radius: 50%; object-fit: cover; flex: none;
-    border: 2px solid var(--border);
-  }
-  @media (max-width: 480px) { .header-portrait { width: 64px; height: 64px; } }
-  .wordmark { font-size: 1.1rem; letter-spacing: 0.08em; color: var(--fg-dim); text-transform: uppercase; }
-  h1 { font-size: 2.6rem; margin: 0.5rem 0 0.25rem; line-height: 1.15; }
-  .tagline { font-size: 1.2rem; color: var(--fg-dim); margin-bottom: 0; }
-  section { margin: 3rem 0; }
-  h2 { font-size: 1.4rem; margin-bottom: 0.75rem; }
-  p { color: var(--fg-dim); }
-  .pillars { display: grid; grid-template-columns: 1fr; gap: 1rem; }
-  @media (min-width: 640px) { .pillars { grid-template-columns: repeat(3, 1fr); } }
-  .pillar {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1.25rem;
-  }
-  .pillar h3 { margin: 0 0 0.4rem; font-size: 1.05rem; }
-  .pillar p { margin: 0; font-size: 0.95rem; }
-  .values ul { list-style: none; padding: 0; margin: 0; }
-  .values li { padding: 0.4rem 0; border-bottom: 1px solid var(--border); color: var(--fg-dim); }
-  .values li:last-child { border-bottom: none; }
-  .values strong { color: var(--fg); }
-  form.signup {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 1.25rem;
-  }
-  form.signup input[type="email"] {
-    flex: 1 1 240px;
-    padding: 0.65rem 0.8rem;
-    border-radius: 6px;
-    border: 1px solid var(--border);
-    background: var(--bg);
-    color: var(--fg);
-    font-size: 1rem;
-  }
-  form.signup button {
-    padding: 0.65rem 1.4rem;
-    border-radius: 6px;
-    border: none;
-    background: var(--brand);
-    color: #fff;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-  }
-  .signup-note { font-size: 0.85rem; color: var(--fg-dim); margin-top: 0.6rem; }
-  .consent-label {
-    flex-basis: 100%;
-    font-size: 0.85rem;
-    color: var(--fg-dim);
-    display: flex;
-    align-items: flex-start;
-    gap: 0.5rem;
-    margin-top: 0.4rem;
-  }
-  .consent-label input { margin-top: 0.2rem; flex: none; }
-  .consent-label a { color: var(--accent); }
-  footer { margin-top: 4rem; color: var(--fg-dim); font-size: 0.85rem; border-top: 1px solid var(--border); padding-top: 1.5rem; }
-  .subfooter { margin-top: 1.5rem; text-align: center; font-size: 0.7rem; letter-spacing: 0.15em; color: var(--subfooter); }
-  .status { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.78rem; color: var(--accent); letter-spacing: 0.04em; margin-bottom: 1.25rem; }
-  .cta-row { display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1.5rem; }
-  .btn {
-    display: inline-block; padding: 0.7rem 1.4rem; border-radius: 8px; font-weight: 600;
-    text-decoration: none; border: 1px solid var(--accent); transition: filter 0.15s, border-color 0.15s;
-  }
-  .btn.primary { background: var(--brand); border-color: var(--brand); color: #fff; }
-  .btn.primary:hover { filter: brightness(1.1); }
-  .btn.secondary { color: var(--accent); background: transparent; }
-  .btn.secondary:hover { filter: brightness(1.2); }
-  .btn-note { flex-basis: 100%; font-size: 0.8rem; color: var(--fg-dim); margin: -0.25rem 0 0; }
-  .sect-tag { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 0.72rem; letter-spacing: 0.1em; color: var(--accent); text-transform: uppercase; }
-  .tier-list { display: grid; gap: 1rem; margin-top: 1rem; }
-  .tier-list .pillar h3 span { color: var(--accent); font-weight: 600; font-size: 0.85rem; margin-left: 0.4rem; }
-  .manifesto { border-left: 3px solid var(--accent); padding: 0.25rem 0 0.25rem 1.25rem; }
-  .manifesto p { color: var(--fg); font-size: 1.1rem; margin: 0.5rem 0; }
-  .manifesto-links { margin-top: 1.25rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
-  .telemetry { text-align: center; }
-  .telemetry form.signup { justify-content: center; text-align: left; }
-  .telemetry .signup-note { text-align: center; }
-  .matrix {
-    background: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
-    padding: 1.25rem; margin-top: 1.5rem;
-  }
-  .matrix input[type="search"] {
-    width: 100%; padding: 0.75rem 0.9rem; border-radius: 8px; border: 1px solid var(--border);
-    background: var(--bg); color: var(--fg); font-size: 1rem;
-  }
-  .matrix-actions { display: flex; flex-wrap: wrap; gap: 0.75rem; justify-content: center; margin-top: 1rem; }
-  .matrix-actions button { font: inherit; cursor: pointer; }
-  .btn.void {
-    background: linear-gradient(135deg, #1a1033, #3b1d7a); color: #fff; border-color: #7c8cff;
-    box-shadow: 0 0 18px rgba(124, 140, 255, 0.35);
-  }
-  .btn.void:hover { box-shadow: 0 0 26px rgba(124, 140, 255, 0.6); filter: none; }
-  .results { list-style: none; margin: 1rem 0 0; padding: 0; }
-  .results li { padding: 0.55rem 0; border-top: 1px solid var(--border); }
-  .results a { color: var(--fg); font-weight: 600; text-decoration: none; }
-  .results a:hover { color: var(--accent); }
-  .results small { display: block; color: var(--fg-dim); }
-  .footer-links a { white-space: nowrap; }
+body{margin:0;background:#f5f1ea}
+.ok *{box-sizing:border-box}
+.ok h1,.ok h2,.ok h3,.ok .disp{font-family:'Chakra Petch','Segoe UI',system-ui,sans-serif}
+.ok .mono{font-family:'JetBrains Mono',ui-monospace,Menlo,Consolas,monospace}
+.ok a{color:#a14316}
+.ok a:hover{color:#2b241e}
+.ok .btn{transition:filter .15s,transform .1s,background .15s}
+.ok .btn:hover{filter:brightness(1.07)}
+.ok .btn:active{transform:scale(.98)}
+.ok .ghost:hover{background:#efe8da;filter:none}
+.ok .lift{transition:transform .18s,border-color .18s,box-shadow .18s}
+.ok .lift:hover{transform:translateY(-2px);border-color:#e07a2f;box-shadow:0 10px 24px rgba(43,36,30,.08)}
+.ok .tab{box-shadow:inset 0 -3px 0 transparent;transition:box-shadow .15s,background .15s}
+.ok .tab:hover{background:#f7f2e9;box-shadow:inset 0 -3px 0 #e07a2f;color:#2b241e}
+.ok .nl:hover{background:#f1ebdf;color:#2b241e}
+.ok .row:hover{background:#faf6ee;color:#2b241e}
+.ok .hl:hover{text-decoration:underline}
+.ok .flink{color:#5b5046;text-decoration:none}
+.ok .flink:hover{color:#2b241e;text-decoration:underline}
+.ok :focus-visible{outline:3px solid #2b241e;outline-offset:3px}
+@keyframes hopA{0%{transform:translateY(0)}40%{transform:translateY(-24px)}100%{transform:translateY(0)}}
+@keyframes hopB{0%{transform:translateY(0)}40%{transform:translateY(-24px)}100%{transform:translateY(0)}}
+.ok .hopA{animation:hopA .45s ease-out}
+.ok .hopB{animation:hopB .45s ease-out}
+@media (prefers-reduced-motion:reduce){.ok .hopA,.ok .hopB{animation:none}.ok .lift,.ok .btn,.ok .tab{transition:none}}
+@media (max-width:900px){.ok .navlinks{display:none !important}}
 
-  /* ---- design pass: sprite palette, hero stage, gallery ---- */
-  .wrap { max-width: 1100px; }
-  h1, h2, h3, .wordmark, .btn { font-family: "Chakra Petch", "Segoe UI", system-ui, sans-serif; }
-  h2 { font-size: 1.9rem; }
-  header .hero { display: grid; grid-template-columns: 1fr; gap: 2rem; align-items: center; }
-  @media (min-width: 860px) { header .hero { grid-template-columns: 1.5fr 1fr; } }
-  .wordmark { color: #c9a27a; font-weight: 600; letter-spacing: 0.18em; }
-  h1 { font-size: 2.9rem; }
-  .tagline { color: var(--fg); }
-  .pillar { background: var(--bg-card); }
-  .values li { padding: 0.75rem 0; }
-  .moat-grid .pillar, .sandbox .pillar { background: var(--bg-cargo); border-color: var(--border-cargo); }
-  .stage {
-    position: relative; background-color: var(--bg-card); border: 1px solid var(--border); border-radius: 12px;
-    padding: 1.25rem 1.25rem 1rem; text-align: center; user-select: none;
-    background-image: linear-gradient(#343c47 1px, transparent 1px), linear-gradient(90deg, #343c47 1px, transparent 1px);
-    background-size: 20px 20px;
-  }
-  .stage-btn { display: block; width: 100%; background: none; border: 0; padding: 0; cursor: pointer; color: inherit; font: inherit; }
-  .stage-btn:focus-visible { outline: 3px solid var(--hoodie); outline-offset: 4px; border-radius: 8px; }
-  .stage-view { height: 300px; display: flex; align-items: flex-end; justify-content: center; }
-  .stage-view svg, .stage-view img { max-height: 100%; max-width: 100%; display: block; }
-  .stage-view img { border-radius: 6px; border: 1px solid var(--border-cargo); }
-  .stage-view .hop { animation: hop 0.45s ease-out; }
-  @keyframes hop { 0% { transform: translateY(0) } 40% { transform: translateY(-28px) } 100% { transform: translateY(0) } }
-  @media (prefers-reduced-motion: reduce) { .stage-view .hop { animation: none; } }
-  .stage-say { min-height: 2.6em; margin: 0.75rem 0 0.25rem; font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.85rem; color: var(--fg); }
-  .stage-meta { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 0.72rem; color: var(--subfooter); }
-  .stage-meta a { color: var(--accent); }
-  .gallery-head p { max-width: 640px; }
-  /* rail = [prev][row][next]; cw = (R - (per+1)gap) / (per + 2/phi); button width = cw / phi (golden ratio), height = card height */
-  .po-rail { --per: 2; --gap: 0.75rem; --phi: 1.618034; display: flex; align-items: stretch; gap: var(--gap); margin-top: 1.25rem; }
-  @media (min-width: 560px) { .po-rail { --per: 3; } }
-  @media (min-width: 860px) { .po-rail { --per: 4; } }
-  @media (min-width: 1060px) { .po-rail { --per: 5; } }
-  .po-row {
-    flex: 1 1 0; min-width: 0;
-    display: flex; gap: var(--gap); overflow-x: auto; scroll-snap-type: x mandatory; scroll-behavior: smooth;
-    scrollbar-width: none; -ms-overflow-style: none; padding: 4px 0 8px; overscroll-behavior-x: contain; transition: opacity 0.18s;
-  }
-  .po-row.wrapping { opacity: 0; }
-  .po-row::-webkit-scrollbar { display: none; }
-  .po-row .po-card { flex: 0 0 calc((100% - (var(--per) - 1) * var(--gap)) / var(--per)); scroll-snap-align: start; min-width: 0; }
-  .po-nav {
-    flex: 0 0 calc((100% - (var(--per) + 1) * var(--gap)) / (var(--per) + 2 / var(--phi)) / var(--phi));
-    margin: 4px 0 8px; padding: 0; border-radius: 8px; border: 1px solid var(--border-cargo);
-    background: var(--bg-cargo); color: var(--fg); font-size: 2.4rem; font-weight: 700; line-height: 1; cursor: pointer;
-    display: flex; align-items: center; justify-content: center; transition: background 0.15s, border-color 0.15s, transform 0.1s;
-  }
-  .po-nav:hover, .po-nav:focus-visible { background: var(--brand); border-color: var(--hoodie); }
-  .po-nav:active { transform: scale(0.97); }
-  .po-card { display: block; background: var(--bg-cargo); border: 1px solid var(--border-cargo); border-radius: 8px; padding: 0.5rem; text-decoration: none; color: var(--fg); transition: transform 0.15s, border-color 0.15s; }
-  .po-card:hover, .po-card:focus-visible { transform: translateY(-3px); border-color: var(--hoodie); }
-  .po-card img { width: 100%; aspect-ratio: 1; object-fit: cover; border-radius: 4px; display: block; background: var(--bg); }
-  .po-card span { display: block; font-size: 0.8rem; margin-top: 0.4rem; text-align: center; }
-  .gallery-more { margin-top: 1.25rem; display: flex; gap: 0.75rem; flex-wrap: wrap; }
-  .btn.void { background: #14171b; border-color: #c9a27a; box-shadow: none; display: inline-flex; align-items: center; gap: 0.6rem; letter-spacing: 0.06em; }
-  .btn.void:hover { box-shadow: 0 0 0 2px var(--hoodie); }
-  .void-dot { width: 16px; height: 16px; border-radius: 50%; background: radial-gradient(circle, var(--hoodie) 0 30%, #000 32%); border: 2px solid #c9a27a; }
-  .matrix, form.signup { background: var(--bg-card); }
-  .telemetry { text-align: left; }
-  .telemetry form.signup { justify-content: flex-start; }
-  .telemetry .signup-note { text-align: left; }
-  .matrix-actions { justify-content: flex-start; }
+.ok [hidden]{display:none !important}
+.ok .hop{animation:hopA .45s ease-out}
+.ok #search-results a.row[aria-selected="true"]{background:#faf6ee}
+@media (prefers-reduced-motion:reduce){.ok .hop{animation:none}}
 </style>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&display=swap" rel="stylesheet">
 </head>
 <body>
-<div class="wrap">
-  <header>
-    <div class="status">[ NET: ONLINE &bull; ARCH: AGENT-NATIVE &bull; COMPILED: PARENA ]</div>
-    <div class="hero">
-      <div>
-        <div class="wordmark">OKEMILY / WOTAN</div>
-        <h1>The Sovereign Multi-Agent Network Stack</h1>
-        <p class="tagline"><strong>We built our own compiler because the industry's network stacks are broken.</strong></p>
-        <p>
-          OkEmily is an open, bare-metal gaming infrastructure layer. Track your competitive ladder
-          stats with 100% cryptographic data integrity&mdash;or utilize the WOTAN Backend-as-a-Service
-          (BaaS) to instantly deploy cross-play multiplayer, social lobbies, and autonomous agent
-          training sandboxes.
-        </p>
-        <div class="cta-row">
-          <a class="btn primary" href="https://wotan.okemily.com/hearthstone/tracker.html">Download Privacy-First Tracker</a>
-          <a class="btn secondary" href="https://github.com/emilyspringerton/PARENA">Read the PARENA Compiler Spec</a>
-          <p class="btn-note">Free &bull; Zero Tracking Cookies</p>
+<div class="ok" style="background: rgb(245, 241, 234); color: rgb(43, 36, 30); font-family: &quot;Hanken Grotesk&quot;, system-ui, sans-serif; font-size: 16px; line-height: 1.6; min-width: 0px; overflow-x: hidden;"><div style="background: rgb(255, 253, 249); border-bottom: 1px solid rgb(230, 222, 206);">
+  <div style="max-width: 1240px; margin: 0px auto; padding: 0px 24px; display: flex; align-items: stretch; overflow-x: auto;">
+    <span class="mono" style="display: flex; align-items: center; padding-right: 22px; font-size: 11px; letter-spacing: 0.18em; color: rgb(110, 98, 86); border-right: 1px solid rgb(230, 222, 206);">GAMES</span>
+    
+      <a class="tab" href="https://wotan.okemily.com/DEADWEIGHT/" style="display: flex; align-items: center; gap: 12px; padding: 12px 22px; min-height: 58px; text-decoration: none; color: rgb(43, 36, 30); white-space: nowrap; border-right: 1px solid rgb(230, 222, 206);">
+        <span aria-hidden="true" style="width: 9px; height: 9px; border-radius: 2px; background: rgb(79, 127, 196); flex: 0 0 auto;"></span>
+        <span style="display: flex; flex-direction: column; line-height: 1.3;">
+          <span class="mono" style="font-size: 11.5px; font-weight: 500; letter-spacing: 0.1em;">DEADWEIGHT</span>
+          <span style="font-size: 12px; color: rgb(110, 98, 86);">Drafts · Matches · Duels</span>
+        </span>
+      </a>
+    
+      <a class="tab" href="https://wotan.okemily.com/hearthstone/" style="display: flex; align-items: center; gap: 12px; padding: 12px 22px; min-height: 58px; text-decoration: none; color: rgb(43, 36, 30); white-space: nowrap; border-right: 1px solid rgb(230, 222, 206);">
+        <span aria-hidden="true" style="width: 9px; height: 9px; border-radius: 2px; background: rgb(224, 160, 48); flex: 0 0 auto;"></span>
+        <span style="display: flex; flex-direction: column; line-height: 1.3;">
+          <span class="mono" style="font-size: 11.5px; font-weight: 500; letter-spacing: 0.1em;">HEARTHSTONE</span>
+          <span style="font-size: 12px; color: rgb(110, 98, 86);">Shared deck library</span>
+        </span>
+      </a>
+    
+      <a class="tab" href="/redgarden.html" style="display: flex; align-items: center; gap: 12px; padding: 12px 22px; min-height: 58px; text-decoration: none; color: rgb(43, 36, 30); white-space: nowrap; border-right: 1px solid rgb(230, 222, 206);">
+        <span aria-hidden="true" style="width: 9px; height: 9px; border-radius: 2px; background: rgb(90, 154, 110); flex: 0 0 auto;"></span>
+        <span style="display: flex; flex-direction: column; line-height: 1.3;">
+          <span class="mono" style="font-size: 11.5px; font-weight: 500; letter-spacing: 0.1em;">REDGARDEN</span>
+          <span style="font-size: 12px; color: rgb(110, 98, 86);">Knights of the Void</span>
+        </span>
+      </a>
+    
+      <a class="tab" href="https://wotan.okemily.com/" style="display: flex; align-items: center; gap: 12px; padding: 12px 22px; min-height: 58px; text-decoration: none; color: rgb(43, 36, 30); white-space: nowrap; border-right: 1px solid rgb(230, 222, 206);">
+        <span aria-hidden="true" style="width: 9px; height: 9px; border-radius: 2px; background: rgb(138, 128, 116); flex: 0 0 auto;"></span>
+        <span style="display: flex; flex-direction: column; line-height: 1.3;">
+          <span class="mono" style="font-size: 11.5px; font-weight: 500; letter-spacing: 0.1em;">GOBLINFOXDRAGON</span>
+          <span style="font-size: 12px; color: rgb(110, 98, 86);">MUD · Hat Store</span>
+        </span>
+      </a>
+    
+      <a class="tab" href="https://wotan.okemily.com/" style="display: flex; align-items: center; gap: 12px; padding: 12px 22px; min-height: 58px; text-decoration: none; color: rgb(43, 36, 30); white-space: nowrap; border-right: 1px solid rgb(230, 222, 206);">
+        <span aria-hidden="true" style="width: 9px; height: 9px; border-radius: 2px; background: rgb(224, 122, 47); flex: 0 0 auto;"></span>
+        <span style="display: flex; flex-direction: column; line-height: 1.3;">
+          <span class="mono" style="font-size: 11.5px; font-weight: 500; letter-spacing: 0.1em;">BRAWLPIT</span>
+          <span style="font-size: 12px; color: rgb(110, 98, 86);">Arena fighter · Hat Store</span>
+        </span>
+      </a>
+    
+    <a class="tab mono" href="#games" style="margin-left: auto; display: flex; align-items: center; padding: 0px 0px 0px 22px; min-height: 58px; font-size: 11px; letter-spacing: 0.14em; color: rgb(161, 67, 22); text-decoration: none; white-space: nowrap;">ALL GAMES ↓</a>
+  </div></div><nav aria-label="Primary" style="background: rgb(255, 253, 249); border-bottom: 1px solid rgb(230, 222, 206);">
+  <div style="max-width: 1240px; margin: 0px auto; padding: 12px 24px; display: flex; align-items: center; flex-wrap: wrap; gap: 16px;">
+    <a href="#top" style="display: flex; align-items: center; gap: 12px; text-decoration: none; color: rgb(43, 36, 30);">
+      <span style="width: 44px; height: 44px; border-radius: 12px; background: rgb(247, 231, 220); border: 1px solid rgb(231, 187, 164); display: flex; align-items: center; justify-content: center; overflow: hidden; flex: 0 0 auto;">
+        <svg viewBox="40 2 80 72" width="40" height="36" aria-hidden="true">
+          <g stroke="#2b241e" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+            <path d="M52 38 Q50 6 82 6 Q114 8 110 40 L112 60 L48 60Z" fill="#b5502a"></path>
+            <rect x="60" y="22" width="40" height="46" rx="14" fill="#f1c9a5"></rect>
+            <path d="M58 30 Q80 14 104 30 L100 40 Q80 26 62 40Z" fill="#b5502a"></path>
+          </g>
+          <circle cx="70" cy="46" r="3" fill="#2b241e"></circle><circle cx="92" cy="46" r="3" fill="#2b241e"></circle>
+        </svg>
+      </span>
+      <span style="display: flex; flex-direction: column; line-height: 1.1;">
+        <span class="disp" style="font-size: 21px; font-weight: 600; letter-spacing: 0.08em;">OKEMILY</span>
+        <span class="mono" style="font-size: 10px; letter-spacing: 0.22em; color: rgb(110, 98, 86);">/ WOTAN</span>
+      </span>
+    </a>
+    <div class="navlinks" style="display: flex; align-items: center; gap: 2px; margin-left: 12px;">
+      <a class="nl" href="#games" style="padding: 10px 14px; border-radius: 8px; color: rgb(91, 80, 70); text-decoration: none; font-weight: 500; font-size: 15px;">Games</a>
+      <a class="nl" href="#tracker" style="padding: 10px 14px; border-radius: 8px; color: rgb(91, 80, 70); text-decoration: none; font-weight: 500; font-size: 15px;">Tracker</a>
+      <a class="nl" href="#moat" style="padding: 10px 14px; border-radius: 8px; color: rgb(91, 80, 70); text-decoration: none; font-weight: 500; font-size: 15px;">Data integrity</a>
+      <a class="nl" href="/prompt-o-verse/" style="padding: 10px 14px; border-radius: 8px; color: rgb(91, 80, 70); text-decoration: none; font-weight: 500; font-size: 15px;">Prompt-o-verse</a>
+      <a class="nl" href="/blog/" style="padding: 10px 14px; border-radius: 8px; color: rgb(91, 80, 70); text-decoration: none; font-weight: 500; font-size: 15px;">Blog</a>
+    </div>
+    <div style="margin-left: auto; display: flex; align-items: center; flex-wrap: wrap; gap: 10px;">
+      <a class="btn ghost disp" href="https://wotan.okemily.com/DEADWEIGHT/" style="display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0px 18px; border-radius: 8px; border: 1px solid rgb(203, 191, 168); color: rgb(43, 36, 30); text-decoration: none; font-weight: 500; font-size: 14px; letter-spacing: 0.04em;">
+        <span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle, rgb(224, 122, 47) 0px, rgb(224, 122, 47) 32%, rgb(43, 36, 30) 34%); border: 2px solid rgb(43, 36, 30);"></span>Enter the Void
+      </a>
+      <a class="btn disp" href="https://wotan.okemily.com/hearthstone/tracker.html" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 0px 18px; border-radius: 8px; background: rgb(192, 80, 26); color: rgb(255, 255, 255); text-decoration: none; font-weight: 600; font-size: 14px; letter-spacing: 0.02em;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 7 8 10.5 11.5 7M2.5 13.5h11"></path></svg>Download Tracker
+      </a>
+    </div>
+  </div></nav><main><section id="top" style="padding: 36px 0px 0px;">
+  <div style="max-width: 1240px; margin: 0px auto; padding: 0px 24px; display: flex; flex-wrap: wrap; gap: 24px; align-items: stretch;">
+
+    <div style="flex: 999 1 560px; min-width: 0px; border-radius: 20px; overflow: hidden; border: 1px solid rgb(231, 187, 164); background-color: rgb(247, 231, 220); background-image: linear-gradient(rgb(242, 218, 204) 1px, transparent 1px), linear-gradient(90deg, rgb(242, 218, 204) 1px, transparent 1px); background-size: 24px 24px; padding: 48px 48px 0px; display: flex; flex-wrap: wrap; gap: 24px; justify-content: space-between; align-items: stretch;">
+      <div style="flex: 1 1 360px; min-width: 0px; padding-bottom: 48px;">
+        <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <span class="mono" style="display: inline-flex; align-items: center; gap: 8px; background: rgb(255, 253, 249); border: 1px solid rgb(231, 187, 164); color: rgb(91, 80, 70); border-radius: 999px; padding: 5px 12px; font-size: 11px; font-weight: 500; letter-spacing: 0.12em;"><span aria-hidden="true" style="width: 7px; height: 7px; border-radius: 50%; background: rgb(79, 154, 106);"></span>LIVE</span>
+          <span class="mono" style="font-size: 11.5px; letter-spacing: 0.06em; color: rgb(110, 98, 86);">[ NET: ONLINE • ARCH: AGENT-NATIVE • COMPILED: PARENA ]</span>
         </div>
+        <div class="mono" style="margin-top: 32px; font-size: 12px; letter-spacing: 0.2em; color: rgb(161, 67, 22);">OKEMILY / WOTAN</div>
+        <h1 style="margin: 12px 0px 20px; font-size: clamp(34px, 5vw, 52px); line-height: 1.06; font-weight: 600; letter-spacing: -0.01em; color: rgb(43, 36, 30);">The Sovereign Multi-Agent Network Stack</h1>
+        <p style="margin: 0px 0px 14px; font-size: 19px; font-weight: 600; line-height: 1.45; color: rgb(43, 36, 30); max-width: 520px;">We built our own compiler because the industry's network stacks are broken.</p>
+        <p style="margin: 0px 0px 30px; font-size: 16px; color: rgb(91, 80, 70); max-width: 520px;">OkEmily is an open, bare-metal gaming infrastructure layer. Track your competitive ladder stats with 100% cryptographic data integrity—or utilize the WOTAN Backend-as-a-Service (BaaS) to instantly deploy cross-play multiplayer, social lobbies, and autonomous agent training sandboxes.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+          <a class="btn disp" href="https://wotan.okemily.com/hearthstone/tracker.html" style="display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0px 22px; border-radius: 8px; background: rgb(192, 80, 26); color: rgb(255, 255, 255); text-decoration: none; font-weight: 600; font-size: 15.5px;">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 7 8 10.5 11.5 7M2.5 13.5h11"></path></svg>Download Privacy-First Tracker
+          </a>
+          <a class="btn ghost disp" href="https://github.com/emilyspringerton/PARENA" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0px 22px; border-radius: 8px; border: 1.5px solid rgb(43, 36, 30); color: rgb(43, 36, 30); text-decoration: none; font-weight: 600; font-size: 15.5px;">Read the PARENA Compiler Spec</a>
+        </div>
+        <div class="mono" style="margin-top: 14px; font-size: 11px; letter-spacing: 0.14em; color: rgb(110, 98, 86);">FREE • ZERO TRACKING COOKIES</div>
       </div>
-      <div class="stage" id="stage">
-        <button class="stage-btn" id="stage-btn" type="button" aria-label="Poke Emily: she hops and says something, then changes style">
-          <div class="stage-view" id="stage-view">
-            <svg id="sprite" viewBox="0 0 160 300" width="160" height="300" role="img" aria-label="Emily, game sprite: auburn bob, blue hoodie jacket, grey tee, brown cargo pants, white and red sneakers">
-              <g stroke="#14171b" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
-                <path d="M52 38 Q50 6 82 6 Q114 8 110 40 L112 60 L48 60Z" fill="#b5502a"/>
-                <rect x="60" y="22" width="40" height="46" rx="14" fill="#f1c9a5"/>
-                <path d="M58 30 Q80 14 104 30 L100 40 Q80 26 62 40Z" fill="#b5502a"/>
-                <path d="M26 82 L52 72 L108 72 L134 82 L142 150 L122 156 L116 112 L112 168 L48 168 L44 112 L38 156 L18 150Z" fill="#257fe6"/>
-                <path d="M58 72 L102 72 L100 168 L60 168Z" fill="#7b8591"/>
-                <path d="M48 168 L112 168 L116 230 L96 230 L80 190 L64 230 L44 230Z" fill="#4a3a2e"/>
-                <rect x="34" y="188" width="14" height="22" rx="3" fill="#3a2d23"/>
-                <rect x="112" y="188" width="14" height="22" rx="3" fill="#3a2d23"/>
-                <path d="M40 230 L66 230 L68 262 L30 270 Q28 262 40 258Z" fill="#f4f1ea"/>
-                <path d="M94 230 L120 230 L120 258 Q132 262 130 270 L92 262Z" fill="#f4f1ea"/>
-                <path d="M36 262 L66 256 L68 264 L32 270Z" fill="#d8382f"/>
-                <path d="M94 256 L124 262 L128 270 L92 264Z" fill="#d8382f"/>
+
+      <div style="flex: 0 0 220px; margin-left: auto; display: flex; flex-direction: column; align-items: center; justify-content: flex-end;">
+        <div id="stage-say" role="status" class="mono" style="width: 100%; min-height: 58px; display: flex; align-items: center; justify-content: center; text-align: center; background: rgb(255, 253, 249); border: 1px solid rgb(231, 187, 164); color: rgb(43, 36, 30); border-radius: 12px; padding: 10px 14px; font-size: 12.5px; line-height: 1.45;">Poke her.</div>
+        <div aria-hidden="true" style="width: 12px; height: 12px; background: rgb(255, 253, 249); border-right: 1px solid rgb(231, 187, 164); border-bottom: 1px solid rgb(231, 187, 164); transform: rotate(45deg); margin: -7px 0px 8px;"></div>
+        <button id="stage-btn" type="button" aria-label="Poke Emily: she hops and says something, then changes style" style="display: block; background: none; border: 0px; padding: 0px; cursor: pointer; color: inherit;">
+          <div id="stage-hop" style="transform-origin: center bottom;">
+            <svg id="sprite" viewBox="0 0 160 276" width="160" height="276" role="img" aria-label="Emily, game sprite: auburn bob, blue hoodie jacket, grey tee, brown cargo pants, white and red sneakers" style="display: block;">
+              <g stroke="#2b241e" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M52 38 Q50 6 82 6 Q114 8 110 40 L112 60 L48 60Z" fill="#b5502a"></path>
+                <rect x="60" y="22" width="40" height="46" rx="14" fill="#f1c9a5"></rect>
+                <path d="M58 30 Q80 14 104 30 L100 40 Q80 26 62 40Z" fill="#b5502a"></path>
+                <path d="M26 82 L52 72 L108 72 L134 82 L142 150 L122 156 L116 112 L112 168 L48 168 L44 112 L38 156 L18 150Z" fill="#257fe6"></path>
+                <path d="M58 72 L102 72 L100 168 L60 168Z" fill="#7b8591"></path>
+                <path d="M48 168 L112 168 L116 230 L96 230 L80 190 L64 230 L44 230Z" fill="#4a3a2e"></path>
+                <rect x="34" y="188" width="14" height="22" rx="3" fill="#3a2d23"></rect>
+                <rect x="112" y="188" width="14" height="22" rx="3" fill="#3a2d23"></rect>
+                <path d="M40 230 L66 230 L68 262 L30 270 Q28 262 40 258Z" fill="#f4f1ea"></path>
+                <path d="M94 230 L120 230 L120 258 Q132 262 130 270 L92 262Z" fill="#f4f1ea"></path>
+                <path d="M36 262 L66 256 L68 264 L32 270Z" fill="#d8382f"></path>
+                <path d="M94 256 L124 262 L128 270 L92 264Z" fill="#d8382f"></path>
               </g>
-              <circle cx="70" cy="46" r="3" fill="#14171b"/><circle cx="92" cy="46" r="3" fill="#14171b"/>
-              <path d="M66 40 L76 43 M96 40 L86 43" stroke="#14171b" stroke-width="3" stroke-linecap="round"/>
-            </svg>
-            <img id="stage-img" alt="" hidden>
+              <circle cx="70" cy="46" r="3" fill="#2b241e"></circle><circle cx="92" cy="46" r="3" fill="#2b241e"></circle>
+              <path d="M66 40 L76 43 M96 40 L86 43" stroke="#2b241e" stroke-width="3" stroke-linecap="round"></path>
+            </svg><img id="stage-img" alt="" hidden width="160" height="160" style="display:block;width:160px;height:160px;object-fit:cover;border-radius:12px;border:1px solid #e7bba4;background:#fffdf9">
           </div>
         </button>
-        <div class="stage-say" id="stage-say" role="status">Poke her.</div>
-        <div class="stage-meta" id="stage-meta">EMILY &middot; game sprite &middot; <a href="/prompt-o-verse/subject/emily/">26 styles</a></div>
       </div>
     </div>
-  </header>
 
-  <section>
-    <h2>The Moat: How Data Integrity Works</h2>
-    <p>We don't trust client-side data, and we reject tracking cookies on principle. Every byte traversing the WOTAN engine is validated cryptographically at the infrastructure layer.</p>
-    <div class="values">
-      <ul>
-        <li><strong>Zero-Cookie Privacy.</strong> We host no programmatic ad networks. The platform runs entirely on community support and direct contextual sponsorships.</li>
-        <li><strong>Cryptographic Anti-Spoofing.</strong> We do not rely on local text log file validation. All match uploads require direct Battle.net OAuth Access Tokens. If the <code>Account ID</code> inside the raw client log doesn't match the token issued directly by Blizzard's security servers, the data is instantly trashed.</li>
-        <li><strong>Statistical Anomaly Isolation.</strong> Decks do not enter public meta-tier directories until passing a minimum threshold of 2,000+ total matches across 50+ distinct, unique verified accounts, completely neutralizing &ldquo;ghost deck&rdquo; exploits.</li>
-      </ul>
-    </div>
-  </section>
+    <aside aria-label="Open to everyone" style="flex: 1 1 340px; min-width: 0px; display: flex; flex-direction: column; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 20px; overflow: hidden;">
+      <div style="display: flex; align-items: center; gap: 10px; padding: 20px 24px; border-bottom: 1px solid rgb(230, 222, 206);">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#a14316" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="10" cy="10" r="8"></circle><ellipse cx="10" cy="10" rx="3.4" ry="8"></ellipse><path d="M2 10h16"></path></svg>
+        <span class="mono" style="font-size: 12px; font-weight: 500; letter-spacing: 0.16em; color: rgb(91, 80, 70);">OPEN TO EVERYONE</span>
+      </div>
+      <div style="flex: 1 1 0%; display: flex; flex-direction: column;">
+        
+          <a class="row" href="https://wotan.okemily.com/" style="display: block; padding: 22px 24px; border-bottom: 1px solid rgb(230, 222, 206); text-decoration: none; color: rgb(43, 36, 30);">
+            <span class="mono" style="display: inline-block; background: rgb(248, 220, 200); color: rgb(43, 36, 30); border-radius: 4px; padding: 4px 9px; font-size: 10.5px; font-weight: 500; letter-spacing: 0.12em;">BRAWLPIT</span>
+            <span class="disp" style="display: block; margin: 10px 0px 6px; font-size: 20px; font-weight: 600; line-height: 1.2; color: rgb(43, 36, 30);">Play in your browser</span>
+            <span style="display: block; font-size: 14.5px; line-height: 1.55; color: rgb(91, 80, 70);">The whole game runs as WebAssembly compiled from PARENA. Keyboard or gamepad, vs the CPU, a friend on the same keyboard, or a four-way brawl.</span>
+            <span style="display: inline-flex; align-items: center; min-height: 36px; margin-top: 6px; font-size: 14.5px; font-weight: 600; color: rgb(161, 67, 22);">Play now — no install →</span>
+          </a>
+        
+          <a class="row" href="https://wotan.okemily.com/DEADWEIGHT/" style="display: block; padding: 22px 24px; border-bottom: 1px solid rgb(230, 222, 206); text-decoration: none; color: rgb(43, 36, 30);">
+            <span class="mono" style="display: inline-block; background: rgb(220, 231, 244); color: rgb(43, 36, 30); border-radius: 4px; padding: 4px 9px; font-size: 10.5px; font-weight: 500; letter-spacing: 0.12em;">DEADWEIGHT</span>
+            <span class="disp" style="display: block; margin: 10px 0px 6px; font-size: 20px; font-weight: 600; line-height: 1.2; color: rgb(43, 36, 30);">Draft decks &amp; matches</span>
+            <span style="display: block; font-size: 14.5px; line-height: 1.55; color: rgb(91, 80, 70);">Every deck drafted in the queue, with win rates and per-card records. Replay any match round by round.</span>
+            <span style="display: inline-flex; align-items: center; min-height: 36px; margin-top: 6px; font-size: 14.5px; font-weight: 600; color: rgb(161, 67, 22);">No account needed →</span>
+          </a>
+        
+          <a class="row" href="/redgarden.html" style="display: block; padding: 22px 24px; border-bottom: 1px solid rgb(230, 222, 206); text-decoration: none; color: rgb(43, 36, 30);">
+            <span class="mono" style="display: inline-block; background: rgb(216, 232, 220); color: rgb(43, 36, 30); border-radius: 4px; padding: 4px 9px; font-size: 10.5px; font-weight: 500; letter-spacing: 0.12em;">REDGARDEN</span>
+            <span class="disp" style="display: block; margin: 10px 0px 6px; font-size: 20px; font-weight: 600; line-height: 1.2; color: rgb(43, 36, 30);">Knights of the Void leaderboard</span>
+            <span style="display: block; font-size: 14.5px; line-height: 1.55; color: rgb(91, 80, 70);">Hero win rates and per-player profiles: heroes played and recent results.</span>
+            <span style="display: inline-flex; align-items: center; min-height: 36px; margin-top: 6px; font-size: 14.5px; font-weight: 600; color: rgb(161, 67, 22);">View leaderboard — open to everyone →</span>
+          </a>
+        
+      </div>
+      <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 12px; justify-content: space-between; padding: 18px 24px; background: rgb(245, 241, 234);">
+        <span style="font-size: 13.5px; line-height: 1.45; color: rgb(110, 98, 86); flex: 1 1 150px;">Friends, duels and the Hat Store share one IDUNA login.</span>
+        <a class="btn ghost disp" href="https://wotan.okemily.com/" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0px 16px; border-radius: 8px; border: 1px solid rgb(231, 187, 164); color: rgb(161, 67, 22); text-decoration: none; font-weight: 600; font-size: 14px; white-space: nowrap;">Sign in with IDUNA →</a>
+      </div>
+    </aside>
 
-  <section>
-    <h2>Streamer Brand Protection &amp; Authoritative Identity</h2>
-    <p>We decouple website display names from raw BattleTags using an automated, multi-tiered Eminent Domain Identity Matrix driven by live Twitch API checks during OAuth onboarding:</p>
-    <div class="tier-list">
-      <div class="pillar">
-        <h3>Tier 1: Elite <span>Twitch Partner OR 5k+ Followers</span></h3>
-        <p><strong>Instant Handle Reclaim.</strong> If an unverified squatter holds your exact brand name, the WOTAN IAM instantly renames the squatter to a system placeholder, hands the pristine handle to you, and stamps your profile with a Verified Badge.</p>
-      </div>
-      <div class="pillar">
-        <h3>Tier 2: Rising <span>100 &ndash; 5k Followers</span></h3>
-        <p><strong>Instant Verification.</strong> Automatically grants your profile a Verified Badge on your current available name to secure your data integrity. Bumping requires an admin review queue.</p>
-      </div>
-      <div class="pillar">
-        <h3>Tier 3: Core <span>&lt;100 Followers</span></h3>
-        <p><strong>Community Integration.</strong> Activates full cross-game social mechanics and account linking, unverified publicly.</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2>The Multiverse Production Sandbox</h2>
-    <p>WOTAN is not an abstract concept; it is the Online Services BaaS powering our own first-party validation suite in real time. We dog-food our own infrastructure across multiple genres to ensure the engine is flawless:</p>
-    <div class="values">
-      <ul>
-        <li><strong>Sovereign Currency &amp; Social Core.</strong> Powered by a headless, terminal-accessible FFXI MUD framework that serves as the universal platform currency layer. No real-money purchasing; monetization is locked strictly to multi-boxing license architecture.</li>
-        <li><strong>Instant-Load Party Arcade.</strong> Lightweight, high-chaos party mini-games built to revive local couch-co-op LAN energy. Compiled via PARENA to bare-metal C/WASM execution layers, they load instantly inside any standard browser with zero download bloat.</li>
-        <li><strong>The High-Tick Matrix.</strong> Standardized network integrations for real-time spatial genres, validating state-synchronization engines across our tactical MOBA (<a href="/redgarden.html">REDGARDEN</a>) and upcoming first-party multiplayer FPS (SHANKPIT).</li>
-      </ul>
-    </div>
-  </section>
-
-  <section>
-    <h2>Developer &amp; Simulation PaaS</h2>
-    <p>Stop writing custom backend code. WOTAN provides the structural primitives to let external studios scale multiplayer worlds and train autonomous infrastructure:</p>
-    <div class="pillars" style="grid-template-columns: 1fr;">
-      <div class="pillar">
-        <h3>Cloud-Native Level Builders</h3>
-        <p>Deploy 2D and 3D non-linear collaborative building sandboxes directly into the cloud with real-time asset syncing and spatial matchmaking handled out of the box.</p>
-      </div>
-      <div class="pillar">
-        <h3>The Digital Wind Tunnel</h3>
-        <p>WOTAN provides the identity, low-latency UDP networking, and execution rails required for Human-in-the-Loop (HITL) simulation and high-tick-rate autonomous reinforcement learning agent training.</p>
+  </div></section><section id="games" style="padding: 96px 0px 0px;">
+  <div style="max-width: 1240px; margin: 0px auto; padding: 0px 24px;">
+    <div style="display: flex; align-items: center; flex-wrap: wrap; gap: 16px;">
+      <h2 style="margin: 0px; font-size: 22px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: rgb(43, 36, 30);">Featured Games</h2>
+      <span aria-hidden="true" style="flex: 1 1 40px; height: 1px; background: rgb(224, 214, 196);"></span>
+      <div role="group" aria-label="Filter games by how you play" style="display: flex; flex-wrap: wrap; gap: 8px;">
+        
+          <button type="button" class="mono chip" data-filter="all" aria-pressed="true" style="cursor: pointer; min-height: 44px; padding: 0px 18px; border-radius: 999px; font-size: 11.5px; font-weight: 500; letter-spacing: 0.12em; border: 1px solid rgb(231, 187, 164); background: rgb(247, 231, 220); color: rgb(161, 67, 22);">ALL</button>
+        
+          <button type="button" class="mono chip" data-filter="browser" aria-pressed="false" style="cursor: pointer; min-height: 44px; padding: 0px 18px; border-radius: 999px; font-size: 11.5px; font-weight: 500; letter-spacing: 0.12em; border: 1px solid rgb(214, 204, 185); background: transparent; color: rgb(91, 80, 70);">BROWSER</button>
+        
+          <button type="button" class="mono chip" data-filter="download" aria-pressed="false" style="cursor: pointer; min-height: 44px; padding: 0px 18px; border-radius: 999px; font-size: 11.5px; font-weight: 500; letter-spacing: 0.12em; border: 1px solid rgb(214, 204, 185); background: transparent; color: rgb(91, 80, 70);">DOWNLOAD</button>
+        
+          <button type="button" class="mono chip" data-filter="terminal" aria-pressed="false" style="cursor: pointer; min-height: 44px; padding: 0px 18px; border-radius: 999px; font-size: 11.5px; font-weight: 500; letter-spacing: 0.12em; border: 1px solid rgb(214, 204, 185); background: transparent; color: rgb(91, 80, 70);">TERMINAL</button>
+        
       </div>
     </div>
-  </section>
+    <p style="margin: 16px 0px 32px; max-width: 620px; font-size: 16.5px; color: rgb(91, 80, 70);">Every game runs on the same WOTAN identity and networking layer. Pick one and go.</p>
 
-  <section>
-    <h2>The Manifesto</h2>
-    <div class="manifesto">
-      <p>OkEmily does not build slide decks. We write compilers, optimize telemetry pipelines, and build sovereign network systems.</p>
-      <p>All core logic is open-source, deterministic, and built in public.</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch;">
+      
+        <article class="lift game" data-tags="browser download" style="flex: 1 1 340px; max-width: 440px; min-width: 0px; display: flex; flex-direction: column; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 16px; overflow: hidden;">
+          <a href="https://wotan.okemily.com/DEADWEIGHT/" tabindex="-1" aria-hidden="true" style="display: block; position: relative; height: 176px; background-color: rgb(220, 231, 244); background-image: linear-gradient(rgba(43, 36, 30, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(43, 36, 30, 0.05) 1px, transparent 1px); background-size: 22px 22px; text-decoration: none;">
+            <span class="mono" style="position: absolute; left: 18px; top: 16px; display: inline-flex; align-items: center; gap: 7px; background: rgb(255, 253, 249); color: rgb(43, 36, 30); border: 1px solid rgba(43, 36, 30, 0.1); border-radius: 999px; padding: 4px 11px; font-size: 10.5px; font-weight: 500; letter-spacing: 0.1em;"><span style="width: 7px; height: 7px; border-radius: 50%; background: rgb(79, 154, 106);"></span>LIVE</span>
+            <span class="mono" style="position: absolute; left: 18px; bottom: 16px; max-width: 52%; font-size: 10.5px; letter-spacing: 0.1em; line-height: 1.45; color: rgb(74, 64, 54);">DRAFTS · MATCHES · DUELS</span>
+            <svg viewBox="0 0 120 120" width="104" height="104" style="position: absolute; right: 20px; bottom: 14px;">
+              <g stroke="#2b241e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M30.3 40.3 L72.6 28.1 L89.7 87.7 L47.4 99.9Z" fill="#b4c9e6" fill-rule="evenodd"></path>
+                <path d="M47.4 28.1 L89.7 40.3 L72.6 99.9 L30.3 87.7Z" fill="#e6eef8" fill-rule="evenodd"></path>
+                <path d="M38 33 H82 V95 H38Z" fill="#ffffff" fill-rule="evenodd"></path>
+                <path d="M60 52 L70 64 L60 76 L50 64Z" fill="#c0501a" fill-rule="evenodd"></path>
+              </g>
+            </svg>
+          </a>
+          <div style="flex: 1 1 0%; display: flex; flex-direction: column; gap: 12px; padding: 22px 24px 12px;">
+            <h3 style="margin: 0px; font-size: 22px; line-height: 1.15; font-weight: 600; letter-spacing: 0.04em;"><a class="hl" href="https://wotan.okemily.com/DEADWEIGHT/" style="color: rgb(43, 36, 30); text-decoration: none;">DEADWEIGHT</a></h3>
+            <p style="margin: 0px; flex: 1 1 0%; font-size: 15px; line-height: 1.6; color: rgb(91, 80, 70);">Draft queue, a real rating leaderboard, step-through replays of every match, and friendly-challenge duels. Native or browser client.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              
+                <span class="mono" style="display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgb(221, 212, 196); border-radius: 999px; padding: 4px 10px; font-size: 10.5px; letter-spacing: 0.08em; color: rgb(110, 98, 86);"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"></rect><path d="M1.5 6h13"></path></svg>BROWSER</span>
+              
+              
+                <span class="mono" style="display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgb(221, 212, 196); border-radius: 999px; padding: 4px 10px; font-size: 10.5px; letter-spacing: 0.08em; color: rgb(110, 98, 86);"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 7 8 10.5 11.5 7M2.5 13.5h11"></path></svg>DOWNLOAD</span>
+              
+              
+              
+            </div>
+          </div>
+          <div style="padding: 0px 24px 14px;">
+            <a class="hl" href="https://wotan.okemily.com/DEADWEIGHT/" style="display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; color: rgb(161, 67, 22); text-decoration: none;">Draft decks — no account needed →</a>
+          </div>
+        </article>
+      
+        <article class="lift game" data-tags="browser download" style="flex: 1 1 340px; max-width: 440px; min-width: 0px; display: flex; flex-direction: column; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 16px; overflow: hidden;">
+          <a href="https://wotan.okemily.com/hearthstone/" tabindex="-1" aria-hidden="true" style="display: block; position: relative; height: 176px; background-color: rgb(246, 231, 193); background-image: linear-gradient(rgba(43, 36, 30, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(43, 36, 30, 0.05) 1px, transparent 1px); background-size: 22px 22px; text-decoration: none;">
+            <span class="mono" style="position: absolute; left: 18px; top: 16px; display: inline-flex; align-items: center; gap: 7px; background: rgb(255, 253, 249); color: rgb(43, 36, 30); border: 1px solid rgba(43, 36, 30, 0.1); border-radius: 999px; padding: 4px 11px; font-size: 10.5px; font-weight: 500; letter-spacing: 0.1em;"><span style="width: 7px; height: 7px; border-radius: 50%; background: rgb(79, 154, 106);"></span>LIVE</span>
+            <span class="mono" style="position: absolute; left: 18px; bottom: 16px; max-width: 52%; font-size: 10.5px; letter-spacing: 0.1em; line-height: 1.45; color: rgb(74, 64, 54);">SHARED DECK LIBRARY + TRACKER</span>
+            <svg viewBox="0 0 120 120" width="104" height="104" style="position: absolute; right: 20px; bottom: 14px;">
+              <g stroke="#2b241e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M60 6 C70 24 90 34 84 56 C80 68 68 72 58 70 C46 68 36 58 40 44 C42 34 52 30 54 20 C56 14 58 10 60 6Z" fill="#f0b24a" fill-rule="evenodd"></path>
+                <path d="M60 36 C67 47 74 52 69 61 C65 67 55 67 52 60 C49 53 55 47 60 36Z" fill="#fff3d6" fill-rule="evenodd"></path>
+                <path d="M44 66 H96 V110 H44Z" fill="#e2cf9c" fill-rule="evenodd"></path>
+                <path d="M24 76 H76 V116 H24Z" fill="#ffffff" fill-rule="evenodd"></path>
+              </g>
+            </svg>
+          </a>
+          <div style="flex: 1 1 0%; display: flex; flex-direction: column; gap: 12px; padding: 22px 24px 12px;">
+            <h3 style="margin: 0px; font-size: 22px; line-height: 1.15; font-weight: 600; letter-spacing: 0.04em;"><a class="hl" href="https://wotan.okemily.com/hearthstone/" style="color: rgb(43, 36, 30); text-decoration: none;">HEARTHSTONE DECKS</a></h3>
+            <p style="margin: 0px; flex: 1 1 0%; font-size: 15px; line-height: 1.6; color: rgb(91, 80, 70);">Decks shared by players as readable lists and pasteable deck codes, with likes, comments, player profiles and a wall. Plus the privacy-first ladder tracker.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              
+                <span class="mono" style="display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgb(221, 212, 196); border-radius: 999px; padding: 4px 10px; font-size: 10.5px; letter-spacing: 0.08em; color: rgb(110, 98, 86);"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"></rect><path d="M1.5 6h13"></path></svg>BROWSER</span>
+              
+              
+                <span class="mono" style="display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgb(221, 212, 196); border-radius: 999px; padding: 4px 10px; font-size: 10.5px; letter-spacing: 0.08em; color: rgb(110, 98, 86);"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 7 8 10.5 11.5 7M2.5 13.5h11"></path></svg>DOWNLOAD</span>
+              
+              
+              
+            </div>
+          </div>
+          <div style="padding: 0px 24px 14px;">
+            <a class="hl" href="https://wotan.okemily.com/hearthstone/" style="display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; color: rgb(161, 67, 22); text-decoration: none;">Browse decks — open to everyone →</a>
+          </div>
+        </article>
+      
+        <article class="lift game" data-tags="browser" style="flex: 1 1 340px; max-width: 440px; min-width: 0px; display: flex; flex-direction: column; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 16px; overflow: hidden;">
+          <a href="/redgarden.html" tabindex="-1" aria-hidden="true" style="display: block; position: relative; height: 176px; background-color: rgb(216, 232, 220); background-image: linear-gradient(rgba(43, 36, 30, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(43, 36, 30, 0.05) 1px, transparent 1px); background-size: 22px 22px; text-decoration: none;">
+            <span class="mono" style="position: absolute; left: 18px; top: 16px; display: inline-flex; align-items: center; gap: 7px; background: rgb(255, 253, 249); color: rgb(43, 36, 30); border: 1px solid rgba(43, 36, 30, 0.1); border-radius: 999px; padding: 4px 11px; font-size: 10.5px; font-weight: 500; letter-spacing: 0.1em;"><span style="width: 7px; height: 7px; border-radius: 50%; background: rgb(79, 154, 106);"></span>LIVE</span>
+            <span class="mono" style="position: absolute; left: 18px; bottom: 16px; max-width: 52%; font-size: 10.5px; letter-spacing: 0.1em; line-height: 1.45; color: rgb(74, 64, 54);">TACTICAL MOBA · KNIGHTS OF THE VOID</span>
+            <svg viewBox="0 0 120 120" width="104" height="104" style="position: absolute; right: 20px; bottom: 14px;">
+              <g stroke="#2b241e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M60 8 L102 22 V58 C102 86 84 102 60 114 C36 102 18 86 18 58 V22Z" fill="#ffffff" fill-rule="evenodd"></path>
+                <path d="M60 22 L90 32 V58 C90 76 77 88 60 97 C43 88 30 76 30 58 V32Z" fill="#c9604a" fill-rule="evenodd"></path>
+                <path d="M55 36 L60 26 L65 36 V80 H55Z" fill="#ffffff" fill-rule="evenodd"></path>
+                <path d="M42 78 H78 V87 H42Z" fill="#e8b04a" fill-rule="evenodd"></path>
+              </g>
+            </svg>
+          </a>
+          <div style="flex: 1 1 0%; display: flex; flex-direction: column; gap: 12px; padding: 22px 24px 12px;">
+            <h3 style="margin: 0px; font-size: 22px; line-height: 1.15; font-weight: 600; letter-spacing: 0.04em;"><a class="hl" href="/redgarden.html" style="color: rgb(43, 36, 30); text-decoration: none;">REDGARDEN</a></h3>
+            <p style="margin: 0px; flex: 1 1 0%; font-size: 15px; line-height: 1.6; color: rgb(91, 80, 70);">Hero win rates, per-player profiles, heroes played and recent results from the Knights of the Void ladder.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              
+                <span class="mono" style="display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgb(221, 212, 196); border-radius: 999px; padding: 4px 10px; font-size: 10.5px; letter-spacing: 0.08em; color: rgb(110, 98, 86);"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"></rect><path d="M1.5 6h13"></path></svg>BROWSER</span>
+              
+              
+              
+              
+            </div>
+          </div>
+          <div style="padding: 0px 24px 14px;">
+            <a class="hl" href="/redgarden.html" style="display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; color: rgb(161, 67, 22); text-decoration: none;">View leaderboard — open to everyone →</a>
+          </div>
+        </article>
+      
+        <article class="lift game" data-tags="browser" style="flex: 1 1 340px; max-width: 440px; min-width: 0px; display: flex; flex-direction: column; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 16px; overflow: hidden;">
+          <a href="https://wotan.okemily.com/" tabindex="-1" aria-hidden="true" style="display: block; position: relative; height: 176px; background-color: rgb(248, 220, 200); background-image: linear-gradient(rgba(43, 36, 30, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(43, 36, 30, 0.05) 1px, transparent 1px); background-size: 22px 22px; text-decoration: none;">
+            <span class="mono" style="position: absolute; left: 18px; top: 16px; display: inline-flex; align-items: center; gap: 7px; background: rgb(255, 253, 249); color: rgb(43, 36, 30); border: 1px solid rgba(43, 36, 30, 0.1); border-radius: 999px; padding: 4px 11px; font-size: 10.5px; font-weight: 500; letter-spacing: 0.1em;"><span style="width: 7px; height: 7px; border-radius: 50%; background: rgb(79, 154, 106);"></span>LIVE</span>
+            <span class="mono" style="position: absolute; left: 18px; bottom: 16px; max-width: 52%; font-size: 10.5px; letter-spacing: 0.1em; line-height: 1.45; color: rgb(74, 64, 54);">PLATFORM FIGHTER</span>
+            <svg viewBox="0 0 120 120" width="104" height="104" style="position: absolute; right: 20px; bottom: 14px;">
+              <g stroke="#2b241e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M12 90 H108 V104 H12Z" fill="#ffffff" fill-rule="evenodd"></path>
+                <path d="M22 54 H38 V88 H22Z M21 40 A9.5 9.5 0 1 1 40 40 A9.5 9.5 0 1 1 21 40Z" fill="#ffffff" fill-rule="evenodd"></path>
+                <path d="M82 54 H98 V88 H82Z M81 40 A9.5 9.5 0 1 1 100 40 A9.5 9.5 0 1 1 81 40Z" fill="#7aa3da" fill-rule="evenodd"></path>
+                <path d="M60 46 L65 59 L79 57 L70 67 L80 78 L66 75 L62 88 L55 76 L42 82 L50 69 L40 59 L54 60Z" fill="#f0a04a" fill-rule="evenodd"></path>
+              </g>
+            </svg>
+          </a>
+          <div style="flex: 1 1 0%; display: flex; flex-direction: column; gap: 12px; padding: 22px 24px 12px;">
+            <h3 style="margin: 0px; font-size: 22px; line-height: 1.15; font-weight: 600; letter-spacing: 0.04em;"><a class="hl" href="https://wotan.okemily.com/" style="color: rgb(43, 36, 30); text-decoration: none;">BRAWLPIT</a></h3>
+            <p style="margin: 0px; flex: 1 1 0%; font-size: 15px; line-height: 1.6; color: rgb(91, 80, 70);">Ten fighters, shields, smashes and blast zones. The whole game runs in your browser as WebAssembly compiled from PARENA.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              
+                <span class="mono" style="display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgb(221, 212, 196); border-radius: 999px; padding: 4px 10px; font-size: 10.5px; letter-spacing: 0.08em; color: rgb(110, 98, 86);"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"></rect><path d="M1.5 6h13"></path></svg>BROWSER</span>
+              
+              
+              
+              
+            </div>
+          </div>
+          <div style="padding: 0px 24px 14px;">
+            <a class="hl" href="https://wotan.okemily.com/" style="display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; color: rgb(161, 67, 22); text-decoration: none;">Play now — no install →</a>
+          </div>
+        </article>
+      
+        <article class="lift game" data-tags="terminal browser" style="flex: 1 1 340px; max-width: 440px; min-width: 0px; display: flex; flex-direction: column; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 16px; overflow: hidden;">
+          <a href="https://wotan.okemily.com/" tabindex="-1" aria-hidden="true" style="display: block; position: relative; height: 176px; background-color: rgb(230, 226, 218); background-image: linear-gradient(rgba(43, 36, 30, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(43, 36, 30, 0.05) 1px, transparent 1px); background-size: 22px 22px; text-decoration: none;">
+            <span class="mono" style="position: absolute; left: 18px; top: 16px; display: inline-flex; align-items: center; gap: 7px; background: rgb(255, 253, 249); color: rgb(43, 36, 30); border: 1px solid rgba(43, 36, 30, 0.1); border-radius: 999px; padding: 4px 11px; font-size: 10.5px; font-weight: 500; letter-spacing: 0.1em;"><span style="width: 7px; height: 7px; border-radius: 50%; background: rgb(79, 154, 106);"></span>LIVE</span>
+            <span class="mono" style="position: absolute; left: 18px; bottom: 16px; max-width: 52%; font-size: 10.5px; letter-spacing: 0.1em; line-height: 1.45; color: rgb(74, 64, 54);">MUD · HAT STORE</span>
+            <svg viewBox="0 0 120 120" width="104" height="104" style="position: absolute; right: 20px; bottom: 14px;">
+              <g stroke="#2b241e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M10 22 H110 V100 H10Z" fill="#ffffff" fill-rule="evenodd"></path>
+                <path d="M10 22 H110 V37 H10Z" fill="#d2cbbd" fill-rule="evenodd"></path>
+                <path d="M26 52 L48 66 L26 80 V72 L38 66 L26 60Z" fill="#c0501a" fill-rule="evenodd"></path>
+                <path d="M54 76 H82 V83 H54Z" fill="#2b241e" fill-rule="evenodd"></path>
+              </g>
+            </svg>
+          </a>
+          <div style="flex: 1 1 0%; display: flex; flex-direction: column; gap: 12px; padding: 22px 24px 12px;">
+            <h3 style="margin: 0px; font-size: 22px; line-height: 1.15; font-weight: 600; letter-spacing: 0.04em;"><a class="hl" href="https://wotan.okemily.com/" style="color: rgb(43, 36, 30); text-decoration: none;">GOBLINFOXDRAGON</a></h3>
+            <p style="margin: 0px; flex: 1 1 0%; font-size: 15px; line-height: 1.6; color: rgb(91, 80, 70);">A headless, terminal-accessible MUD that doubles as the platform currency layer. No real-money purchasing.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              
+                <span class="mono" style="display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgb(221, 212, 196); border-radius: 999px; padding: 4px 10px; font-size: 10.5px; letter-spacing: 0.08em; color: rgb(110, 98, 86);"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"></rect><path d="M1.5 6h13"></path></svg>BROWSER</span>
+              
+              
+              
+                <span class="mono" style="display: inline-flex; align-items: center; gap: 6px; border: 1px solid rgb(221, 212, 196); border-radius: 999px; padding: 4px 10px; font-size: 10.5px; letter-spacing: 0.08em; color: rgb(110, 98, 86);"><svg width="13" height="13" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="1.5" y="2.5" width="13" height="11" rx="2"></rect><path d="M4.5 6l2.5 2-2.5 2M8.5 11h3"></path></svg>TERMINAL</span>
+              
+              
+            </div>
+          </div>
+          <div style="padding: 0px 24px 14px;">
+            <a class="hl" href="https://wotan.okemily.com/" style="display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; color: rgb(161, 67, 22); text-decoration: none;">Open the Hat Store →</a>
+          </div>
+        </article>
+      
+        <article class="lift game" data-tags="" style="flex: 1 1 340px; max-width: 440px; min-width: 0px; display: flex; flex-direction: column; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 16px; overflow: hidden;">
+          <a href="#follow" tabindex="-1" aria-hidden="true" style="display: block; position: relative; height: 176px; background-color: rgb(235, 230, 221); background-image: linear-gradient(rgba(43, 36, 30, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(43, 36, 30, 0.05) 1px, transparent 1px); background-size: 22px 22px; text-decoration: none;">
+            <span class="mono" style="position: absolute; left: 18px; top: 16px; display: inline-flex; align-items: center; gap: 7px; background: rgb(255, 253, 249); color: rgb(43, 36, 30); border: 1px solid rgba(43, 36, 30, 0.1); border-radius: 999px; padding: 4px 11px; font-size: 10.5px; font-weight: 500; letter-spacing: 0.1em;"><span style="width: 7px; height: 7px; border-radius: 50%; background: rgb(217, 162, 58);"></span>UPCOMING</span>
+            <span class="mono" style="position: absolute; left: 18px; bottom: 16px; max-width: 52%; font-size: 10.5px; letter-spacing: 0.1em; line-height: 1.45; color: rgb(74, 64, 54);">MULTIPLAYER FPS</span>
+            <svg viewBox="0 0 120 120" width="104" height="104" style="position: absolute; right: 20px; bottom: 14px;">
+              <g stroke="#2b241e" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M60 14 A46 46 0 1 1 59.9 14Z M60 28 A32 32 0 1 0 60.1 28Z" fill="#ffffff" fill-rule="evenodd"></path>
+                <path d="M6 56 H38 V64 H6Z M82 56 H114 V64 H82Z" fill="#f7f3ea" fill-rule="evenodd"></path>
+                <path d="M56 6 H64 V38 H56Z M56 82 H64 V114 H56Z" fill="#f7f3ea" fill-rule="evenodd"></path>
+                <path d="M60 54 A6 6 0 1 1 59.9 54Z" fill="#c0501a" fill-rule="evenodd"></path>
+              </g>
+            </svg>
+          </a>
+          <div style="flex: 1 1 0%; display: flex; flex-direction: column; gap: 12px; padding: 22px 24px 12px;">
+            <h3 style="margin: 0px; font-size: 22px; line-height: 1.15; font-weight: 600; letter-spacing: 0.04em;"><a class="hl" href="#follow" style="color: rgb(43, 36, 30); text-decoration: none;">SHANKPIT</a></h3>
+            <p style="margin: 0px; flex: 1 1 0%; font-size: 15px; line-height: 1.6; color: rgb(91, 80, 70);">Our upcoming first-party multiplayer FPS, built to validate high-tick state synchronization on WOTAN.</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              
+              
+              
+              
+                <span class="mono" style="display: inline-flex; align-items: center; border: 1px dashed rgb(231, 187, 164); border-radius: 999px; padding: 4px 10px; font-size: 10.5px; letter-spacing: 0.08em; color: rgb(161, 67, 22);">NOT YET PLAYABLE</span>
+              
+            </div>
+          </div>
+          <div style="padding: 0px 24px 14px;">
+            <a class="hl" href="#follow" style="display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 600; color: rgb(161, 67, 22); text-decoration: none;">Follow the build →</a>
+          </div>
+        </article>
+      
     </div>
-    <div class="manifesto-links">
-      <a class="btn secondary" href="https://github.com/emilyspringerton" target="_blank" rel="noopener">Explore the GitHub Repositories</a>
-      <a class="btn secondary" href="https://discord.gg/thefield" target="_blank" rel="noopener">Join the Community Discord</a>
-    </div>
-  </section>
 
-  <section class="gallery" id="gallery">
-    <div class="gallery-head">
-      <div class="sect-tag">Prompt-o-verse</div>
-      <h2>One character. Every style.</h2>
-      <p>The same Emily, re-rendered across the Prompt-o-verse style registry by our own prompt engine. Every image below is a real generation from the live gallery.</p>
+    <div style="display: flex; justify-content: center; margin-top: 40px;">
+      <a class="btn disp" href="/games.html" style="display: inline-flex; align-items: center; min-height: 50px; padding: 0px 32px; border-radius: 999px; background: rgb(192, 80, 26); color: rgb(255, 255, 255); text-decoration: none; font-weight: 600; font-size: 16px;">See All Games</a>
     </div>
-    <div class="po-rail">
-      <button class="po-nav po-prev" id="po-prev" type="button" aria-label="Previous styles">&#8249;</button>
-      <div class="po-row" id="po-row" role="group" aria-label="Emily in the Prompt-o-verse styles">
-      <a class="po-card" href="/prompt-o-verse/emily-game-sprite/"><img src="/prompt-o-verse/emily-game-sprite/emily-game-sprite-thumb.jpg" alt="Game sprite &mdash; Emily" loading="lazy" width="256" height="256"><span>Game sprite</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-8-bit-pixel-art/"><img src="/prompt-o-verse/emily-8-bit-pixel-art/emily-8-bit-pixel-art-thumb.jpg" alt="8-bit pixel art &mdash; Emily" loading="lazy" width="256" height="256"><span>8-bit pixel art</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-watercolor-sketchbook/"><img src="/prompt-o-verse/emily-watercolor-sketchbook/emily-watercolor-sketchbook-thumb.jpg" alt="Watercolor sketchbook &mdash; Emily" loading="lazy" width="256" height="256"><span>Watercolor sketchbook</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-ukiyo-e-woodblock/"><img src="/prompt-o-verse/emily-ukiyo-e-woodblock/emily-ukiyo-e-woodblock-thumb.jpg" alt="Ukiyo-e woodblock &mdash; Emily" loading="lazy" width="256" height="256"><span>Ukiyo-e woodblock</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-woodcut-block-print/"><img src="/prompt-o-verse/emily-woodcut-block-print/emily-woodcut-block-print-thumb.jpg" alt="Woodcut block print &mdash; Emily" loading="lazy" width="256" height="256"><span>Woodcut block print</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-robot/"><img src="/prompt-o-verse/emily-robot/emily-robot-thumb.jpg" alt="Robot &mdash; Emily" loading="lazy" width="256" height="256"><span>Robot</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-lego-minifigure/"><img src="/prompt-o-verse/emily-lego-minifigure/emily-lego-minifigure-thumb.jpg" alt="LEGO minifigure &mdash; Emily" loading="lazy" width="256" height="256"><span>LEGO minifigure</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-renaissance-oil-painting/"><img src="/prompt-o-verse/emily-renaissance-oil-painting/emily-renaissance-oil-painting-thumb.jpg" alt="Renaissance oil painting &mdash; Emily" loading="lazy" width="256" height="256"><span>Renaissance oil painting</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-norse-runic-carving/"><img src="/prompt-o-verse/emily-norse-runic-carving/emily-norse-runic-carving-thumb.jpg" alt="Norse runic carving &mdash; Emily" loading="lazy" width="256" height="256"><span>Norse runic carving</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-steampunk/"><img src="/prompt-o-verse/emily-steampunk/emily-steampunk-thumb.jpg" alt="Steampunk &mdash; Emily" loading="lazy" width="256" height="256"><span>Steampunk</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-anime/"><img src="/prompt-o-verse/emily-anime/emily-anime-thumb.jpg" alt="Anime &mdash; Emily" loading="lazy" width="256" height="256"><span>Anime</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-kawaii/"><img src="/prompt-o-verse/emily-kawaii/emily-kawaii-thumb.jpg" alt="Kawaii &mdash; Emily" loading="lazy" width="256" height="256"><span>Kawaii</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-paper-craft/"><img src="/prompt-o-verse/emily-paper-craft/emily-paper-craft-thumb.jpg" alt="Paper craft &mdash; Emily" loading="lazy" width="256" height="256"><span>Paper craft</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-whiteboard/"><img src="/prompt-o-verse/emily-whiteboard/emily-whiteboard-thumb.jpg" alt="Whiteboard &mdash; Emily" loading="lazy" width="256" height="256"><span>Whiteboard</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-minecraft/"><img src="/prompt-o-verse/emily-minecraft/emily-minecraft-thumb.jpg" alt="Minecraft &mdash; Emily" loading="lazy" width="256" height="256"><span>Minecraft</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-tinfoil/"><img src="/prompt-o-verse/emily-tinfoil/emily-tinfoil-thumb.jpg" alt="Tinfoil &mdash; Emily" loading="lazy" width="256" height="256"><span>Tinfoil</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-promptoverse-hat/"><img src="/prompt-o-verse/emily-promptoverse-hat/emily-promptoverse-hat-thumb.jpg" alt="Promptoverse hat &mdash; Emily" loading="lazy" width="256" height="256"><span>Promptoverse hat</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-ffxi/"><img src="/prompt-o-verse/emily-ffxi/emily-ffxi-thumb.jpg" alt="FFXI &mdash; Emily" loading="lazy" width="256" height="256"><span>FFXI</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-kawaii-ffxi/"><img src="/prompt-o-verse/emily-kawaii-ffxi/emily-kawaii-ffxi-thumb.jpg" alt="Kawaii &times; FFXI &mdash; Emily" loading="lazy" width="256" height="256"><span>Kawaii &times; FFXI</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-petrified/"><img src="/prompt-o-verse/emily-petrified/emily-petrified-thumb.jpg" alt="Petrified &mdash; Emily" loading="lazy" width="256" height="256"><span>Petrified</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-source-engine/"><img src="/prompt-o-verse/emily-source-engine/emily-source-engine-thumb.jpg" alt="Source Engine &mdash; Emily" loading="lazy" width="256" height="256"><span>Source Engine</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-emoji/"><img src="/prompt-o-verse/emily-emoji/emily-emoji-thumb.jpg" alt="Emoji &mdash; Emily" loading="lazy" width="256" height="256"><span>Emoji</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-kitsune/"><img src="/prompt-o-verse/emily-kitsune/emily-kitsune-thumb.jpg" alt="Kitsune &mdash; Emily" loading="lazy" width="256" height="256"><span>Kitsune</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-ice-cream-novelty/"><img src="/prompt-o-verse/emily-ice-cream-novelty/emily-ice-cream-novelty-thumb.jpg" alt="Ice cream novelty &mdash; Emily" loading="lazy" width="256" height="256"><span>Ice cream novelty</span></a>
-      <a class="po-card" href="/prompt-o-verse/emily-china/"><img src="/prompt-o-verse/emily-china/emily-china-thumb.jpg" alt="China &mdash; Emily" loading="lazy" width="256" height="256"><span>China</span></a>
+  </div></section><section id="tracker" style="padding: 96px 0px 0px;">
+  <div style="max-width: 1240px; margin: 0px auto; padding: 0px 24px;">
+    <div style="border-radius: 22px; background: rgb(236, 229, 216); border: 1px solid rgb(221, 210, 189); padding: 56px; display: flex; flex-wrap: wrap; gap: 48px; align-items: center;">
+      <div style="flex: 1 1 360px; min-width: 0px;">
+        <div class="mono" style="font-size: 11.5px; font-weight: 500; letter-spacing: 0.18em; color: rgb(161, 67, 22);">PRIVACY-FIRST TRACKER</div>
+        <h2 style="margin: 14px 0px; font-size: clamp(30px, 3.6vw, 40px); line-height: 1.1; font-weight: 600; color: rgb(43, 36, 30);">Download the Tracker</h2>
+        <p style="margin: 0px 0px 28px; max-width: 480px; font-size: 16.5px; color: rgb(91, 80, 70);">Track your competitive ladder stats with 100% cryptographic data integrity. Every match upload is checked against your Battle.net OAuth token, so the numbers on your profile are the numbers you played.</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; align-items: center;">
+          <a class="btn disp" href="https://wotan.okemily.com/hearthstone/tracker.html" style="display: inline-flex; align-items: center; gap: 10px; min-height: 48px; padding: 0px 24px; border-radius: 8px; background: rgb(192, 80, 26); color: rgb(255, 255, 255); text-decoration: none; font-weight: 600; font-size: 15.5px;">
+            <svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2v8M4.5 7 8 10.5 11.5 7M2.5 13.5h11"></path></svg>Download Privacy-First Tracker
+          </a>
+          <a class="btn ghost disp" href="#moat" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0px 24px; border-radius: 8px; border: 1.5px solid rgb(43, 36, 30); color: rgb(43, 36, 30); text-decoration: none; font-weight: 600; font-size: 15.5px;">How verification works</a>
+        </div>
+        <div class="mono" style="margin-top: 14px; font-size: 11px; letter-spacing: 0.14em; color: rgb(110, 98, 86);">FREE • ZERO TRACKING COOKIES</div>
       </div>
-      <button class="po-nav po-next" id="po-next" type="button" aria-label="Next styles">&#8250;</button>
-    </div>
-    <div class="gallery-more">
-      <a class="btn secondary" href="/prompt-o-verse/subject/emily/">All Emily styles</a>
-      <a class="btn secondary" href="/prompt-o-verse/">Browse the full Prompt-o-verse</a>
-    </div>
-  </section>
-
-  <section class="telemetry">
-    <div class="sect-tag">Platform Telemetry</div>
-    <h2>Follow the Build.</h2>
-    <p>We are building a sovereign network infrastructure in the open. Submit your email to receive raw engineering updates, system changelogs, and alpha test deployment keys as they ship. No trackers, low volume, plaintext only.</p>
-
-    <form class="signup" id="signup-form" novalidate>
-      <input type="email" name="email" id="signup-email" placeholder="Enter your email address" aria-label="Email address" required>
-      <button type="submit">Subscribe</button>
-      <label class="consent-label">
-        <input type="checkbox" name="consent" id="signup-consent" required>
-        I'd like occasional email updates from EINHORN_INDUSTRIAL. See our
-        <a href="/privacy.html">Privacy Policy</a> and <a href="/terms.html">Terms of Service</a>.
-      </label>
-    </form>
-    <p class="signup-note" id="signup-status" role="status">Plaintext updates / No spam</p>
-
-    <form class="matrix" id="search-form" role="search" novalidate>
-      <input type="search" id="search-q" placeholder="Search..." aria-label="Search" autocomplete="off">
-      <div class="matrix-actions">
-        <button type="submit" class="btn secondary">Search</button>
-        <a class="btn void" href="https://wotan.okemily.com/DEADWEIGHT/"><span class="void-dot" aria-hidden="true"></span>Enter the Void</a>
+      <div style="flex: 1 1 360px; min-width: 0px; max-width: 540px; margin: 0px auto; position: relative;">
+        <div style="background: rgb(255, 253, 249); border: 1px solid rgb(221, 210, 189); border-radius: 12px; overflow: hidden; box-shadow: rgba(43, 36, 30, 0.12) 0px 18px 40px; transform: rotate(-1.2deg);">
+          <div style="display: flex; align-items: center; gap: 8px; padding: 12px 16px; background: rgb(245, 241, 234); border-bottom: 1px solid rgb(230, 222, 206);">
+            <span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: rgb(214, 204, 185);"></span>
+            <span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: rgb(214, 204, 185);"></span>
+            <span aria-hidden="true" style="width: 10px; height: 10px; border-radius: 50%; background: rgb(214, 204, 185);"></span>
+            <span class="mono" style="margin-left: 10px; font-size: 11px; letter-spacing: 0.1em; color: rgb(110, 98, 86);">tracker — upload</span>
+          </div>
+          <div class="mono" style="padding: 22px 20px 26px; font-size: 13px; line-height: 1.9; color: rgb(91, 80, 70);">
+            <div><span style="color: rgb(161, 67, 22);">$</span> tracker upload match.log</div>
+            <div>reading raw client log ........ <span style="color: rgb(63, 122, 85);">ok</span></div>
+            <div><code style="font-family: inherit; color: rgb(43, 36, 30);">Account ID</code> == OAuth token ... <span style="color: rgb(63, 122, 85);">ok</span></div>
+            <div>tracking cookies .............. 0</div>
+            <div style="color: rgb(43, 36, 30); font-weight: 500;">status: verified</div>
+          </div>
+        </div>
+        <span class="mono" style="position: absolute; right: -6px; top: -14px; transform: rotate(4deg); background: rgb(255, 253, 249); border: 1px solid rgb(231, 187, 164); color: rgb(161, 67, 22); border-radius: 999px; padding: 6px 14px; font-size: 10.5px; font-weight: 500; letter-spacing: 0.16em;">VERIFIED</span>
       </div>
-      <ul class="results" id="search-results" aria-live="polite"></ul>
-    </form>
-  </section>
-
-  <footer>
-    &copy; <span id="yr">2026</span> EINHORN_INDUSTRIAL &bull; Powered by the CarePyre Sovereign Community Trust. Built by Brian Danowski and Emily. Code:
-    <a href="https://github.com/emilyspringerton/EMILY" target="_blank" rel="noopener">github.com/emilyspringerton/EMILY</a>
-    <div class="footer-links" style="margin-top:0.75rem; line-height:1.8;">
-      <a href="/blog/">Blog</a>
-      &middot; <a href="/api-playground.html">API playground</a>
-      &middot; <a href="/status.html">System status</a>
-      &middot; <a href="/admin/login">Login</a>
-      &middot; <a href="/portal/login">Developer Portal</a>
-      &middot; <a href="https://news.okemily.com/">FatBaby News</a>
-      &middot; <a href="/tournaments.html">WOTAN</a>
-      &middot; <a href="https://mixforge.okemily.com">MIXFORGE</a>
-      &middot; <a href="https://wotan.okemily.com/DEADWEIGHT/">DEADWEIGHT</a>
-      &middot; <a href="/stinkies.html">STINKIES</a>
-      &middot; <a href="/redgarden.html">RED GARDEN</a>
-      &middot; <a href="/games.html">Games</a>
-      &middot; <a href="/tyler/">TYLER Reading Room</a>
-      &middot; <a href="/prompt-o-verse/">Prompt-o-verse</a>
-      &middot; <a href="/prompt-o-verse-discovery.html">Prompt-o-verse Discovery</a>
-      &middot; <a href="/mjolnir.html">MJOLNIR</a>
-      &middot; <a href="/terms.html">Terms of Service</a>
-      &middot; <a href="/privacy.html">Privacy Policy</a>
     </div>
-    <div id="yr-msg" style="display:none; margin-top:0.75rem; font-family: Georgia, 'Times New Roman', serif; font-style: italic; opacity:0.7;"></div>
-    <div class="subfooter">CLEAN BUILDS FIRST</div>
-  </footer>
-</div>
+  </div></section><section id="moat" style="padding: 96px 0px 0px;">
+  <div style="max-width: 1240px; margin: 0px auto; padding: 0px 24px;">
+    <div class="mono" style="font-size: 11.5px; font-weight: 500; letter-spacing: 0.16em; color: rgb(161, 67, 22);">THE MOAT</div>
+    <h2 style="margin: 12px 0px; font-size: 34px; line-height: 1.12; font-weight: 600; color: rgb(43, 36, 30);">How data integrity works</h2>
+    <p style="margin: 0px 0px 32px; max-width: 700px; font-size: 16.5px; color: rgb(91, 80, 70);">We don't trust client-side data, and we reject tracking cookies on principle. Every byte traversing the WOTAN engine is validated cryptographically at the infrastructure layer.</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch;">
+      <div style="flex: 1 1 300px; min-width: 0px; display: flex; flex-direction: column; gap: 14px; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 16px; padding: 28px;">
+        <span aria-hidden="true" class="disp" style="font-size: 40px; line-height: 1; font-weight: 600; color: rgb(231, 187, 164);">01</span>
+        <h3 style="margin: 0px; font-size: 20px; font-weight: 600; color: rgb(43, 36, 30);">Zero-Cookie Privacy</h3>
+        <p style="margin: 0px; flex: 1 1 0%; font-size: 15.5px; color: rgb(91, 80, 70);">We host no programmatic ad networks. The platform runs entirely on community support and direct contextual sponsorships.</p>
+        <div class="mono" style="background: rgb(245, 241, 234); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: rgb(161, 67, 22);">cookies = 0 · ad_networks = 0</div>
+      </div>
+      <div style="flex: 1 1 300px; min-width: 0px; display: flex; flex-direction: column; gap: 14px; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 16px; padding: 28px;">
+        <span aria-hidden="true" class="disp" style="font-size: 40px; line-height: 1; font-weight: 600; color: rgb(231, 187, 164);">02</span>
+        <h3 style="margin: 0px; font-size: 20px; font-weight: 600; color: rgb(43, 36, 30);">Cryptographic Anti-Spoofing</h3>
+        <p style="margin: 0px; flex: 1 1 0%; font-size: 15.5px; color: rgb(91, 80, 70);">We do not rely on local text log file validation. All match uploads require direct Battle.net OAuth Access Tokens. If the <code class="mono" style="font-size: 13px; background: rgb(245, 241, 234); border-radius: 4px; padding: 2px 6px; color: rgb(43, 36, 30);">Account ID</code> inside the raw client log doesn't match the token issued directly by Blizzard's security servers, the data is instantly trashed.</p>
+        <div class="mono" style="background: rgb(245, 241, 234); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: rgb(161, 67, 22);">account_id != token → trash()</div>
+      </div>
+      <div style="flex: 1 1 300px; min-width: 0px; display: flex; flex-direction: column; gap: 14px; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 16px; padding: 28px;">
+        <span aria-hidden="true" class="disp" style="font-size: 40px; line-height: 1; font-weight: 600; color: rgb(231, 187, 164);">03</span>
+        <h3 style="margin: 0px; font-size: 20px; font-weight: 600; color: rgb(43, 36, 30);">Statistical Anomaly Isolation</h3>
+        <p style="margin: 0px; flex: 1 1 0%; font-size: 15.5px; color: rgb(91, 80, 70);">Decks do not enter public meta-tier directories until passing a minimum threshold of 2,000+ total matches across 50+ distinct, unique verified accounts, completely neutralizing “ghost deck” exploits.</p>
+        <div class="mono" style="background: rgb(245, 241, 234); border-radius: 8px; padding: 10px 12px; font-size: 12px; color: rgb(161, 67, 22);">matches ≥ 2,000 &amp;&amp; accounts ≥ 50</div>
+      </div>
+    </div>
+  </div></section><section style="padding: 96px 0px 0px;">
+  <div style="max-width: 1240px; margin: 0px auto; padding: 0px 24px;">
+    <div class="mono" style="font-size: 11.5px; font-weight: 500; letter-spacing: 0.16em; color: rgb(161, 67, 22);">IDENTITY MATRIX</div>
+    <h2 style="margin: 12px 0px; font-size: 34px; line-height: 1.12; font-weight: 600; color: rgb(43, 36, 30);">Streamer Brand Protection &amp; Authoritative Identity</h2>
+    <p style="margin: 0px 0px 32px; max-width: 760px; font-size: 16.5px; color: rgb(91, 80, 70);">We decouple website display names from raw BattleTags using an automated, multi-tiered Eminent Domain Identity Matrix driven by live Twitch API checks during OAuth onboarding:</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch;">
+      <div style="flex: 1 1 300px; min-width: 0px; display: flex; flex-direction: column; gap: 12px; background: rgb(255, 253, 249); border: 1px solid rgb(231, 187, 164); border-radius: 16px; padding: 28px;">
+        <span class="mono" style="font-size: 11px; letter-spacing: 0.16em; color: rgb(161, 67, 22);">TIER 1</span>
+        <h3 style="margin: 0px; font-size: 30px; line-height: 1.05; font-weight: 600; color: rgb(43, 36, 30);">Elite</h3>
+        <span class="mono" style="align-self: flex-start; background: rgb(247, 231, 220); border-radius: 999px; padding: 5px 12px; font-size: 11px; letter-spacing: 0.04em; color: rgb(74, 64, 54);">Twitch Partner OR 5k+ Followers</span>
+        <p style="margin: 6px 0px 0px; flex: 1 1 0%; font-size: 15.5px; color: rgb(91, 80, 70);"><strong style="color: rgb(43, 36, 30);">Instant Handle Reclaim.</strong> If an unverified squatter holds your exact brand name, the WOTAN IAM instantly renames the squatter to a system placeholder, hands the pristine handle to you, and stamps your profile with a Verified Badge.</p>
+        <div class="mono" style="display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.14em; color: rgb(161, 67, 22);"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="8"></circle><path d="M6.5 10.3l2.4 2.4 4.6-5"></path></svg>VERIFIED BADGE</div>
+      </div>
+      <div style="flex: 1 1 300px; min-width: 0px; display: flex; flex-direction: column; gap: 12px; background: rgb(255, 253, 249); border: 1px solid rgb(188, 205, 228); border-radius: 16px; padding: 28px;">
+        <span class="mono" style="font-size: 11px; letter-spacing: 0.16em; color: rgb(47, 95, 158);">TIER 2</span>
+        <h3 style="margin: 0px; font-size: 30px; line-height: 1.05; font-weight: 600; color: rgb(43, 36, 30);">Rising</h3>
+        <span class="mono" style="align-self: flex-start; background: rgb(230, 238, 248); border-radius: 999px; padding: 5px 12px; font-size: 11px; letter-spacing: 0.04em; color: rgb(74, 64, 54);">100 – 5k Followers</span>
+        <p style="margin: 6px 0px 0px; flex: 1 1 0%; font-size: 15.5px; color: rgb(91, 80, 70);"><strong style="color: rgb(43, 36, 30);">Instant Verification.</strong> Automatically grants your profile a Verified Badge on your current available name to secure your data integrity. Bumping requires an admin review queue.</p>
+        <div class="mono" style="display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.14em; color: rgb(47, 95, 158);"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="10" cy="10" r="8"></circle><path d="M6.5 10.3l2.4 2.4 4.6-5"></path></svg>VERIFIED BADGE</div>
+      </div>
+      <div style="flex: 1 1 300px; min-width: 0px; display: flex; flex-direction: column; gap: 12px; background: rgb(255, 253, 249); border: 1px dashed rgb(203, 191, 168); border-radius: 16px; padding: 28px;">
+        <span class="mono" style="font-size: 11px; letter-spacing: 0.16em; color: rgb(110, 98, 86);">TIER 3</span>
+        <h3 style="margin: 0px; font-size: 30px; line-height: 1.05; font-weight: 600; color: rgb(43, 36, 30);">Core</h3>
+        <span class="mono" style="align-self: flex-start; background: rgb(241, 235, 223); border-radius: 999px; padding: 5px 12px; font-size: 11px; letter-spacing: 0.04em; color: rgb(74, 64, 54);">&lt;100 Followers</span>
+        <p style="margin: 6px 0px 0px; flex: 1 1 0%; font-size: 15.5px; color: rgb(91, 80, 70);"><strong style="color: rgb(43, 36, 30);">Community Integration.</strong> Activates full cross-game social mechanics and account linking, unverified publicly.</p>
+        <div class="mono" style="display: flex; align-items: center; gap: 8px; font-size: 11px; letter-spacing: 0.14em; color: rgb(110, 98, 86);"><svg width="18" height="18" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-dasharray="3 3" aria-hidden="true"><circle cx="10" cy="10" r="8"></circle></svg>NO PUBLIC BADGE</div>
+      </div>
+    </div>
+  </div></section><section style="padding: 96px 0px 0px;">
+  <div style="max-width: 1240px; margin: 0px auto; padding: 0px 24px;">
+    <div class="mono" style="font-size: 11.5px; font-weight: 500; letter-spacing: 0.16em; color: rgb(161, 67, 22);">PRODUCTION SANDBOX</div>
+    <h2 style="margin: 12px 0px; font-size: 34px; line-height: 1.12; font-weight: 600; color: rgb(43, 36, 30);">The Multiverse Production Sandbox</h2>
+    <p style="margin: 0px 0px 32px; max-width: 760px; font-size: 16.5px; color: rgb(91, 80, 70);">WOTAN is not an abstract concept; it is the Online Services BaaS powering our own first-party validation suite in real time. We dog-food our own infrastructure across multiple genres to ensure the engine is flawless:</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch;">
+      <div style="flex: 1 1 300px; min-width: 0px; display: flex; flex-direction: column; gap: 12px; background: rgb(236, 229, 216); border: 1px solid rgb(221, 210, 189); border-radius: 16px; padding: 28px;">
+        <h3 style="margin: 0px; font-size: 21px; line-height: 1.2; font-weight: 600; color: rgb(43, 36, 30);">Sovereign Currency &amp; Social Core</h3>
+        <p style="margin: 0px; flex: 1 1 0%; font-size: 15.5px; color: rgb(91, 80, 70);">Powered by a headless, terminal-accessible FFXI MUD framework that serves as the universal platform currency layer. No real-money purchasing; monetization is locked strictly to multi-boxing license architecture.</p>
+        <a class="btn ghost mono" href="https://wotan.okemily.com/" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; padding: 0px 14px; border: 1px solid rgb(195, 182, 156); border-radius: 8px; color: rgb(43, 36, 30); text-decoration: none; font-size: 11.5px; letter-spacing: 0.08em;">GOBLINFOXDRAGON →</a>
+      </div>
+      <div style="flex: 1 1 300px; min-width: 0px; display: flex; flex-direction: column; gap: 12px; background: rgb(236, 229, 216); border: 1px solid rgb(221, 210, 189); border-radius: 16px; padding: 28px;">
+        <h3 style="margin: 0px; font-size: 21px; line-height: 1.2; font-weight: 600; color: rgb(43, 36, 30);">Instant-Load Party Arcade</h3>
+        <p style="margin: 0px; flex: 1 1 0%; font-size: 15.5px; color: rgb(91, 80, 70);">Lightweight, high-chaos party mini-games built to revive local couch-co-op LAN energy. Compiled via PARENA to bare-metal C/WASM execution layers, they load instantly inside any standard browser with zero download bloat.</p>
+        <a class="btn ghost mono" href="https://wotan.okemily.com/" style="align-self: flex-start; display: inline-flex; align-items: center; min-height: 44px; padding: 0px 14px; border: 1px solid rgb(195, 182, 156); border-radius: 8px; color: rgb(43, 36, 30); text-decoration: none; font-size: 11.5px; letter-spacing: 0.08em;">BRAWLPIT →</a>
+      </div>
+      <div style="flex: 1 1 300px; min-width: 0px; display: flex; flex-direction: column; gap: 12px; background: rgb(236, 229, 216); border: 1px solid rgb(221, 210, 189); border-radius: 16px; padding: 28px;">
+        <h3 style="margin: 0px; font-size: 21px; line-height: 1.2; font-weight: 600; color: rgb(43, 36, 30);">The High-Tick Matrix</h3>
+        <p style="margin: 0px; flex: 1 1 0%; font-size: 15.5px; color: rgb(91, 80, 70);">Standardized network integrations for real-time spatial genres, validating state-synchronization engines across our tactical MOBA (REDGARDEN) and upcoming first-party multiplayer FPS (SHANKPIT).</p>
+        <div style="display: flex; flex-wrap: wrap; gap: 10px;">
+          <a class="btn ghost mono" href="/redgarden.html" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0px 14px; border: 1px solid rgb(195, 182, 156); border-radius: 8px; color: rgb(43, 36, 30); text-decoration: none; font-size: 11.5px; letter-spacing: 0.08em;">REDGARDEN →</a>
+          <a class="btn ghost mono" href="#follow" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0px 14px; border: 1px dashed rgb(195, 182, 156); border-radius: 8px; color: rgb(161, 67, 22); text-decoration: none; font-size: 11.5px; letter-spacing: 0.08em;">SHANKPIT · SOON</a>
+        </div>
+      </div>
+    </div>
 
+    <div style="margin-top: 72px;">
+      <h2 style="margin: 0px 0px 12px; font-size: 28px; line-height: 1.12; font-weight: 600; color: rgb(43, 36, 30);">Developer &amp; Simulation PaaS</h2>
+      <p style="margin: 0px 0px 28px; max-width: 760px; font-size: 16.5px; color: rgb(91, 80, 70);">Stop writing custom backend code. WOTAN provides the structural primitives to let external studios scale multiplayer worlds and train autonomous infrastructure:</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: stretch;">
+        <div style="flex: 1 1 420px; min-width: 0px; display: flex; gap: 20px; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 16px; padding: 28px;">
+          <svg width="40" height="40" viewBox="0 0 32 32" fill="none" stroke="#a14316" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto;"><rect x="3" y="3" width="11" height="11" rx="1.5"></rect><rect x="18" y="3" width="11" height="11" rx="1.5"></rect><rect x="3" y="18" width="11" height="11" rx="1.5"></rect><rect x="19" y="19" width="9" height="9" rx="1.5" stroke-dasharray="3 3"></rect></svg>
+          <div>
+            <h3 style="margin: 0px 0px 8px; font-size: 20px; font-weight: 600; color: rgb(43, 36, 30);">Cloud-Native Level Builders</h3>
+            <p style="margin: 0px; font-size: 15.5px; color: rgb(91, 80, 70);">Deploy 2D and 3D non-linear collaborative building sandboxes directly into the cloud with real-time asset syncing and spatial matchmaking handled out of the box.</p>
+          </div>
+        </div>
+        <div style="flex: 1 1 420px; min-width: 0px; display: flex; gap: 20px; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 16px; padding: 28px;">
+          <svg width="40" height="40" viewBox="0 0 32 32" fill="none" stroke="#a14316" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="flex: 0 0 auto;"><path d="M3 9h22M21 5l4 4-4 4"></path><path d="M3 16h26M25 12l4 4-4 4"></path><path d="M3 23h22M21 19l4 4-4 4"></path></svg>
+          <div>
+            <h3 style="margin: 0px 0px 8px; font-size: 20px; font-weight: 600; color: rgb(43, 36, 30);">The Digital Wind Tunnel</h3>
+            <p style="margin: 0px; font-size: 15.5px; color: rgb(91, 80, 70);">WOTAN provides the identity, low-latency UDP networking, and execution rails required for Human-in-the-Loop (HITL) simulation and high-tick-rate autonomous reinforcement learning agent training.</p>
+          </div>
+        </div>
+      </div>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px;">
+        <a class="btn disp" href="/portal/login" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0px 24px; border-radius: 8px; background: rgb(192, 80, 26); color: rgb(255, 255, 255); text-decoration: none; font-weight: 600; font-size: 15.5px;">Developer Portal</a>
+        <a class="btn ghost disp" href="/api-playground.html" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0px 24px; border-radius: 8px; border: 1.5px solid rgb(43, 36, 30); color: rgb(43, 36, 30); text-decoration: none; font-weight: 600; font-size: 15.5px;">API playground</a>
+      </div>
+    </div>
+  </div></section><section style="padding: 96px 0px 0px;">
+  <div style="max-width: 1240px; margin: 0px auto; padding: 0px 24px;">
+    <div style="border-top: 1px solid rgb(221, 210, 189); border-bottom: 1px solid rgb(221, 210, 189); padding: 72px 0px;">
+      <div class="mono" style="font-size: 11.5px; font-weight: 500; letter-spacing: 0.18em; color: rgb(161, 67, 22);">THE MANIFESTO</div>
+      <p class="disp" style="margin: 20px 0px 16px; max-width: 880px; font-size: clamp(25px, 3.2vw, 38px); line-height: 1.22; font-weight: 500; color: rgb(43, 36, 30);">OkEmily does not build slide decks. We write compilers, optimize telemetry pipelines, and build <span style="color: rgb(161, 67, 22);">sovereign network systems.</span></p>
+      <p style="margin: 0px 0px 32px; max-width: 700px; font-size: 18px; color: rgb(91, 80, 70);">All core logic is open-source, deterministic, and built in public.</p>
+      <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+        <a class="btn disp" href="https://github.com/emilyspringerton" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0px 24px; border-radius: 8px; background: rgb(43, 36, 30); color: rgb(245, 241, 234); text-decoration: none; font-weight: 600; font-size: 15.5px;">Explore the GitHub Repositories</a>
+        <a class="btn ghost disp" href="https://discord.gg/thefield" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0px 24px; border-radius: 8px; border: 1.5px solid rgb(43, 36, 30); color: rgb(43, 36, 30); text-decoration: none; font-weight: 600; font-size: 15.5px;">Join the Community Discord</a>
+      </div>
+    </div>
+  </div></section><section style="padding: 96px 0px 0px;">
+  <div style="max-width: 1240px; margin: 0px auto; padding: 0px 24px;">
+    <div class="mono" style="font-size: 11.5px; font-weight: 500; letter-spacing: 0.16em; color: rgb(161, 67, 22);">PROMPT-O-VERSE</div>
+    <h2 style="margin: 12px 0px; font-size: 34px; line-height: 1.12; font-weight: 600; color: rgb(43, 36, 30);">One character. Every style.</h2>
+    <p style="margin: 0px 0px 28px; max-width: 700px; font-size: 16.5px; color: rgb(91, 80, 70);">The same Emily, re-rendered across the Prompt-o-verse style registry by our own prompt engine. Every image below is a real generation from the live gallery.</p>
+    <div style="display: flex; align-items: stretch; gap: 12px;">
+      <button id="po-prev" type="button" class="btn ghost" aria-label="Previous styles" style="flex: 0 0 52px; cursor: pointer; border-radius: 12px; border: 1px solid rgb(221, 210, 189); background: rgb(255, 253, 249); color: rgb(43, 36, 30); font-size: 30px; line-height: 1;">‹</button>
+      <div role="group" aria-label="Emily in the Prompt-o-verse styles" style="flex: 1 1 0%; min-width: 0px; display: flex; flex-wrap: wrap; gap: 12px;">
+        
+          <a class="lift po-tile" data-i="0" href="/prompt-o-verse/emily-game-sprite/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#f8dcc8"><img src="/prompt-o-verse/emily-game-sprite/emily-game-sprite-thumb.jpg" alt="Game sprite &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Game sprite</span></a>
+<a class="lift po-tile" data-i="1" href="/prompt-o-verse/emily-8-bit-pixel-art/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#dce7f4"><img src="/prompt-o-verse/emily-8-bit-pixel-art/emily-8-bit-pixel-art-thumb.jpg" alt="8-bit pixel art &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">8-bit pixel art</span></a>
+<a class="lift po-tile" data-i="2" href="/prompt-o-verse/emily-watercolor-sketchbook/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#f6e7c1"><img src="/prompt-o-verse/emily-watercolor-sketchbook/emily-watercolor-sketchbook-thumb.jpg" alt="Watercolor sketchbook &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Watercolor sketchbook</span></a>
+<a class="lift po-tile" data-i="3" href="/prompt-o-verse/emily-ukiyo-e-woodblock/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#d8e8dc"><img src="/prompt-o-verse/emily-ukiyo-e-woodblock/emily-ukiyo-e-woodblock-thumb.jpg" alt="Ukiyo-e woodblock &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Ukiyo-e woodblock</span></a>
+<a class="lift po-tile" data-i="4" href="/prompt-o-verse/emily-woodcut-block-print/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#ebe6dd"><img src="/prompt-o-verse/emily-woodcut-block-print/emily-woodcut-block-print-thumb.jpg" alt="Woodcut block print &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Woodcut block print</span></a>
+<a class="lift po-tile" data-i="5" href="/prompt-o-verse/emily-robot/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#e9dcec"><img src="/prompt-o-verse/emily-robot/emily-robot-thumb.jpg" alt="Robot &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Robot</span></a>
+<a class="lift po-tile" data-i="6" href="/prompt-o-verse/emily-lego-minifigure/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#f8dcc8"><img src="/prompt-o-verse/emily-lego-minifigure/emily-lego-minifigure-thumb.jpg" alt="LEGO minifigure &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">LEGO minifigure</span></a>
+<a class="lift po-tile" data-i="7" href="/prompt-o-verse/emily-renaissance-oil-painting/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#dce7f4"><img src="/prompt-o-verse/emily-renaissance-oil-painting/emily-renaissance-oil-painting-thumb.jpg" alt="Renaissance oil painting &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Renaissance oil painting</span></a>
+<a class="lift po-tile" data-i="8" href="/prompt-o-verse/emily-norse-runic-carving/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#f6e7c1"><img src="/prompt-o-verse/emily-norse-runic-carving/emily-norse-runic-carving-thumb.jpg" alt="Norse runic carving &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Norse runic carving</span></a>
+<a class="lift po-tile" data-i="9" href="/prompt-o-verse/emily-steampunk/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#d8e8dc"><img src="/prompt-o-verse/emily-steampunk/emily-steampunk-thumb.jpg" alt="Steampunk &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Steampunk</span></a>
+<a class="lift po-tile" data-i="10" href="/prompt-o-verse/emily-anime/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#ebe6dd"><img src="/prompt-o-verse/emily-anime/emily-anime-thumb.jpg" alt="Anime &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Anime</span></a>
+<a class="lift po-tile" data-i="11" href="/prompt-o-verse/emily-kawaii/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#e9dcec"><img src="/prompt-o-verse/emily-kawaii/emily-kawaii-thumb.jpg" alt="Kawaii &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Kawaii</span></a>
+<a class="lift po-tile" data-i="12" href="/prompt-o-verse/emily-paper-craft/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#f8dcc8"><img src="/prompt-o-verse/emily-paper-craft/emily-paper-craft-thumb.jpg" alt="Paper craft &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Paper craft</span></a>
+<a class="lift po-tile" data-i="13" href="/prompt-o-verse/emily-whiteboard/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#dce7f4"><img src="/prompt-o-verse/emily-whiteboard/emily-whiteboard-thumb.jpg" alt="Whiteboard &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Whiteboard</span></a>
+<a class="lift po-tile" data-i="14" href="/prompt-o-verse/emily-minecraft/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#f6e7c1"><img src="/prompt-o-verse/emily-minecraft/emily-minecraft-thumb.jpg" alt="Minecraft &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Minecraft</span></a>
+<a class="lift po-tile" data-i="15" href="/prompt-o-verse/emily-tinfoil/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#d8e8dc"><img src="/prompt-o-verse/emily-tinfoil/emily-tinfoil-thumb.jpg" alt="Tinfoil &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Tinfoil</span></a>
+<a class="lift po-tile" data-i="16" href="/prompt-o-verse/emily-promptoverse-hat/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#ebe6dd"><img src="/prompt-o-verse/emily-promptoverse-hat/emily-promptoverse-hat-thumb.jpg" alt="Promptoverse hat &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Promptoverse hat</span></a>
+<a class="lift po-tile" data-i="17" href="/prompt-o-verse/emily-ffxi/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#e9dcec"><img src="/prompt-o-verse/emily-ffxi/emily-ffxi-thumb.jpg" alt="FFXI &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">FFXI</span></a>
+<a class="lift po-tile" data-i="18" href="/prompt-o-verse/emily-kawaii-ffxi/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#f8dcc8"><img src="/prompt-o-verse/emily-kawaii-ffxi/emily-kawaii-ffxi-thumb.jpg" alt="Kawaii &times; FFXI &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Kawaii &times; FFXI</span></a>
+<a class="lift po-tile" data-i="19" href="/prompt-o-verse/emily-petrified/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#dce7f4"><img src="/prompt-o-verse/emily-petrified/emily-petrified-thumb.jpg" alt="Petrified &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Petrified</span></a>
+<a class="lift po-tile" data-i="20" href="/prompt-o-verse/emily-source-engine/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#f6e7c1"><img src="/prompt-o-verse/emily-source-engine/emily-source-engine-thumb.jpg" alt="Source Engine &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Source Engine</span></a>
+<a class="lift po-tile" data-i="21" href="/prompt-o-verse/emily-emoji/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#d8e8dc"><img src="/prompt-o-verse/emily-emoji/emily-emoji-thumb.jpg" alt="Emoji &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Emoji</span></a>
+<a class="lift po-tile" data-i="22" href="/prompt-o-verse/emily-kitsune/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#ebe6dd"><img src="/prompt-o-verse/emily-kitsune/emily-kitsune-thumb.jpg" alt="Kitsune &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Kitsune</span></a>
+<a class="lift po-tile" data-i="23" href="/prompt-o-verse/emily-ice-cream-novelty/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#e9dcec"><img src="/prompt-o-verse/emily-ice-cream-novelty/emily-ice-cream-novelty-thumb.jpg" alt="Ice cream novelty &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">Ice cream novelty</span></a>
+<a class="lift po-tile" data-i="24" href="/prompt-o-verse/emily-china/" style="flex: 1 1 150px; min-width: 0px; display: block; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 12px; padding: 8px; text-decoration: none; color: rgb(43, 36, 30);"><span style="display:block;aspect-ratio:1;border-radius:8px;overflow:hidden;background:#f8dcc8"><img src="/prompt-o-verse/emily-china/emily-china-thumb.jpg" alt="China &mdash; Emily" loading="lazy" width="256" height="256" style="display:block;width:100%;height:100%;object-fit:cover"></span><span style="display: block; margin-top: 10px; text-align: center; font-size: 14px; color: rgb(43, 36, 30);">China</span></a>
+
+        
+      </div>
+      <button id="po-next" type="button" class="btn ghost" aria-label="Next styles" style="flex: 0 0 52px; cursor: pointer; border-radius: 12px; border: 1px solid rgb(221, 210, 189); background: rgb(255, 253, 249); color: rgb(43, 36, 30); font-size: 30px; line-height: 1;">›</button>
+    </div>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 24px;">
+      <a class="btn ghost disp" href="/prompt-o-verse/subject/emily/" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0px 24px; border-radius: 8px; border: 1.5px solid rgb(43, 36, 30); color: rgb(43, 36, 30); text-decoration: none; font-weight: 600; font-size: 15.5px;">All 26 Emily styles</a>
+      <a class="btn ghost disp" href="/prompt-o-verse/" style="display: inline-flex; align-items: center; min-height: 48px; padding: 0px 24px; border-radius: 8px; border: 1px solid rgb(231, 187, 164); color: rgb(161, 67, 22); text-decoration: none; font-weight: 600; font-size: 15.5px;">Browse the full Prompt-o-verse</a>
+    </div>
+  </div></section><section id="follow" style="padding: 96px 0px 0px;">
+  <div style="max-width: 1240px; margin: 0px auto; padding: 0px 24px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 48px; background: rgb(255, 253, 249); border: 1px solid rgb(230, 222, 206); border-radius: 22px; padding: 48px;">
+      <div style="flex: 1 1 380px; min-width: 0px;">
+        <div class="mono" style="font-size: 11.5px; font-weight: 500; letter-spacing: 0.16em; color: rgb(161, 67, 22);">PLATFORM TELEMETRY</div>
+        <h2 style="margin: 12px 0px; font-size: 34px; line-height: 1.12; font-weight: 600; color: rgb(43, 36, 30);">Follow the Build.</h2>
+        <p style="margin: 0px 0px 24px; font-size: 16px; color: rgb(91, 80, 70);">We are building a sovereign network infrastructure in the open. Submit your email to receive raw engineering updates, system changelogs, and alpha test deployment keys as they ship. No trackers, low volume, plaintext only.</p>
+        <form id="signup-form" novalidate="" style="display: flex; flex-direction: column; gap: 14px;">
+          <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+            <input type="email" id="signup-email" name="email" aria-label="Email address" required placeholder="Enter your email address" value="" style="flex: 1 1 240px; min-width: 0px; min-height: 48px; padding: 0px 14px; border-radius: 8px; border: 1px solid rgb(214, 204, 185); background: rgb(245, 241, 234); color: rgb(43, 36, 30); font-family: inherit; font-size: 16px;">
+            <button type="submit" class="btn disp" style="min-height: 48px; padding: 0px 26px; border: 0px; border-radius: 8px; background: rgb(192, 80, 26); color: rgb(255, 255, 255); cursor: pointer; font-weight: 600; font-size: 15.5px;">Subscribe</button>
+          </div>
+          <label style="display: flex; align-items: flex-start; gap: 10px; font-size: 14px; line-height: 1.5; color: rgb(91, 80, 70);">
+            <input type="checkbox" id="signup-consent" name="consent" required style="flex: 0 0 auto; width: 20px; height: 20px; margin: 2px 0px 0px; accent-color: rgb(192, 80, 26);">
+            <span>I'd like occasional email updates from EINHORN_INDUSTRIAL. See our <a href="/privacy.html">Privacy Policy</a> and <a href="/terms.html">Terms of Service</a>.</span>
+          </label>
+          <p id="signup-status" role="status" class="mono" style="margin: 0px; font-size: 12.5px; color: rgb(110, 98, 86);">Plaintext updates / No spam</p>
+        </form>
+      </div>
+      <div style="flex: 1 1 380px; min-width: 0px;">
+        <div class="mono" style="font-size: 11.5px; font-weight: 500; letter-spacing: 0.16em; color: rgb(110, 98, 86);">FROM THE BUILD LOG</div>
+        <input type="search" id="search-q" aria-label="Search the build log" placeholder="Search..." autocomplete="off" value="" style="display: block; width: 100%; margin-top: 14px; min-height: 48px; padding: 0px 14px; border-radius: 8px; border: 1px solid rgb(214, 204, 185); background: rgb(245, 241, 234); color: rgb(43, 36, 30); font-family: inherit; font-size: 16px;">
+        <div id="search-results" aria-live="polite" style="margin-top: 8px;">
+          
+            <a class="row" href="/blog/state-of-the-ecosystem/" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; padding: 10px 12px; border-top: 1px solid rgb(230, 222, 206); color: rgb(43, 36, 30); text-decoration: none; font-weight: 500; font-size: 15.5px; border-radius: 6px;">
+              <span>State of the Ecosystem</span>
+              <span class="mono" style="flex: 0 0 auto; font-size: 11px; letter-spacing: 0.12em; font-weight: 400; color: rgb(110, 98, 86);">BLOG →</span>
+            </a>
+          
+            <a class="row" href="/blog/knights-of-the-void-human-validated/" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; padding: 10px 12px; border-top: 1px solid rgb(230, 222, 206); color: rgb(43, 36, 30); text-decoration: none; font-weight: 500; font-size: 15.5px; border-radius: 6px;">
+              <span>Knights of the Void: Human-Validated, On Stream</span>
+              <span class="mono" style="flex: 0 0 auto; font-size: 11px; letter-spacing: 0.12em; font-weight: 400; color: rgb(110, 98, 86);">BLOG →</span>
+            </a>
+          
+            <a class="row" href="/blog/the-real-moat-is-the-boring-part/" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; padding: 10px 12px; border-top: 1px solid rgb(230, 222, 206); color: rgb(43, 36, 30); text-decoration: none; font-weight: 500; font-size: 15.5px; border-radius: 6px;">
+              <span>The real moat is the boring part</span>
+              <span class="mono" style="flex: 0 0 auto; font-size: 11px; letter-spacing: 0.12em; font-weight: 400; color: rgb(110, 98, 86);">BLOG →</span>
+            </a>
+          
+            <a class="row" href="/blog/parena-eats-the-codebase-from-the-outside-in/" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; padding: 10px 12px; border-top: 1px solid rgb(230, 222, 206); color: rgb(43, 36, 30); text-decoration: none; font-weight: 500; font-size: 15.5px; border-radius: 6px;">
+              <span>PARENA Eats the Codebase From the Outside In</span>
+              <span class="mono" style="flex: 0 0 auto; font-size: 11px; letter-spacing: 0.12em; font-weight: 400; color: rgb(110, 98, 86);">BLOG →</span>
+            </a>
+          
+            <a class="row" href="/blog/clean-builds-first/" style="display: flex; align-items: center; justify-content: space-between; gap: 16px; min-height: 52px; padding: 10px 12px; border-top: 1px solid rgb(230, 222, 206); color: rgb(43, 36, 30); text-decoration: none; font-weight: 500; font-size: 15.5px; border-radius: 6px;">
+              <span>Clean Builds First</span>
+              <span class="mono" style="flex: 0 0 auto; font-size: 11px; letter-spacing: 0.12em; font-weight: 400; color: rgb(110, 98, 86);">BLOG →</span>
+            </a>
+          
+          
+        </div>
+        <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 16px;">
+          <a class="btn ghost disp" href="/blog/" style="display: inline-flex; align-items: center; min-height: 44px; padding: 0px 18px; border-radius: 8px; border: 1px solid rgb(231, 187, 164); color: rgb(161, 67, 22); text-decoration: none; font-weight: 600; font-size: 14px;">All posts →</a>
+          <a class="btn ghost disp" href="https://wotan.okemily.com/DEADWEIGHT/" style="display: inline-flex; align-items: center; gap: 10px; min-height: 44px; padding: 0px 18px; border-radius: 8px; border: 1px solid rgb(203, 191, 168); color: rgb(43, 36, 30); text-decoration: none; font-weight: 500; font-size: 14px; letter-spacing: 0.04em;">
+            <span aria-hidden="true" style="width: 14px; height: 14px; border-radius: 50%; background: radial-gradient(circle, rgb(224, 122, 47) 0px, rgb(224, 122, 47) 32%, rgb(43, 36, 30) 34%); border: 2px solid rgb(43, 36, 30);"></span>Enter the Void
+          </a>
+        </div>
+      </div>
+    </div>
+  </div></section></main><footer style="margin-top: 96px; border-top: 1px solid rgb(221, 210, 189); background: rgb(236, 229, 216);">
+  <div style="max-width: 1240px; margin: 0px auto; padding: 56px 24px 44px;">
+    <div style="display: flex; flex-wrap: wrap; gap: 40px; justify-content: space-between;">
+      <div style="flex: 1 1 260px; min-width: 0px; max-width: 340px;">
+        <div class="disp" style="font-size: 22px; font-weight: 600; letter-spacing: 0.08em; color: rgb(43, 36, 30);">OKEMILY</div>
+        <div class="mono" style="margin-top: 6px; font-size: 11px; letter-spacing: 0.22em; color: rgb(110, 98, 86);">CLEAN BUILDS FIRST</div>
+        <p style="margin: 16px 0px 0px; font-size: 14px; color: rgb(91, 80, 70);">© <span id="yr" style="cursor:default">2026</span> EINHORN_INDUSTRIAL • Powered by the CarePyre Sovereign Community Trust. Built by Brian Danowski and Emily.</p>
+        \1<div id="yr-msg" style="display:none;margin-top:12px;font-style:italic;font-size:14px;color:#5b5046"></div>
+      </div>
+      <div style="flex: 1 1 140px; min-width: 0px;">
+        <div class="mono" style="margin-bottom: 12px; font-size: 11px; letter-spacing: 0.16em; color: rgb(161, 67, 22);">GAMES</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14.5px;">
+          <a class="flink" href="https://wotan.okemily.com/DEADWEIGHT/">DEADWEIGHT</a>
+          <a class="flink" href="https://wotan.okemily.com/hearthstone/">Hearthstone Decks</a>
+          <a class="flink" href="/redgarden.html">REDGARDEN</a>
+          <a class="flink" href="/stinkies.html">STINKIES</a>
+          <a class="flink" href="https://mixforge.okemily.com">MIXFORGE</a>
+          <a class="flink" href="/games.html">All games</a>
+        </div>
+      </div>
+      <div style="flex: 1 1 140px; min-width: 0px;">
+        <div class="mono" style="margin-bottom: 12px; font-size: 11px; letter-spacing: 0.16em; color: rgb(161, 67, 22);">BUILD</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14.5px;">
+          <a class="flink" href="/blog/">Blog</a>
+          <a class="flink" href="/api-playground.html">API playground</a>
+          <a class="flink" href="/status.html">System status</a>
+          <a class="flink" href="/portal/login">Developer Portal</a>
+          <a class="flink" href="/tournaments.html">WOTAN</a>
+          <a class="flink" href="/mjolnir.html">MJOLNIR</a>
+        </div>
+      </div>
+      <div style="flex: 1 1 140px; min-width: 0px;">
+        <div class="mono" style="margin-bottom: 12px; font-size: 11px; letter-spacing: 0.16em; color: rgb(161, 67, 22);">READ</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14.5px;">
+          <a class="flink" href="/tyler/">TYLER Reading Room</a>
+          <a class="flink" href="/prompt-o-verse/">Prompt-o-verse</a>
+          <a class="flink" href="/prompt-o-verse-discovery.html">Prompt-o-verse Discovery</a>
+          <a class="flink" href="https://news.okemily.com/">FatBaby News</a>
+        </div>
+      </div>
+      <div style="flex: 1 1 140px; min-width: 0px;">
+        <div class="mono" style="margin-bottom: 12px; font-size: 11px; letter-spacing: 0.16em; color: rgb(161, 67, 22);">ACCOUNT</div>
+        <div style="display: flex; flex-direction: column; gap: 8px; font-size: 14.5px;">
+          <a class="flink" href="/admin/login">Login</a>
+          <a class="flink" href="/terms.html">Terms of Service</a>
+          <a class="flink" href="/privacy.html">Privacy Policy</a>
+        </div>
+      </div>
+    </div>
+  </div></footer></div>
 <script>
 (function () {
   var form = document.getElementById('signup-form');
@@ -586,43 +873,62 @@
     return out.slice(0, 7).map(function (x) { return DB[x[1]]; });
   }
 
-  var form = document.getElementById('search-form');
   var input = document.getElementById('search-q');
-  var list = document.getElementById('search-results');
+  var box = document.getElementById('search-results');
+  var defaults = box.innerHTML;
+  var rowStyle = 'display:flex;align-items:center;justify-content:space-between;gap:16px;min-height:52px;padding:10px 12px;border-top:1px solid #e6dece;color:#2b241e;text-decoration:none;font-weight:500;font-size:15.5px;border-radius:6px';
   var cur = [], sel = -1;
+  function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/"/g, '&quot;'); }
   function paint() {
-    list.innerHTML = '';
-    cur.forEach(function (d, i) {
-      var li = document.createElement('li');
-      var a = document.createElement('a');
-      a.href = '/blog/' + d.slug + '/';
-      a.textContent = d.title;
-      if (i === sel) a.style.color = 'var(--accent)';
-      li.appendChild(a);
-      list.appendChild(li);
-    });
+    if (!norm(input.value)) { box.innerHTML = defaults; return; }
+    if (!cur.length) {
+      box.innerHTML = '<div style="padding:14px 12px;border-top:1px solid #e6dece;font-size:15px;color:#5b5046">No posts match that. Try “moat” or “token”.</div>';
+      return;
+    }
+    box.innerHTML = cur.map(function (d, i) {
+      return '<a class="row" href="/blog/' + d.slug + '/" style="' + rowStyle + '"' + (i === sel ? ' aria-selected="true"' : '') + '><span>' + esc(d.title) +
+        '</span><span class="mono" style="flex:none;font-size:11px;letter-spacing:.12em;font-weight:400;color:#6e6256">BLOG →</span></a>';
+    }).join('');
   }
   input.addEventListener('input', function () { cur = find(input.value); sel = -1; paint(); });
   input.addEventListener('keydown', function (e) {
     if (e.key === 'ArrowDown' && cur.length) { e.preventDefault(); sel = (sel + 1) % cur.length; paint(); }
     else if (e.key === 'ArrowUp' && cur.length) { e.preventDefault(); sel = (sel - 1 + cur.length) % cur.length; paint(); }
-    else if (e.key === 'Escape') { cur = []; sel = -1; paint(); }
-  });
-  form.addEventListener('submit', function (e) {
-    e.preventDefault();
-    var pick = cur[sel >= 0 ? sel : 0];
-    if (pick) location.href = '/blog/' + pick.slug + '/';
-    else if (!norm(input.value)) location.href = '/blog/';
+    else if (e.key === 'Escape') { input.value = ''; cur = []; sel = -1; paint(); }
+    else if (e.key === 'Enter') {
+      e.preventDefault();
+      var pick = cur[sel >= 0 ? sel : 0];
+      if (pick) location.href = '/blog/' + pick.slug + '/';
+      else if (!norm(input.value)) location.href = '/blog/';
+    }
   });
 })();
 </script>
 <script>
 (function () {
+  // Game filter chips (BROWSER / DOWNLOAD / TERMINAL), same states as the design mockup.
+  var chips = document.querySelectorAll('.chip'), games = document.querySelectorAll('.game');
+  var on = { bg: '#f7e7dc', fg: '#a14316', bd: '#e7bba4' }, off = { bg: 'transparent', fg: '#5b5046', bd: '#d6ccb9' };
+  chips.forEach(function (c) {
+    c.addEventListener('click', function () {
+      var f = c.getAttribute('data-filter');
+      chips.forEach(function (x) {
+        var s = x === c ? on : off;
+        x.setAttribute('aria-pressed', x === c ? 'true' : 'false');
+        x.style.background = s.bg; x.style.color = s.fg; x.style.borderColor = s.bd;
+      });
+      games.forEach(function (g) {
+        g.style.display = (f === 'all' || (' ' + g.getAttribute('data-tags') + ' ').indexOf(' ' + f + ' ') >= 0) ? '' : 'none';
+      });
+    });
+  });
+})();
+
+(function () {
+  // Poke Emily: hop, a line, and a cycle through real Prompt-o-verse styles.
   var btn = document.getElementById('stage-btn');
-  if (!btn) return;
   var svg = document.getElementById('sprite'), img = document.getElementById('stage-img');
-  var say = document.getElementById('stage-say'), meta = document.getElementById('stage-meta');
-  var view = document.getElementById('stage-view');
+  var say = document.getElementById('stage-say'), hop = document.getElementById('stage-hop');
   var styles = [
     ['emily-8-bit-pixel-art', '8-bit pixel art'], ['emily-watercolor-sketchbook', 'Watercolor sketchbook'],
     ['emily-ukiyo-e-woodblock', 'Ukiyo-e woodblock'], ['emily-robot', 'Robot'],
@@ -633,56 +939,30 @@
   var lines = ['Compiling...', 'Zero cookies. Zero excuses.', 'Account ID mismatch? Trashed.', 'Clean builds first.',
     'Deterministic or it did not happen.', 'Built in public.', 'Still not a slide deck.'];
   var i = -1, n = 0;
-  function hop(el) { el.classList.remove('hop'); void el.offsetWidth; el.classList.add('hop'); }
   btn.addEventListener('click', function () {
     n++; i = (i + 1) % (styles.length + 1);
-    say.textContent = lines[n % lines.length];
-    if (i === 0) {
-      img.hidden = true; svg.style.display = '';
-      meta.innerHTML = 'EMILY &middot; game sprite &middot; <a href="/prompt-o-verse/subject/emily/">26 styles</a>';
-      hop(svg);
-    } else {
-      var st = styles[i - 1];
-      img.onload = function () { img.hidden = false; svg.style.display = 'none'; hop(img); };
-      img.src = '/prompt-o-verse/' + st[0] + '/' + st[0] + '-thumb.jpg';
-      img.alt = st[1] + ' \u2014 Emily';
-      meta.innerHTML = 'EMILY &middot; ' + st[1] + ' &middot; <a href="/prompt-o-verse/' + st[0] + '/">open</a>';
-    }
+    say.textContent = lines[(n - 1) % lines.length];
+    hop.classList.remove('hop'); void hop.offsetWidth; hop.classList.add('hop');
+    if (i === 0) { img.hidden = true; svg.style.display = 'block'; return; }
+    var st = styles[i - 1];
+    img.onload = function () { img.hidden = false; svg.style.display = 'none'; };
+    img.src = '/prompt-o-verse/' + st[0] + '/' + st[0] + '-thumb.jpg';
+    img.alt = st[1] + ' — Emily';
   });
 })();
-</script>
-<script>
+
 (function () {
-  var row = document.getElementById('po-row'), prev = document.getElementById('po-prev'), next = document.getElementById('po-next');
-  if (!row) return;
-  var busy = false;
-  function metrics() {
-    var c = row.querySelector('.po-card'), gap = parseFloat(getComputedStyle(row).columnGap) || 0;
-    var step = c.getBoundingClientRect().width + gap;
-    var n = Math.max(1, Math.floor((row.clientWidth + gap) / step + 0.01));
-    return { page: n * step, max: row.scrollWidth - row.clientWidth };
+  // Gallery: five styles at a time, prev/next wrap around.
+  var tiles = Array.prototype.slice.call(document.querySelectorAll('.po-tile')), N = tiles.length, off = 0;
+  function show() {
+    tiles.forEach(function (t) { t.style.display = 'none'; });
+    for (var k = 0; k < 5; k++) tiles[(off + k) % N].style.display = 'block';
+    tiles.forEach(function (t) { t.style.order = ''; });
+    for (var k2 = 0; k2 < 5; k2++) tiles[(off + k2) % N].style.order = k2;
   }
-  function wrapTo(pos) {
-    if (busy) return;
-    busy = true;
-    row.classList.add('wrapping');
-    setTimeout(function () {
-      row.style.scrollBehavior = 'auto';
-      row.scrollLeft = pos;
-      row.style.scrollBehavior = '';
-      row.classList.remove('wrapping');
-      setTimeout(function () { busy = false; }, 200);
-    }, 190);
-  }
-  function go(dir) {
-    if (busy) return;
-    var m = metrics(), x = row.scrollLeft;
-    if (dir > 0 && x >= m.max - 2) return wrapTo(0);
-    if (dir < 0 && x <= 2) return wrapTo(m.max);
-    row.scrollTo({ left: Math.max(0, Math.min(m.max, x + dir * m.page)), behavior: 'smooth' });
-  }
-  prev.addEventListener('click', function () { go(-1); });
-  next.addEventListener('click', function () { go(1); });
+  document.getElementById('po-prev').addEventListener('click', function () { off = (off - 5 + N * 2) % N; show(); });
+  document.getElementById('po-next').addEventListener('click', function () { off = (off + 5) % N; show(); });
+  show();
 })();
 </script>
 </body>

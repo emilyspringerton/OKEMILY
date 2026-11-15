@@ -1,0 +1,74 @@
+name: okemily.com on Cloudflare Pages
+
+# okemily.com with no Google Cloud (2026-11-15): the GKE gateway behind okemily.com went down with the closed GCP billing
+# account, so Cloudflare answers 525 (no TLS at the origin). This publishes this static site to Cloudflare Pages (project
+# "okemily") and, when asked, points okemily.com at it.
+#
+# One-time setup (a phone is enough): GitHub -> OKEMILY -> Settings -> Secrets and variables -> Actions -> New repository
+# secret, name CLOUDFLARE_API_TOKEN, value = the Cloudflare token (it needs Pages edit, plus DNS edit on okemily.com for
+# the switch). Then Actions -> "okemily.com on Cloudflare Pages" -> Run workflow, tick "switch_dns".
+# Without the secret every run logs a skip and passes. The token is never printed.
+on:
+  push:
+    branches: [main]
+    paths-ignore: ['**.md']
+  workflow_dispatch:
+    inputs:
+      switch_dns:
+        description: Point okemily.com at Pages (replaces its current DNS record, which points at the dead GKE gateway)
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+concurrency:
+  group: okemily-pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  pages:
+    runs-on: ubuntu-latest
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      PROJECT: okemily
+      DOMAIN: okemily.com
+    steps:
+      - uses: actions/checkout@v4
+      - name: Token present?
+        id: tok
+        run: |
+          if [ -z "$CLOUDFLARE_API_TOKEN" ]; then echo "No CLOUDFLARE_API_TOKEN secret: skipping (see this file's header)."; echo "ok=0" >> "$GITHUB_OUTPUT"; else echo "ok=1" >> "$GITHUB_OUTPUT"; fi
+      - uses: actions/setup-node@v4
+        if: steps.tok.outputs.ok == '1'
+        with: { node-version: "22" }
+      - name: Deploy
+        if: steps.tok.outputs.ok == '1'
+        run: |
+          set -euo pipefail
+          api() { curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" "$@"; }
+          acct="$(api https://api.cloudflare.com/client/v4/accounts | jq -r '.result[0].id // empty')"
+          [ -n "$acct" ] || { echo "Cloudflare refused the token or it sees no account"; exit 1; }
+          export CLOUDFLARE_ACCOUNT_ID="$acct"
+          mkdir -p "$RUNNER_TEMP/site"
+          git ls-files -z | grep -zvE '^(\.|ops/|scripts/)|\.(md|py|sh|ps1)$' | xargs -0 -I{} cp --parents {} "$RUNNER_TEMP/site/"
+          test -f "$RUNNER_TEMP/site/index.html"
+          npx --yes wrangler@4 pages project create "$PROJECT" --production-branch main >/dev/null 2>&1 || true
+          npx --yes wrangler@4 pages deploy "$RUNNER_TEMP/site" --project-name "$PROJECT" --branch main --commit-dirty=true
+          echo "Live: https://$PROJECT.pages.dev"
+      - name: Point okemily.com at Pages
+        if: steps.tok.outputs.ok == '1' && inputs.switch_dns
+        run: |
+          set -euo pipefail
+          api() { curl -sS -H "Authorization: Bearer $CLOUDFLARE_API_TOKEN" -H "Content-Type: application/json" "$@"; }
+          A=https://api.cloudflare.com/client/v4
+          acct="$(api $A/accounts | jq -r '.result[0].id')"
+          zone="$(api "$A/zones?name=$DOMAIN" | jq -r '.result[0].id // empty')"
+          [ -n "$zone" ] || { echo "the token cannot see the $DOMAIN zone"; exit 1; }
+          api -X POST "$A/accounts/$acct/pages/projects/$PROJECT/domains" -d "{\"name\":\"$DOMAIN\"}" | jq -c '{success, errors}'
+          for id in $(api "$A/zones/$zone/dns_records?name=$DOMAIN" | jq -r '.result[] | select(.type=="A" or .type=="AAAA" or .type=="CNAME") | .id'); do
+            echo "removing old record $id"; api -X DELETE "$A/zones/$zone/dns_records/$id" | jq -c '{success}'
+          done
+          api -X POST "$A/zones/$zone/dns_records" -d "{\"type\":\"CNAME\",\"name\":\"$DOMAIN\",\"content\":\"$PROJECT.pages.dev\",\"proxied\":true}" \
+            | jq -c '{success, errors}'
+          echo "okemily.com -> $PROJECT.pages.dev (allow a few minutes)"
